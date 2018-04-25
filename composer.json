@@ -1,6 +1,7 @@
 {
   "name": "flipboxfactory/force",
   "description": "Salesforce Integration",
+  "version": "1.0.0-beta",
   "type": "craft-plugin",
   "keywords": [
     "cms",
@@ -9,14 +10,12 @@
     "force.com",
     "yii2"
   ],
-  "minimum-stability": "rc",
-  "prefer-stable": true,
   "require": {
     "craftcms/cms": "~3.0.0",
     "flipboxdigital/salesforce": "~2.0",
     "flipboxfactory/craft-ember": "~1.0.0",
     "flipboxfactory/craft-psr16": "~1.0.0",
-    "flipboxfactory/craft-psr3": "^1.0",
+    "flipboxfactory/craft-psr3": "~1.0.0",
     "flipboxfactory/flux": "~1.0.0-rc",
     "stevenmaguire/oauth2-salesforce": "~2.0",
     "flipboxfactory/craft-sortable-associations": "~1.0.0"

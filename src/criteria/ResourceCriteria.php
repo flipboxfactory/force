@@ -124,7 +124,7 @@ class ResourceCriteria extends BaseObject implements CriteriaInterface
      */
     public function setTransformer($value)
     {
-        if(empty($value)) {
+        if (empty($value)) {
             $this->transformer = null;
             return $this;
         }

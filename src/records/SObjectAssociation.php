@@ -107,7 +107,7 @@ class SObjectAssociation extends SortableAssociation
                         'fieldId'
                     ],
                     LimitValidator::class,
-                    'query' => function(SObjectAssociation $model) {
+                    'query' => function (SObjectAssociation $model) {
                         return $model::find()
                             ->field($model->fieldId)
                             ->element($model->elementId)
@@ -118,7 +118,7 @@ class SObjectAssociation extends SortableAssociation
                                 $model->{static::TARGET_ATTRIBUTE}
                             ]);
                     },
-                    'limit' => function(SObjectAssociation $model) {
+                    'limit' => function (SObjectAssociation $model) {
                         return $this->getFieldLimit($model->fieldId);
                     },
                     'message' => "Limit exceeded."

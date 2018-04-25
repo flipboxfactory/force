@@ -72,9 +72,9 @@ class SObject extends Component
      * @return SObjectDescribe
      */
     public function describe(
-        string $sObject,
         ConnectionInterface $connection,
         CacheInterface $cache,
+        string $sObject,
         TransformerCollectionInterface $transformer = null
     ) {
         return (new SObjectDescribe(
@@ -97,9 +97,9 @@ class SObject extends Component
         SObjectCriteria $criteria
     ) {
         return $this->describe(
-            $criteria->sObject,
             $criteria->getConnection(),
             $criteria->getCache(),
+            $criteria->sObject,
             $criteria->getTransformer()
         );
     }
@@ -118,10 +118,10 @@ class SObject extends Component
      * @return mixed
      */
     public function getRow(
-        string $sObject,
-        $id,
         ConnectionInterface $connection,
         CacheInterface $cache,
+        string $sObject,
+        $id,
         TransformerCollectionInterface $transformer = null
     ): SObjectRowGet {
         $transformer = TransformerHelper::populateTransformerCollection($transformer, [
@@ -148,10 +148,10 @@ class SObject extends Component
     ): SObjectRowGet {
 
         return $this->getRow(
-            $criteria->sObject,
-            $criteria->id,
             $criteria->getConnection(),
             $criteria->getCache(),
+            $criteria->sObject,
+            $criteria->id,
             $criteria->getTransformer()
         );
     }
@@ -170,11 +170,11 @@ class SObject extends Component
      * @return mixed
      */
     public function upsertRow(
+        ConnectionInterface $connection,
+        CacheInterface $cache,
         string $sObject,
         $payload,
         $id = null,
-        ConnectionInterface $connection,
-        CacheInterface $cache,
         TransformerCollectionInterface $transformer = null
     ): SObjectRowUpsert {
         $transformer = TransformerHelper::populateTransformerCollection($transformer, [

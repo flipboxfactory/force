@@ -31,7 +31,10 @@ class SyncTo extends AbstractSObjectAction
      */
     public function getConfirmationMessage()
     {
-        return Craft::t('force', "This element will be used to create a new Salesforce Object.  Please confirm to continue.");
+        return Craft::t(
+            'force',
+            "This element will be used to create a new Salesforce Object.  Please confirm to continue."
+        );
     }
 
     /**

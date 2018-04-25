@@ -81,11 +81,11 @@ class Elements extends Component
         }
 
         Force::getInstance()->getResources()->getSObject()->upsertRow(
+            $criteria->getConnection(),
+            $criteria->getCache(),
             $criteria->sObject,
             $criteria->payload,
             $criteria->id,
-            $criteria->getConnection(),
-            $criteria->getCache(),
             TransformerHelper::populateTransformerCollection(
                 $criteria->getTransformer(),
                 [
@@ -153,11 +153,11 @@ class Elements extends Component
         }
 
         Force::getInstance()->getResources()->getSObject()->upsertRow(
+            $criteria->getConnection(),
+            $criteria->getCache(),
             $criteria->sObject,
             $criteria->payload,
             $criteria->id,
-            $criteria->getConnection(),
-            $criteria->getCache(),
             TransformerHelper::populateTransformerCollection(
                 $criteria->getTransformer(),
                 [

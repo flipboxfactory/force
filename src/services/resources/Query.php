@@ -58,9 +58,9 @@ class Query extends Component
      * @return mixed
      */
     public function fetch(
-        QueryBuilderInterface $query,
         ConnectionInterface $connection,
         CacheInterface $cache,
+        QueryBuilderInterface $query,
         TransformerCollectionInterface $transformer = null
     ) {
         return (new QueryResource(
@@ -83,9 +83,9 @@ class Query extends Component
         QueryCriteria $criteria
     ) {
         return $this->fetch(
-            $criteria->getQuery(),
             $criteria->getConnection(),
             $criteria->getCache(),
+            $criteria->getQuery(),
             $criteria->getTransformer()
         );
     }

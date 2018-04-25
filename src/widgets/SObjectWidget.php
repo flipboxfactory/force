@@ -100,7 +100,7 @@ class SObjectWidget extends Widget
      */
     public function getFields(): array
     {
-        $results = $this->_createFieldQuery()
+        $results = $this->createFieldQuery()
             ->all();
 
         $fields = [];
@@ -168,7 +168,7 @@ class SObjectWidget extends Widget
      *
      * @return Query
      */
-    private function _createFieldQuery(): Query
+    private function createFieldQuery(): Query
     {
         return (new Query())
             ->select([

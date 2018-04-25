@@ -12,7 +12,7 @@ This plugin provides [Salesforce](https://www.salesforce.com/) integration for [
 
 ## Requirements
 
-This plugin requires Craft CMS 3.0.0 RC1 or later.
+This plugin requires Craft CMS 3.0.0 or later.
 
 
 ## Installation
@@ -27,8 +27,9 @@ To install the plugin, follow these instructions.
 
         composer require flipboxfactory/force
 
-3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Postmark.
+3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Salesforce.
 
 ## Setup
 
-Once Postmark is installed, go to Settings → Email, and change the “Transport Type” setting to “Postmark”. Enter your server Postmark API Key (which you can get from your [server](https://account.postmarkapp.com/servers/) page) and click Credentials.
+Documentation coming soon...
+

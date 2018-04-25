@@ -1,0 +1,33 @@
+{% extends "force/_cp/_layout" %}
+
+{% set content %}
+    <table id="queries" class="data fullwidth collapsible">
+        <thead>
+        <th scope="col">{{ "Name"|t('force') }}</th>
+        <th scope="col">{{ "Handle"|t('force') }}</th>
+        </thead>
+        <tbody>
+        {% if sObjects|length %}
+            {% for sObject in sObjects %}
+                <tr data-id="{{ sObject.id }}" data-name="{{ sObject.name }}">
+                    <th scope="row"
+                        data-title="{{ 'Name'|t('force') }}">
+                        <a href="{{ url(baseCpPath~'/'~sObject.id) }}">
+                            {{ sObject.name }}
+                        </a>
+                    </th>
+                    <td data-title="{{ 'Handle'|t('force') }}">
+                        <code>{{ sObject.handle }}</code>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="3">
+                    {{ "No Salesforce Objects exist yet."|t('force') }}
+                </td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+{% endset %}

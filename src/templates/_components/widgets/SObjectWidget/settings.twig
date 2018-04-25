@@ -1,0 +1,24 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.textField({
+    label: 'Label',
+    id: 'label',
+    name: 'label',
+    value: widget.label
+}) }}
+
+{{ forms.selectField({
+    label: 'Field',
+    id: 'fieldId',
+    name: 'fieldId',
+    value: widget.fieldId,
+    options: fieldOptions
+}) }}
+
+{{ forms.selectField({
+    label: 'Element',
+    id: 'elementType',
+    name: 'elementType',
+    value: widget.elementType,
+    options: elementTypeOptions
+}) }}

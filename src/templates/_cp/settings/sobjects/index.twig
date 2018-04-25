@@ -1,0 +1,79 @@
+{% extends "force/_cp/settings/_layout" %}
+{% import "_includes/forms" as forms %}
+
+{% block content %}
+    {% if describedSobject is empty or describedSobject.hasErrors() %}
+        Unable to find Salesforce Object.
+    {% else %}
+        <div id="fields">
+            {% from _self import fields %}
+            {{ fields(describedSobject.fields) }}
+        </div>
+
+        <div id="relations" class="hidden">
+            {% from _self import childRelationships %}
+            {{ childRelationships(describedSobject.childRelationships) }}
+        </div>
+    {% endif %}
+        {% endblock %}
+
+        {% block details %}
+            <form method="get">
+                <div class="meta read-only">
+                    {{ forms.selectField({
+                        label: "Salesforce Object"|t('force'),
+                        id: 'sObject',
+                        name: 'sObject',
+                        options: sObjectOptions,
+                        value: sObject ?? craft.app.request.getParam('sObject'),
+                        required: true
+                    }) }}
+                </div>
+
+                <hr />
+
+                <div class="meta">
+                    <input type="submit" value="Describe" class="btn submit right"/>
+                </div>
+            </form>
+
+        {% endblock %}
+
+        {% macro childRelationships(childRelationships) %}
+            <table class="data fullwidth collapsible">
+                <thead>
+                <th>Name</th>
+                <th>Field</th>
+                <th>SObject</th>
+                </thead>
+                <tbody>
+                {% for childRelationship in childRelationships %}
+                    <tr>
+                        <td>{{ childRelationship.relationshipName }}</td>
+                        <td>{{ childRelationship.field }}</td>
+                        <td>{{ childRelationship.childSObject }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endmacro %}
+
+
+        {% macro fields(fields) %}
+            <table class="data fullwidth collapsible">
+                <thead>
+                <th>Label</th>
+                <th>Field</th>
+                <th>Type</th>
+                </thead>
+                <tbody>
+                {% for field in fields %}
+                    <tr>
+                        <td>{{ field.label }}</td>
+                        <td>{{ field.name }}</td>
+                        <td>{{ field.type }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endmacro %}

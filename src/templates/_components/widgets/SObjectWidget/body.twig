@@ -1,0 +1,27 @@
+{% import "_includes/forms" as forms %}
+
+{#{% do view.registerAssetBundle("foobar\\foo\\assetbundles\\foo\\FooAsset") %}#}
+
+{% set id = "widget-force-" ~ random() %}
+<div id="{{ id }}">
+    {{ forms.textField({
+        label: 'Object Id',
+        instructions: 'Ex: 0036A00000PQ2o6QAD',
+        name: 'id',
+    }) }}
+
+    <div class="buttons clearafter">
+        <input type="button" class="btn submit" value="Sync">
+    </div>
+</div>
+{% js %}
+    new Craft.ForceSObjectSyncWidget(
+    '#{{ id }}',
+    {
+    data: {
+        elementType: '{{ widget.elementType|e('js') }}',
+        field: '{{ widget.fieldId|e('js') }}',
+    }
+    }
+    );
+{% endjs %}

@@ -1,0 +1,34 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.textField({
+    label: "Salesforce Object"|t('force'),
+    id: 'sObject',
+    name: 'sObject',
+    value: field.sObject,
+    errors: field.getErrors('sObject'),
+    required: true
+}) }}
+
+{% block limitField %}
+    {{ forms.textField({
+        label: "Limit"|t('app'),
+        instructions: "Limit the number of selectable {type}."|t('app', { type: field.displayName() }),
+        id: 'limit',
+        name: 'limit',
+        value: field.limit,
+        size: 2,
+        errors: field.getErrors('limit')
+    }) }}
+{% endblock %}
+
+{% block selectionLabelField %}
+    {{ forms.textField({
+        label: "Selection Label"|t('app'),
+        instructions: "Enter the text you want to appear on the {type} selection input."|t('app', { type: field.displayName() }),
+        id: 'selectionLabel',
+        name: 'selectionLabel',
+        value: field.selectionLabel,
+        placeholder: field.defaultSelectionLabel(),
+        errors: field.getErrors('selectionLabel')
+    }) }}
+{% endblock %}

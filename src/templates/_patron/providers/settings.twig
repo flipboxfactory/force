@@ -1,0 +1,10 @@
+{% import "_includes/forms" as forms %}
+{{ forms.textField({
+    label: "Domain"|t('force'),
+    instructions: "The Salesforce instance URL."|t('force'),
+    id: 'domain',
+    name: 'domain',
+    value: settings.domain,
+    errors: settings.getErrors('domain'),
+    required: true
+}) }}

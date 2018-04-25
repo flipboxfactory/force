@@ -1,0 +1,44 @@
+{% extends "force/_cp/_layout" %}
+{% import "_includes/forms" as forms %}
+
+{% set content %}
+    {% if transformer %}
+        <strong>Transformer: </strong> {{ className(transformer) }}
+    {% else %}
+        <em>Unable to find transformer</em>
+    {% endif %}
+{% endset %}
+
+{% block details %}
+    <div class="meta">
+        <form method="get">
+
+            {{ forms.selectField({
+                label: "Resource"|t('force'),
+                id: 'resource',
+                name: 'resource',
+                value: resource ?: craft.app.request.getParam('resource'),
+                options: resourceOptions,
+                required: true
+            }) }}
+
+            {{ forms.textField({
+                label: "Handle"|t('force'),
+                id: 'handle',
+                name: 'handle',
+                value: handle|join(':') ?: craft.app.request.getParam('handle'),
+                required: true
+            }) }}
+
+            {{ forms.selectField({
+                label: "Context"|t('force'),
+                id: 'context',
+                name: 'context',
+                value: context ?: craft.app.request.getParam('context'),
+                options: contextOptions,
+                required: true
+            }) }}
+            <input type="submit" value="Find" class="btn submit"/>
+        </form>
+    </div>
+{% endblock %}

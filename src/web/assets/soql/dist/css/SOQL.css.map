@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAGA;;6CAE6C;AAC7C,KAAM;EACJ,QAAQ,EAAE,QAAQ;EAElB,YAAO;IACL,aAAa,EAAE,IAAI;EAGrB,cAAS;IACP,QAAQ,EAAE,QAAQ;IAClB,GAAG,EAAE,IAAI;IACT,KAAK,EAAE,CAAC",
+"sources": ["../../src/SOQL.scss"],
+"names": [],
+"file": "SOQL.css"
+}

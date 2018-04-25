@@ -1,0 +1,66 @@
+<?php
+
+/**
+ * @copyright  Copyright (c) Flipbox Digital Limited
+ * @license    https://flipboxfactory.com/software/force/license
+ * @link       https://www.flipboxfactory.com/software/force/
+ */
+
+namespace flipbox\force\cp\actions\fields\traits;
+
+use Craft;
+use craft\base\ElementInterface;
+use flipbox\force\db\SObjectFieldQuery;
+use flipbox\force\fields\SObjects;
+use yii\web\HttpException;
+
+/**
+ * @author Flipbox Factory <hello@flipboxfactory.com>
+ * @since 1.0.0
+ */
+trait FieldResolverTrait
+{
+    /**
+     * @param string $field
+     * @return SObjects
+     * @throws HttpException
+     */
+    protected function resolveField(string $field): SObjects
+    {
+        /** @var SObjects $field */
+        if (null === ($field = Craft::$app->getFields()->getFieldbyId($field))) {
+            throw new HttpException(400, 'Invalid field.');
+        }
+
+        if (!$field instanceof SObjects) {
+            throw new HttpException(400, sprintf(
+                "Field must be an instance of '%s', '%s' given.",
+                SObjects::class,
+                get_class($field)
+            ));
+        }
+
+        return $field;
+    }
+
+    /**
+     * @param SObjects $field
+     * @param ElementInterface $element
+     * @param string $sObjectId
+     * @return array|mixed|null|\yii\base\BaseObject
+     * @throws HttpException
+     */
+    protected function resolveCriteria(SObjects $field, ElementInterface $element, string $sObjectId)
+    {
+        /** @var SObjectFieldQuery $query */
+        if (null === ($query = $element->getFieldValue($field->handle))) {
+            throw new HttpException(400, 'Field is not associated to element');
+        }
+
+        if (null === ($criteria = $query->sObjectId($sObjectId)->one())) {
+            throw new HttpException(400, 'Invalid value');
+        };
+
+        return $criteria;
+    }
+}

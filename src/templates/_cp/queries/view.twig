@@ -1,0 +1,92 @@
+{% extends "force/_cp/_layout" %}
+{% import "_includes/forms" as forms %}
+{% set builder = query.criteria.query %}
+
+{% do view.registerJsFile("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js") %}
+{% do view.registerCssFile("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css") %}
+{% js %}
+    hljs.initHighlightingOnLoad();
+{% endjs %}
+{% css %}
+    .hljs {
+        background: none;
+        padding: 0;
+    }
+    .breakall {
+        word-break: break-all;
+    }
+{% endcss %}
+
+{% block actionButton %}
+    <input type="submit" class="btn submit" value="{{ 'Send Request'|t('app') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="soql">
+        <input type="hidden" name="query[soql]" value="{{ query.criteria.query }}"/>
+
+        <h2 class="query">Salesforce Query:
+            <small class="light">{{ query.criteria.query|trim }}</small>
+        </h2>
+
+        <div class="spinner hidden"></div>
+
+        <hr/>
+
+        <pre><code id="query-results" class="json"></code></pre>
+    </div>
+{% endblock %}
+{% js %}
+    var query = new Craft.ForceQuery(
+    '#{{ 'main-form'|namespaceInputId|e('js') }}',
+    {
+        onAfterQuery: function() {
+            $('#query-results').each(function(i, e) {hljs.highlightBlock(e)});
+        }
+    }
+    );
+{% endjs %}
+{% block details %}
+    <div class="meta read-only">
+        <div class="data">
+            <h5 class="heading">{{ "Name"|t('force') }}</h5>
+            <div class="value">{{ query.name }}</div>
+        </div>
+        <div class="data">
+            <h5 class="heading">{{ "Handle"|t('force') }}</h5>
+            <div class="value">{{ query.handle }}</div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="meta">
+        <div class="data">
+            <h5 class="heading">
+                <a class="fieldtoggle" data-target="variables">{{ "Variables"|t('app') }}</a>
+            </h5>
+        </div>
+
+        <div id="variables" class="hidden">
+            {% namespace 'query[variables]' %}
+                <table class="data fullwidth fixed-layout">
+                    <tbody>
+                    {% for key, value in builder.variables %}
+                        <tr>
+                            <td class="light">{{ '{{'~ key ~'}}' }}</td>
+                            <td>
+                                {{ forms.textField({
+                                    name: key,
+                                    id: key,
+                                    value: value
+                                }) }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endnamespace %}
+        </div>
+    </div>
+
+{% endblock %}

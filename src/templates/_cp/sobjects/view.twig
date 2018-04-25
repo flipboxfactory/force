@@ -1,0 +1,71 @@
+{% extends "force/_cp/_layout" %}
+{% import "_includes/forms" as forms %}
+
+{% block actionButton %}
+    <input type="submit" class="btn submit" value="{{ 'Send Request'|t('app') }}">
+{% endblock %}
+
+{% block content %}
+<div id="fields">
+    {% from _self import fields %}
+    {{ fields(describedSobject.fields) }}
+</div>
+
+<div id="relations" class="hidden">
+    {% from _self import childRelationships %}
+    {{ childRelationships(describedSobject.childRelationships) }}
+</div>
+{% endblock %}
+
+{% block details %}
+    <div class="meta read-only">
+        <div class="data">
+            <h5 class="heading">{{ "Name"|t('force') }}</h5>
+            <div class="value">{{ sObject.name }}</div>
+        </div>
+        <div class="data">
+            <h5 class="heading">{{ "Handle"|t('force') }}</h5>
+            <div class="value">{{ sObject.handle }}</div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% macro childRelationships(childRelationships) %}
+    <table class="data fullwidth collapsible">
+        <thead>
+        <th>Name</th>
+        <th>Field</th>
+        <th>SObject</th>
+        </thead>
+        <tbody>
+        {% for childRelationship in childRelationships %}
+            <tr>
+                <td>{{ childRelationship.relationshipName }}</td>
+                <td>{{ childRelationship.field }}</td>
+                <td>{{ childRelationship.childSObject }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endmacro %}
+
+
+{% macro fields(fields) %}
+    <table class="data fullwidth collapsible">
+        <thead>
+        <th>Label</th>
+        <th>Field</th>
+        <th>Type</th>
+        </thead>
+        <tbody>
+        {% for field in fields %}
+            <tr>
+                <td>{{ field.label }}</td>
+                <td>{{ field.name }}</td>
+                <td>{{ field.type }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endmacro %}

@@ -1,0 +1,111 @@
+{% set id = "fields-"~ field.handle %}
+<div id="{{ id }}" class="element-sobjects">
+
+    <div class="sObjects">
+        {% from _self import createRow %}
+        {% for criteria in value.all() %}
+            {{ createRow(field, criteria) }}
+        {% endfor %}
+    </div>
+
+    <div class="btngroup">
+        <div class="btn add icon dashed" title="{{ 'Add'|t('app') }}">Add</div>
+    </div>
+</div>
+
+{% macro createRow(field, criteria) %}
+    <div class="sObject{% if not criteria.id %} edit-mode{% endif %}">
+        <figure>
+            {{ svg('@vendor/flipboxfactory/force/src/icon-mask.svg') }}
+        </figure>
+        <div class="details">
+            <div class="meta ignore-sort">
+                {% from _self import sObjectViewUrl, sObjectListUrl %}
+                <div>
+                    <span class="light">Id:</span> <span class="sObjectIdLabel">{{ criteria.id }}</span>
+                    <a href="{{ sObjectViewUrl(criteria) }}" target="_blank" data-icon="world" title="View Salesforce Object"></a>
+                </div>
+                <div>
+                    <span class="light">Object:</span> {{ field.sObject }}
+                    <a href="{{ sObjectListUrl(criteria) }}" target="_blank" data-icon="world" title="View Salesforce {{  field.sObject }}s"></a>
+                </div>
+            </div>
+            <div class="upsert ignore-sort">
+                {% import "_includes/forms" as forms %}
+
+                {{ forms.textField({
+                    placeholder: "Salesforce Object Id"|t('force'),
+                    name: 'id',
+                    class: 'sObjectId',
+                    value: criteria.id
+                }) }}
+
+                <div class="buttons">
+                    <input type="button" class="btn small submit associate" value="Save"/>
+                    <input type="button" class="btn small toggle-edit" value="Cancel"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <div class="menubtn" data-icon="settings" title="{{ 'Actions'|t('app') }}"></div>
+            <div class="menu">
+                <div class="triggers"></div>
+                <div class="edit-toggle">
+                    <ul>
+                        <li><a class="toggle-edit" data-ignore="true" href="#">Edit</a></li>
+                    </ul>
+                </div>
+                <ul>
+                    <li><a class="error remove" data-ignore="true" href="#">Remove</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% js %}
+    new Craft.ForceSObjectsField(
+        '#{{ id|namespaceInputId|e('js') }}',
+        {
+            limit: '{{ field.limit ?: null }}',
+            data: {
+                field: '{{ field.id }}',
+                element: '{{ element.id }}'
+            },
+            actions: {{ actions|json_encode|raw }},
+            rowData: {
+                field: '{{ field.id }}',
+                element: '{{ element.id }}'
+            },
+            rowSettings: {
+                data: {
+                    field: '{{ field.id }}',
+                    element: '{{ element.id }}'
+                },
+                actions: {{ rowActions|json_encode|raw }}
+            }
+        }
+    );
+{% endjs %}
+
+{% macro sObjectViewUrl(criteria) %}
+    {{ craft.app.view.renderString(
+        craft.force.settings.sObjectViewUrlString,
+        {
+            instanceUrl: criteria.connection.provider.domain ?? craft.force.settings.instanceUrl,
+            id: criteria.id,
+            sObject: criteria.sObject
+        }
+    ) }}
+{% endmacro %}
+
+{% macro sObjectListUrl(criteria) %}
+    {{ craft.app.view.renderString(
+        craft.force.settings.sObjectListUrlString,
+        {
+            instanceUrl: criteria.connection.provider.domain ?? craft.force.settings.instanceUrl,
+            sObject: criteria.sObject
+        }
+    ) }}
+{% endmacro %}

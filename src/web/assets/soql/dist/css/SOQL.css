@@ -1,0 +1,13 @@
+/* ----------------------------------------
+/* SOQL
+/* ----------------------------------------*/
+.soql {
+  position: relative; }
+  .soql .query {
+    padding-right: 40px; }
+  .soql .spinner {
+    position: absolute;
+    top: -4px;
+    right: 0; }
+
+/*# sourceMappingURL=SOQL.css.map */

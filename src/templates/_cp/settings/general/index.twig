@@ -1,0 +1,36 @@
+{% extends "force/_cp/settings/_layout" %}
+{% import "_includes/forms" as forms %}
+
+{% set content %}
+    <input type="hidden" name="action" value="{{ baseActionPath }}/save">
+    {{ redirectInput(baseCpPath) }}
+
+    {{ forms.textField({
+        label: "Instance Url"|t('force'),
+        instructions: "The primary Salesforce instance URL."|t('force'),
+        id: 'instanceUrl',
+        name: 'instanceUrl',
+        value: settings.instanceUrl,
+        errors: settings.getErrors('instanceUrl')
+    }) }}
+
+    {{ forms.textField({
+        label: "Object View Url"|t('force'),
+        instructions: "The following variables are available: {{ instanceUrl }}, {{ sObject }}, {{ id }}"|t('force'),
+        id: 'sObjectViewUrlString',
+        name: 'sObjectViewUrlString',
+        class: 'code',
+        value: settings.sObjectViewUrlString,
+        errors: settings.getErrors('sObjectViewUrlString')
+    }) }}
+
+    {{ forms.textField({
+        label: "Object Listing Url"|t('force'),
+        instructions: "The following variables are available: {{ instanceUrl }}, {{ sObject }}"|t('force'),
+        id: 'sObjectListUrlString',
+        name: 'sObjectListUrlString',
+        class: 'code',
+        value: settings.sObjectListUrlString,
+        errors: settings.getErrors('sObjectListUrlString')
+    }) }}
+{% endset %}

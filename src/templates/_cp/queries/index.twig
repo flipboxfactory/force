@@ -1,0 +1,33 @@
+{% extends "force/_cp/_layout" %}
+
+{% set content %}
+    <table id="queries" class="data fullwidth collapsible">
+        <thead>
+        <th scope="col">{{ "Name"|t('force') }}</th>
+        <th scope="col">{{ "Handle"|t('force') }}</th>
+        </thead>
+        <tbody>
+        {% if queries|length %}
+            {% for query in queries %}
+                <tr data-id="{{ query.id }}" data-name="{{ query.name }}">
+                    <th scope="row"
+                        data-title="{{ 'Name'|t('force') }}">
+                        <a href="{{ url(baseCpPath~'/'~query.id) }}">
+                            {{ query.name }}
+                        </a>
+                    </th>
+                    <td data-title="{{ 'Handle'|t('force') }}">
+                        <code>{{ query.handle }}</code>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="3">
+                    {{ "No queries exist yet."|t('force') }}
+                </td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+{% endset %}

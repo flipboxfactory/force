@@ -1,0 +1,37 @@
+{% extends "force/_cp/settings/_layout" %}
+
+{% set content %}
+    {% from _self import MaxRemainingLimits %}
+    <table class="data fullwidth fixed-layout">
+        <thead>
+        <tr>
+            <th>&nbsp;</th>
+            <th>{{ "Remaining"|t('force') }}</th>
+            <th>{{ "Max"|t('force') }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{ MaxRemainingLimits(limits.DailyApiRequests, 'Daily Api Requests') }}
+        {{ MaxRemainingLimits(limits.DailyBulkApiRequests, 'Daily Bulk Api Requests') }}
+        {{ MaxRemainingLimits(limits.DailyGenericStreamingApiEvents, 'Daily Generic Streaming Events') }}
+        {{ MaxRemainingLimits(limits.DailyStreamingApiEvents, 'Daily Streaming Events') }}
+        </tbody>
+    </table>
+{% endset %}
+
+{% macro MaxRemainingLimits(node, label) %}
+    <tr>
+        <th>{{ label }}</th>
+        <td>{{ node.Remaining }}</td>
+        <td>{{ node.Max }}</td>
+    </tr>
+    {% for siteName, subNode in node %}
+        {% if siteName not in ['Max', 'Remaining'] %}
+            <tr>
+                <th class="light">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ siteName }}</th>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ subNode.Remaining }}</td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ subNode.Max }}</td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}

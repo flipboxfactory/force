@@ -1,0 +1,21 @@
+@charset "UTF-8";
+@import "../../../../../../../vendor/craftcms/cms/lib/craftcms-sass/mixins";
+
+/* ----------------------------------------
+/* SOQL
+/* ----------------------------------------*/
+.soql {
+  position: relative;
+
+  .query {
+    padding-right: 40px;
+
+  }
+  .spinner {
+    position: absolute;
+    top: -4px;
+    right: 0;
+
+  }
+
+}

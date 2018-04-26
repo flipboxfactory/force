@@ -18,7 +18,6 @@ use flipbox\force\helpers\TransformerHelper;
 use flipbox\force\pipeline\stages\ElementAssociationStage;
 use flipbox\force\pipeline\stages\ElementSaveStage;
 use Flipbox\Salesforce\Resources\SObject\Row\Get as SObjectRowGet;
-use Flipbox\Salesforce\Transformers\Collections\TransformerCollectionInterface;
 use yii\base\Component;
 
 /**

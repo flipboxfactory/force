@@ -11,7 +11,6 @@ namespace flipbox\force\actions\widgets;
 use Craft;
 use craft\base\ElementInterface;
 use flipbox\force\cp\actions\sync\AbstractSyncFrom;
-use flipbox\force\criteria\SObjectCriteria;
 use flipbox\force\db\SObjectFieldQuery;
 use flipbox\force\fields\SObjects;
 use flipbox\force\Force;

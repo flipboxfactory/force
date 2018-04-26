@@ -8,11 +8,6 @@
 
 namespace flipbox\force\patron\connections;
 
-use Flipbox\Salesforce\Connections\ConnectionInterface;
-use Psr\Http\Message\RequestInterface;
-use yii\base\BaseObject;
-use Zend\Diactoros\Uri;
-
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0

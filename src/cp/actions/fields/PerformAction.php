@@ -8,7 +8,6 @@
 
 namespace flipbox\force\cp\actions\fields;
 
-use Craft;
 use craft\base\ElementInterface;
 use flipbox\ember\actions\traits\Manage;
 use flipbox\force\fields\actions\SObjectActionInterface;

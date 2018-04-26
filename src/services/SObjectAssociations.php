@@ -8,6 +8,7 @@
 
 namespace flipbox\force\services;
 
+use Craft;
 use craft\helpers\Json;
 use flipbox\craft\sortable\associations\db\SortableAssociationQueryInterface;
 use flipbox\craft\sortable\associations\records\SortableAssociationInterface;
@@ -18,6 +19,7 @@ use flipbox\force\db\SObjectAssociationQuery;
 use flipbox\force\db\SObjectFieldQuery;
 use flipbox\force\fields\SObjects;
 use flipbox\force\Force;
+use flipbox\force\migrations\SObjectAssociations as SObjectAssociationsMigration;
 use flipbox\force\records\SObjectAssociation;
 
 /**
@@ -68,6 +70,29 @@ class SObjectAssociations extends SortableAssociations
     public static function recordClass(): string
     {
         return SObjectAssociation::class;
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function ensureTableExists()
+    {
+        if (!in_array(self::tableAlias(), Craft::$app->getDb()->getSchema()->tableNames, true)) {
+            $this->createTable();
+        }
+    }
+
+    /**
+     * @return bool
+     * @throws \Throwable
+     */
+    private function createTable(): bool
+    {
+        ob_start();
+        (new SObjectAssociationsMigration())->up();
+        ob_end_clean();
+
+        return true;
     }
 
     /**

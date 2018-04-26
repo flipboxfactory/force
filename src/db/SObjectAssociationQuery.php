@@ -14,6 +14,7 @@ use craft\helpers\Db;
 use flipbox\craft\sortable\associations\db\SortableAssociationQuery;
 use flipbox\craft\sortable\associations\db\traits\SiteAttribute;
 use flipbox\ember\db\traits\ElementAttribute;
+use flipbox\force\Force;
 use flipbox\force\records\SObjectAssociation;
 
 /**
@@ -25,6 +26,15 @@ class SObjectAssociationQuery extends SortableAssociationQuery
         traits\SObjectAttribute,
         ElementAttribute,
         SiteAttribute;
+
+    /**
+     * @inheritdoc
+     */
+    public function __construct($modelClass, $config = [])
+    {
+        Force::getInstance()->getSObjectAssociations()->ensureTableExists();
+        parent::__construct($modelClass, $config);
+    }
 
     /**
      * @inheritdoc

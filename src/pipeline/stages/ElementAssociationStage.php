@@ -11,7 +11,6 @@ namespace flipbox\force\pipeline\stages;
 use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\helpers\Json;
-use flipbox\force\criteria\SObjectCriteria;
 use flipbox\force\db\SObjectFieldQuery;
 use flipbox\force\fields\SObjects;
 use flipbox\force\Force;
@@ -79,8 +78,6 @@ class ElementAssociationStage extends BaseObject implements StageInterface
                 (string)Json::encode($source->getErrors())
             ));
         }
-
-
 
 
         return $payload;

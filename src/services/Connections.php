@@ -8,7 +8,6 @@
 
 namespace flipbox\force\services;
 
-use Craft;
 use flipbox\force\events\RegisterConnectionsEvent;
 use flipbox\force\Force;
 use Flipbox\Salesforce\Connections\ConnectionInterface;
@@ -69,7 +68,7 @@ class Connections extends ServiceLocator
         if (!$connection instanceof ConnectionInterface) {
             throw new InvalidConfigException(sprintf(
                 "Connection '%s' must be an instance of '%s', '%s' given.",
-                (string) $id,
+                (string)$id,
                 ConnectionInterface::class,
                 get_class($connection)
             ));

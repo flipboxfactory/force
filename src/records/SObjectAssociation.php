@@ -14,13 +14,8 @@ use flipbox\craft\sortable\associations\services\SortableAssociations;
 use flipbox\ember\helpers\ModelHelper;
 use flipbox\ember\records\traits\ElementAttribute;
 use flipbox\ember\records\traits\SiteAttribute;
-use flipbox\ember\validators\LimitValidator;
 use flipbox\force\db\SObjectAssociationQuery;
-use flipbox\force\fields\SObjects;
 use flipbox\force\Force;
-use flipbox\force\migrations\SObjectAssociations;
-use flipbox\force\validators\AssociationFieldLimitValidator;
-use Psr\Log\InvalidArgumentException;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -54,10 +49,7 @@ class SObjectAssociation extends SortableAssociation
      */
     public function __construct(array $config = [])
     {
-        if (!in_array(self::tableAlias(), Craft::$app->getDb()->getSchema()->tableNames, true)) {
-            $this->createTable();
-        }
-
+        Force::getInstance()->getSObjectAssociations()->ensureTableExists();
         parent::__construct($config);
     }
 
@@ -102,7 +94,8 @@ class SObjectAssociation extends SortableAssociation
                     ],
                     'number',
                     'integerOnly' => true
-                ],[
+                ],
+                [
                     [
                         'fieldId',
                         'sObjectId'
@@ -114,18 +107,5 @@ class SObjectAssociation extends SortableAssociation
                 ]
             ]
         );
-    }
-
-    /**
-     * @return bool
-     * @throws \Throwable
-     */
-    private function createTable(): bool
-    {
-        ob_start();
-        (new SObjectAssociations())->up();
-        ob_end_clean();
-
-        return true;
     }
 }

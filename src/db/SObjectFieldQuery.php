@@ -18,6 +18,7 @@ use flipbox\ember\db\traits\ElementAttribute;
 use flipbox\ember\db\traits\PopulateObject;
 use flipbox\force\criteria\SObjectCriteria;
 use flipbox\force\fields\SObjects;
+use flipbox\force\Force;
 use flipbox\force\records\SObjectAssociation;
 use yii\base\BaseObject;
 
@@ -43,6 +44,7 @@ class SObjectFieldQuery extends CacheableQuery implements SortableAssociationQue
     public function __construct(SObjects $field, $config = [])
     {
         $this->field = $field;
+        Force::getInstance()->getSObjectAssociations()->ensureTableExists();
         parent::__construct($config);
     }
 

@@ -10,7 +10,6 @@ namespace flipbox\force\fields\actions;
 
 use craft\base\ElementInterface;
 use craft\base\SavableComponentInterface;
-use flipbox\force\criteria\SObjectCriteria;
 use flipbox\force\fields\SObjects;
 
 interface SObjectActionInterface extends SavableComponentInterface

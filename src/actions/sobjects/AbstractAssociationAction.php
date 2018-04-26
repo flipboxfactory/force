@@ -15,9 +15,9 @@ use flipbox\ember\exceptions\RecordNotFoundException;
 use flipbox\force\fields\SObjects;
 use flipbox\force\Force;
 use flipbox\force\records\SObjectAssociation;
+use yii\base\Action;
 use yii\base\Model;
 use yii\web\HttpException;
-use yii\base\Action;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

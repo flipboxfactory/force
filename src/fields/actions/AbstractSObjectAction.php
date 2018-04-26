@@ -10,7 +10,6 @@ namespace flipbox\force\fields\actions;
 
 use craft\base\ElementInterface;
 use craft\base\SavableComponent;
-use flipbox\force\criteria\SObjectCriteria;
 use flipbox\force\fields\SObjects;
 
 abstract class AbstractSObjectAction extends SavableComponent implements SObjectActionInterface

@@ -66,7 +66,7 @@ class TransformerHelper extends \Flipbox\Salesforce\Helpers\TransformerHelper
             } catch (\Throwable $e) {
                 Force::warning(sprintf(
                     "An exception was thrown while trying to resolve transformer collection: '%s'",
-                    (string) $e->getMessage()
+                    (string)$e->getMessage()
                 ));
             }
         }

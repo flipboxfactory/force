@@ -34,7 +34,7 @@ class SObjectPayload extends AbstractTransformer
         if (empty($sObject)) {
             throw new InvalidArgumentException("Salesforce Object must be defined.");
         }
-        
+
         if ($data instanceof ElementInterface) {
             return $this->transformElement($data, $sObject);
         }

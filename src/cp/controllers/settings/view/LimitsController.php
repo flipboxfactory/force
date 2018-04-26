@@ -8,10 +8,7 @@
 
 namespace flipbox\force\cp\controllers\settings\view;
 
-use Craft;
-use craft\helpers\UrlHelper;
 use flipbox\force\Force;
-use flipbox\force\records\Query;
 use yii\web\Response;
 
 /**

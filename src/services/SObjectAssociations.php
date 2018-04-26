@@ -8,12 +8,16 @@
 
 namespace flipbox\force\services;
 
-use Craft;
+use craft\helpers\Json;
 use flipbox\craft\sortable\associations\db\SortableAssociationQueryInterface;
 use flipbox\craft\sortable\associations\records\SortableAssociationInterface;
 use flipbox\craft\sortable\associations\services\SortableAssociations;
 use flipbox\ember\services\traits\records\Accessor;
+use flipbox\ember\validators\MinMaxValidator;
 use flipbox\force\db\SObjectAssociationQuery;
+use flipbox\force\db\SObjectFieldQuery;
+use flipbox\force\fields\SObjects;
+use flipbox\force\Force;
 use flipbox\force\records\SObjectAssociation;
 
 /**
@@ -142,5 +146,52 @@ class SObjectAssociations extends SortableAssociations
         return $this->query($source, $fieldId, $siteId)
             ->indexBy(static::TARGET_ATTRIBUTE)
             ->all();
+    }
+
+    /**
+     * @inheritdoc
+     * @param bool $validate
+     * @throws \Exception
+     */
+    public function save(
+        SortableAssociationQueryInterface $query,
+        bool $validate = true
+    ): bool {
+        if ($validate === true && null !== ($field = $this->resolveFieldFromQuery($query))) {
+            $error = '';
+
+            (new MinMaxValidator([
+                'min' => $field->min,
+                'max' => $field->max
+            ]))->validate($query, $error);
+
+            if (!empty($error)) {
+                Force::error(sprintf(
+                    "Domains failed to save due to the following validation errors: '%s'",
+                    Json::encode($error)
+                ));
+                return false;
+            }
+        }
+
+        return parent::save($query);
+    }
+
+    /**
+     * @param SortableAssociationQueryInterface $query
+     * @return SObjects|null
+     */
+    protected function resolveFieldFromQuery(
+        SortableAssociationQueryInterface $query
+    ) {
+        if ($query instanceof SObjectFieldQuery) {
+            return $query->getField();
+        }
+
+        if (null === ($fieldId = $this->resolveStringAttribute($query, 'field'))) {
+            return null;
+        }
+
+        return Force::getInstance()->getSObjectsField()->findById($fieldId);
     }
 }

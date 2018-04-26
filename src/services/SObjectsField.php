@@ -48,11 +48,35 @@ class SObjectsField extends SortableFields
     const TARGET_ATTRIBUTE = SObjectAssociation::TARGET_ATTRIBUTE;
 
     /**
+     * @var SObjects[]
+     */
+    private $fields = [];
+
+    /**
      * @inheritdoc
      */
     protected static function tableAlias(): string
     {
         return SObjectAssociation::tableAlias();
+    }
+
+    /**
+     * @param int $id
+     * @return SObjects|null
+     */
+    public function findById(int $id)
+    {
+        if (null === ($field = ($this->fields[$id] ?? null))) {
+            $field = Craft::$app->getFields()->getFieldById($id);
+
+            if (!$field instanceof SObjects) {
+                $field = false;
+            }
+
+            $this->fields[$id] = $field;
+        }
+
+        return $field instanceof SObjects ? $field : null;
     }
 
     /**
@@ -70,8 +94,8 @@ class SObjectsField extends SortableFields
 
         $query = new SObjectFieldQuery($field);
 
-        if ($field->limit !== null) {
-            $query->limit($field->limit);
+        if ($field->max !== null) {
+            $query->limit($field->max);
         }
 
         $query->siteId = $this->targetSiteId($element);

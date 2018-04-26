@@ -68,7 +68,7 @@
     new Craft.ForceSObjectsField(
         '#{{ id|namespaceInputId|e('js') }}',
         {
-            limit: '{{ field.limit ?: null }}',
+            limit: '{{ field.max ?: null }}',
             data: {
                 field: '{{ field.id }}',
                 element: '{{ element.id }}'

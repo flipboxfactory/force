@@ -104,26 +104,6 @@ class SObjectAssociation extends SortableAssociation
                     'integerOnly' => true
                 ],[
                     [
-                        'fieldId'
-                    ],
-                    LimitValidator::class,
-                    'query' => function (SObjectAssociation $model) {
-                        return $model::find()
-                            ->field($model->fieldId)
-                            ->element($model->elementId)
-                            ->site($model->siteId)
-                            ->andWhere([
-                                '!=',
-                                static::TARGET_ATTRIBUTE,
-                                $model->{static::TARGET_ATTRIBUTE}
-                            ]);
-                    },
-                    'limit' => function (SObjectAssociation $model) {
-                        return $this->getFieldLimit($model->fieldId);
-                    },
-                    'message' => "Limit exceeded."
-                ],[
-                    [
                         'fieldId',
                         'sObjectId'
                     ],
@@ -134,34 +114,6 @@ class SObjectAssociation extends SortableAssociation
                 ]
             ]
         );
-    }
-
-    /**
-     * @param int $fieldId
-     * @return SObjects
-     */
-    protected function resolveField(int $fieldId): SObjects
-    {
-        $field = Craft::$app->getFields()->getFieldById($fieldId);
-
-        if ($field === null || !$field instanceof SObjects) {
-            throw new InvalidArgumentException(sprintf(
-                "Field must be an instance of '%s', '%s' given.",
-                SObjects::class,
-                $field ? get_class($field) : 'FIELD NOT FOUND'
-            ));
-        }
-
-        return $field;
-    }
-
-    /**
-     * @param int $fieldId
-     * @return int
-     */
-    protected function getFieldLimit(int $fieldId): int
-    {
-        return (int) $this->resolveField($fieldId)->limit;
     }
 
     /**

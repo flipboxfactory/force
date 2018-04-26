@@ -13,6 +13,7 @@ use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\elements\db\ElementQueryInterface;
 use flipbox\ember\helpers\ModelHelper;
+use flipbox\ember\validators\MinMaxValidator;
 use flipbox\force\criteria\SObjectCriteria;
 use flipbox\force\db\SObjectAssociationQuery;
 use flipbox\force\Force;
@@ -39,12 +40,17 @@ class SObjects extends Field
     public $sObject;
 
     /**
-     * @var int|null The maximum number of relations this field can have (used if [[allowLimit]] is set to true)
+     * @var int|null
      */
-    public $limit = 1;
+    public $min;
 
     /**
-     * @var string|null The label that should be used on the selection input
+     * @var int|null
+     */
+    public $max;
+
+    /**
+     * @var string|null
      */
     public $selectionLabel;
 
@@ -72,13 +78,33 @@ class SObjects extends Field
         return false;
     }
 
+    /*******************************************
+     * VALIDATION
+     *******************************************/
+
     /**
-     * @return int
+     * @inheritdoc
      */
-    public function getLimit(): int
+    public function getElementValidationRules(): array
     {
-        return (int)$this->limit;
+        return [
+            [
+                MinMaxValidator::class,
+                'min' => $this->min,
+                'max' => $this->max,
+                'tooFew' => Craft::t(
+                    'force',
+                    '{attribute} should contain at least {min, number} {min, plural, one{domain} other{domains}}.'
+                ),
+                'tooMany' => Craft::t(
+                    'force',
+                    '{attribute} should contain at most {max, number} {max, plural, one{domain} other{domains}}.'
+                ),
+                'skipOnEmpty' => false
+            ]
+        ];
     }
+
 
     /*******************************************
      * VALUE

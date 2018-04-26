@@ -55,6 +55,14 @@ class SObjectFieldQuery extends CacheableQuery implements SortableAssociationQue
     }
 
     /**
+     * @return SObjects
+     */
+    public function getField(): SObjects
+    {
+        return $this->field;
+    }
+
+    /**
      * @param array $config
      * @return $this
      */

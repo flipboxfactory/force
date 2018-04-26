@@ -9,15 +9,27 @@
     required: true
 }) }}
 
-{% block limitField %}
+{% block minField %}
     {{ forms.textField({
-        label: "Limit"|t('app'),
-        instructions: "Limit the number of selectable {type}."|t('app', { type: field.displayName() }),
-        id: 'limit',
-        name: 'limit',
-        value: field.limit,
+        label: "Minimum {type}"|t('app', { type: field.displayName() }),
+        instructions: "Minumum number of selectable {type}."|t('app', { type: field.displayName() }),
+        id: 'min',
+        name: 'min',
+        value: field.min,
         size: 2,
-        errors: field.getErrors('limit')
+        errors: field.getErrors('min')
+    }) }}
+{% endblock %}
+
+{% block maxField %}
+    {{ forms.textField({
+        label: "Maximum {type}"|t('app', { type: field.displayName() }),
+        instructions: "Maximum number of selectable {type}."|t('app', { type: field.displayName() }),
+        id: 'max',
+        name: 'max',
+        value: field.max,
+        size: 2,
+        errors: field.getErrors('max')
     }) }}
 {% endblock %}
 

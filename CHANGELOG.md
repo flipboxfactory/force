@@ -1,6 +1,6 @@
 Changelog
 =========
-## Unreleased
+## 1.0.0-beta.2 - 2018-04-26
 ### Fixed
 - CP notifications were not being displayed after field actions occurred
 - Instance where an environment 

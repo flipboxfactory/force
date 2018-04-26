@@ -3,6 +3,7 @@
   "description": "Salesforce Integration",
   "version": "1.0.0-beta.1",
   "type": "craft-plugin",
+  "license": "proprietary",
   "keywords": [
     "cms",
     "craftcms",

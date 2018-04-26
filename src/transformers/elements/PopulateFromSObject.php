@@ -42,7 +42,7 @@ class PopulateFromSObject extends ResponseToDynamicModel
                 return $this->transform($data);
             }
 
-            $this->transformElement($data, $source, $sObject);
+            $this->populateElement($data, $source, $sObject);
 
             return $this->transform($data);
         }
@@ -60,7 +60,7 @@ class PopulateFromSObject extends ResponseToDynamicModel
      * @param ElementInterface $element
      * @param string $sObject
      */
-    protected function transformElement(array $data, ElementInterface $element, string $sObject)
+    protected function populateElement(array $data, ElementInterface $element, string $sObject)
     {
         $event = TransformerHelper::eventName(['sobject', $sObject, 'populate']);
         $class = get_class($element);
@@ -82,7 +82,7 @@ class PopulateFromSObject extends ResponseToDynamicModel
             $transformer,
             $data,
             [],
-            ['source' => $element]
+            ['source' => $element, 'sObject' => $sObject]
         );
     }
 }

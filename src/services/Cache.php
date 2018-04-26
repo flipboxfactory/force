@@ -76,7 +76,23 @@ class Cache extends ServiceLocator
             $id = Force::getInstance()->getSettings()->getDefaultCache();
         }
 
-        $cache = parent::get($id, $throwException);
+        return $this->resolveSimpleCache(
+            parent::get($id, $throwException),
+            $id
+        );
+    }
+
+    /**
+     * @param $cache
+     * @param string $id
+     * @return SimpleCacheAdapter
+     * @throws InvalidConfigException
+     */
+    private function resolveSimpleCache($cache, string $id): SimpleCacheAdapter
+    {
+        if ($cache instanceof SimpleCacheAdapter) {
+            return $cache;
+        }
 
         if (!$cache instanceof CacheInterface) {
             throw new InvalidConfigException(sprintf(

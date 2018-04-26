@@ -28,6 +28,19 @@ class AdminTransformerCollection extends TransformerCollection
     }
 
     /**
+     * @param $transformers
+     * @return $this
+     */
+    public function setTransformers($transformers)
+    {
+        foreach ($this->ensureArray($transformers) as $key => $transformer) {
+            $this->addTransformer($key, $transformer);
+        }
+
+        return $this;
+    }
+
+    /**
      * Merge transformer overrides w/ default transformer configurations
      *
      * @param array $transformers

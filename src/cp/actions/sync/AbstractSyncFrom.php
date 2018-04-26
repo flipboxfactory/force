@@ -14,6 +14,9 @@ use flipbox\ember\actions\traits\CheckAccess;
 use flipbox\force\criteria\SObjectCriteria;
 use flipbox\force\fields\SObjects;
 use flipbox\force\Force;
+use flipbox\force\transformers\collections\AdminTransformerCollection;
+use flipbox\force\transformers\elements\PopulateFromSObject;
+use Flipbox\Salesforce\Pipeline\Processors\HttpResponseProcessor;
 use yii\base\Action;
 
 /**
@@ -49,21 +52,28 @@ abstract class AbstractSyncFrom extends Action
     }
 
     /**
-     * @param SObjectCriteria $value
+     * @param SObjectCriteria $criteria
      * @param ElementInterface $element
      * @param SObjects $field
      * @return false|string
      * @throws \yii\base\InvalidConfigException
      */
     protected function performAction(
-        SObjectCriteria $value,
+        SObjectCriteria $criteria,
         ElementInterface $element,
         SObjects $field
     ) {
+        $criteria->transformer([
+            'class' => AdminTransformerCollection::class,
+            'transformers' => [
+                HttpResponseProcessor::SUCCESS_KEY => PopulateFromSObject::class
+            ]
+        ]);
+
         return Force::getInstance()->getElements()->syncDown(
             $element,
             $field,
-            $value
+            $criteria
         );
     }
 

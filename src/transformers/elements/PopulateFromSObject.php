@@ -11,11 +11,11 @@ namespace flipbox\force\transformers\elements;
 use craft\base\ElementInterface;
 use flipbox\flux\helpers\TransformerHelper;
 use flipbox\force\Force;
+use flipbox\force\transformers\ResponseToDynamicModel;
 use Flipbox\Transform\Factory;
 use Flipbox\Transform\Scope;
-use Flipbox\Transform\Transformers\AbstractTransformer;
 
-class PopulateFromSObject extends AbstractTransformer
+class PopulateFromSObject extends ResponseToDynamicModel
 {
     /**
      * @param $data
@@ -32,38 +32,27 @@ class PopulateFromSObject extends AbstractTransformer
         ElementInterface $source = null,
         string $sObject = null
     ) {
-        // This is common when preforming an update/delete
-        if (empty($data)) {
-            Force::info(
-                "Data is empty; therefore there is nothing to populate.",
-                __METHOD__
-            );
+        if ($source instanceof ElementInterface) {
+            if (null === ($sObject = $data['attributes']['type'] ?? $sObject)) {
+                Force::warning(
+                    "Unable to populate element because the SObject type could not be determined.",
+                    __METHOD__
+                );
 
-            return $data;
+                return $this->transform($data);
+            }
+
+            $this->transformElement($data, $source, $sObject);
+
+            return $this->transform($data);
         }
 
-        if (!$source instanceof ElementInterface) {
-            Force::warning(
-                "Unable to populate element because an element 'source' does not exist.",
-                __METHOD__
-            );
+        Force::warning(
+            "Unable to populate element because an element 'source' does not exist.",
+            __METHOD__
+        );
 
-            return $data;
-        }
-
-        $sObject = $data['attributes']['type'] ?? $sObject;
-        if ($sObject === null) {
-            Force::warning(
-                "Unable to populate element because the SObject type could not be determined.",
-                __METHOD__
-            );
-
-            return $data;
-        }
-
-        $this->transformElement($data, $source, $sObject);
-
-        return $data;
+        return $this->transform($data);
     }
 
     /**

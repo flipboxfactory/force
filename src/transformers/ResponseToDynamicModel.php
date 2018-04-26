@@ -8,8 +8,11 @@
 
 namespace flipbox\force\transformers;
 
+use flipbox\force\Force;
+use flipbox\flux\helpers\TransformerHelper;
+use Flipbox\Transform\Factory;
+use Flipbox\Transform\Scope;
 use Flipbox\Transform\Transformers\AbstractTransformer;
-use Flipbox\Transform\Transformers\Traits\ArrayToObject;
 use yii\base\DynamicModel;
 
 /**
@@ -17,13 +20,23 @@ use yii\base\DynamicModel;
  */
 class ResponseToDynamicModel extends AbstractTransformer
 {
-    use ArrayToObject;
+    /**
+     * @inheritdoc
+     */
+    public function __invoke($data, Scope $scope, string $identifier = null)
+    {
+        if (!is_array($data)) {
+            $data = [$data];
+        }
+
+        return $this->transform($data);
+    }
 
     /**
      * @param array $data
      * @return DynamicModel
      */
-    public function transform(array $data): DynamicModel
+    protected function transform(array $data): DynamicModel
     {
         return new DynamicModel(array_keys($data), $data);
     }

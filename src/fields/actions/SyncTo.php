@@ -44,6 +44,7 @@ class SyncTo extends AbstractSObjectAction
     {
         // Assemble request criteria
         $criteria = Force::getInstance()->getResources()->getSObject()->getCriteria([
+            'sObject' => $field->sObject,
             'transformer' => AdminTransformerCollection::class,
             'id' => false
         ]);

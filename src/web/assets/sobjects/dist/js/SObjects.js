@@ -233,7 +233,7 @@ Craft.ForceSObjectsField = Craft.ForceSObjectsActions.extend(
             this.$container = $(container);
             this.$container.data('sobjects', this);
 
-            this.setSettings(settings, Craft.ForceSObjectsField.defaults);
+            this.setSettings(settings, $.extend(Craft.ForceSObjectsActions.defaults, Craft.ForceSObjectsField.defaults));
 
             // No reason for this to be sortable if we're only allowing 1 selection
             if (this.settings.limit === 1) {
@@ -461,7 +461,7 @@ Craft.ForceSObjectRow = Craft.ForceSObjectsActions.extend(
         id: null,
 
         init: function (container, settings) {
-            this.setSettings(settings, Craft.ForceSObjectRow.defaults);
+            this.setSettings(settings, $.extend(Craft.ForceSObjectsActions.defaults, Craft.ForceSObjectRow.defaults));
 
             this.$container = $(container);
             this.$container.data('row', this);
@@ -571,6 +571,12 @@ Craft.ForceSObjectRow = Craft.ForceSObjectsActions.extend(
                                     Craft.t('force', this.settings.associationMessageSuccess)
                                 );
                             }
+                        } else {
+                            if (this.settings.associationMessageError) {
+                                Craft.cp.displayError(
+                                    Craft.t('force', this.settings.associationMessageError)
+                                );
+                            }
                         }
                     },
                     this
@@ -608,6 +614,12 @@ Craft.ForceSObjectRow = Craft.ForceSObjectsActions.extend(
                                     Craft.t('force', this.settings.dissociationMessageSuccess)
                                 );
                             }
+                        } else {
+                            if (this.settings.dissociationMessageError) {
+                                Craft.cp.displayError(
+                                    Craft.t('force', this.settings.dissociationMessageError)
+                                );
+                            }
                         }
                     },
                     this
@@ -620,9 +632,7 @@ Craft.ForceSObjectRow = Craft.ForceSObjectsActions.extend(
 
             this.trigger('remove', {row: this});
             this.settings.onRemove(this);
-        },
-
-
+        }
     },
     {
         defaults: {

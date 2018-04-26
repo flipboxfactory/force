@@ -1,7 +1,7 @@
 {
   "name": "flipboxfactory/force",
   "description": "Salesforce Integration",
-  "version": "1.0.0-beta",
+  "version": "1.0.0-beta.1",
   "type": "craft-plugin",
   "keywords": [
     "cms",
@@ -60,7 +60,7 @@
       "queries": "flipbox\\force\\services\\Queries",
       "resources": "flipbox\\force\\services\\Resources",
       "sObjectAssociations": "flipbox\\force\\services\\SObjectAssociations",
-      "sObjectsField": "flipbox\\force\\services\\sObjectsField",
+      "sObjectsField": "flipbox\\force\\services\\SObjectsField",
       "transformers": "flipbox\\force\\services\\Transformers"
     },
     "modules": {

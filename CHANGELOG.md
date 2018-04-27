@@ -1,5 +1,9 @@
 Changelog
 =========
+## Unreleased
+### Fixed
+- SObject fields was returning the first entry for new elements
+
 ## 1.0.0-beta.2 - 2018-04-26
 ### Fixed
 - CP notifications were not being displayed after field actions occurred

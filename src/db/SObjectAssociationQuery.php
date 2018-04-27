@@ -65,7 +65,8 @@ class SObjectAssociationQuery extends SortableAssociationQuery
     {
         // Is the query already doomed?
         if (($this->field !== null && empty($this->field)) ||
-            ($this->sObject !== null && empty($this->sObject))
+            ($this->sObject !== null && empty($this->sObject)) ||
+            ($this->element !== null && empty($this->element))
         ) {
             throw new QueryAbortedException();
         }

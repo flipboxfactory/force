@@ -83,7 +83,9 @@ class SObjectFieldQuery extends CacheableQuery implements SortableAssociationQue
      */
     public function prepare($builder)
     {
-        if ($this->sObject !== null && empty($this->sObject)) {
+        if (($this->sObject !== null && empty($this->sObject)) ||
+            ($this->element !== null && empty($this->element))
+        ) {
             throw new QueryAbortedException();
         }
 

@@ -1,8 +1,9 @@
 Changelog
 =========
-## Unreleased
+## 1.0.0-beta.3 - 2018-04-27
 ### Fixed
 - SObject fields was returning the first entry for new elements
+- SObject field Push Object to Salesforce action only appears on existing entries
 
 ## 1.0.0-beta.2 - 2018-04-26
 ### Fixed

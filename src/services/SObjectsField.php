@@ -304,10 +304,14 @@ class SObjectsField extends SortableFields
      */
     public function getActions(SObjects $field, ElementInterface $element = null): array
     {
+        $actions = [];
+
+        if (!empty($field->id)) {
+            $actions[] = SyncTo::class;
+        }
+
         $event = new RegisterSObjectFieldActionsEvent([
-            'actions' => [
-                SyncTo::class
-            ],
+            'actions' => $actions,
             'element' => $element
         ]);
 

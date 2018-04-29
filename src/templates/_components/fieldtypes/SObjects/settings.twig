@@ -44,3 +44,35 @@
         errors: field.getErrors('selectionLabel')
     }) }}
 {% endblock %}
+
+{% block advanced %}
+    <hr />
+    <a class="fieldtoggle" data-target="advanced">{{ "Advanced"|t('app') }}</a>
+    <div id="advanced" class="hidden">
+        {% block viewUrlField %}
+            {{ forms.textField({
+                label: "Salesforce Object View Url"|t('force'),
+                instructions: "The following variables are available: {{ instanceUrl }}, {{ sObject }}, {{ id }}"|t('force'),
+                id: 'viewUrl',
+                name: 'viewUrl',
+                class: 'code',
+                value: field.viewUrl,
+                errors: field.getErrors('viewUrl')
+            }) }}
+        {% endblock %}
+
+        {% block listUrlField %}
+            {{ forms.textField({
+                label: "Salesforce Object Listing Url"|t('force'),
+                instructions: "The following variables are available: {{ instanceUrl }}, {{ sObject }}"|t('force'),
+                id: 'listUrl',
+                name: 'listUrl',
+                class: 'code',
+                value: field.listUrl,
+                errors: field.getErrors('listUrl')
+            }) }}
+        {% endblock %}
+    </div>
+{% endblock %}
+
+

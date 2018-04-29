@@ -50,6 +50,17 @@ class SObjects extends Field
     public $max;
 
     /**
+     * @var string
+     */
+    public $viewUrl = '';
+
+    /**
+     * @var string
+     */
+    public $listUrl = '';
+
+
+    /**
      * @var string|null
      */
     public $selectionLabel;

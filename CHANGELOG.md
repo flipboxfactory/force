@@ -1,5 +1,10 @@
 Changelog
 =========
+## Unreleased
+### Added
+- View Url property to the SObject field which supports direct linking to Salesforce Object
+- List Url property to the SObject field which supports direct linking to Salesforce Object List
+
 ## 1.0.0-beta.3 - 2018-04-27
 ### Fixed
 - SObject fields was returning the first entry for new elements

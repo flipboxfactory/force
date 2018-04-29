@@ -25,7 +25,7 @@ class AccessTokenConnection extends AbstractAccessTokenConnection
      */
     public function getResourceUrl(): string
     {
-        return $this->getProvider()->getDomain() .
+        return $this->getInstanceUrl() .
             '/services/data' .
             (!empty($this->version) ? ('/' . $this->version) : '');
     }

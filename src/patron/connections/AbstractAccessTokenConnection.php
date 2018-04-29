@@ -28,6 +28,14 @@ abstract class AbstractAccessTokenConnection extends BaseObject implements Conne
     abstract protected function getResourceUrl(): string;
 
     /**
+     * @inheritdoc
+     */
+    public function getInstanceUrl(): string
+    {
+        return rtrim($this->getProvider()->getDomain(), '/');
+    }
+
+    /**
      * @param RequestInterface $request
      * @return RequestInterface
      */

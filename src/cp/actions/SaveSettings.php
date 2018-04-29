@@ -29,9 +29,8 @@ class SaveSettings extends Action
     protected function validBodyParams(): array
     {
         return [
-            'instanceUrl',
-            'sObjectViewUrlString',
-            'sObjectListUrlString'
+            'defaultConnection',
+            'defaultCache'
         ];
     }
 

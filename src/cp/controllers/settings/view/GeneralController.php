@@ -8,6 +8,7 @@
 
 namespace flipbox\force\cp\controllers\settings\view;
 
+use flipbox\force\web\assets\base\Base;
 use yii\web\Response;
 
 /**
@@ -28,11 +29,14 @@ class GeneralController extends AbstractController
 
     /**
      * @return Response
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionIndex(): Response
     {
         $variables = [];
         $this->baseVariables($variables);
+
+        $this->view->registerAssetBundle(Base::class);
 
         $variables['fullPageForm'] = true;
 

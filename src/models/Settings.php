@@ -9,6 +9,7 @@
 namespace flipbox\force\models;
 
 use craft\base\Model;
+use flipbox\ember\helpers\ModelHelper;
 use flipbox\force\services\Cache;
 use flipbox\force\services\Connections;
 
@@ -32,22 +33,6 @@ class Settings extends Model
      * @var string
      */
     private $defaultConnection = Connections::APP_CONNECTION;
-
-    /**
-     * @var string
-     */
-    public $instanceUrl = '';
-
-    /**
-     * @var string
-     */
-    public $sObjectViewUrlString = '{{ instanceUrl }}/lightning/o/{{ sObject }}/{{ id }}/view';
-
-    /**
-     * @var string
-     */
-    public $sObjectListUrlString = '{{ instanceUrl }}/lightning/o/{{ sObject }}/list';
-
 
     /**
      * @param string $key
@@ -95,6 +80,28 @@ class Settings extends Model
             [
                 'defaultConnection',
                 'defaultCache'
+            ]
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function rules()
+    {
+        return array_merge(
+            parent::rules(),
+            [
+                [
+                    [
+                        'defaultConnection',
+                        'defaultCache'
+                    ],
+                    'safe',
+                    'on' => [
+                        ModelHelper::SCENARIO_DEFAULT
+                    ]
+                ]
             ]
         );
     }

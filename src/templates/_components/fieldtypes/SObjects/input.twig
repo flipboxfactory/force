@@ -23,11 +23,15 @@
                 {% from _self import sObjectViewUrl, sObjectListUrl %}
                 <div>
                     <span class="light">Id:</span> <span class="sObjectIdLabel">{{ criteria.id }}</span>
-                    <a href="{{ sObjectViewUrl(criteria) }}" target="_blank" data-icon="world" title="View Salesforce Object"></a>
+                    {% if field.viewUrl %}
+                        <a href="{{ sObjectViewUrl(field, criteria) }}" target="_blank" data-icon="world" title="View Salesforce Object"></a>
+                    {% endif %}
                 </div>
                 <div>
                     <span class="light">Object:</span> {{ field.sObject }}
-                    <a href="{{ sObjectListUrl(criteria) }}" target="_blank" data-icon="world" title="View Salesforce {{  field.sObject }}s"></a>
+                    {% if field.listUrl %}
+                        <a href="{{ sObjectListUrl(field, criteria) }}" target="_blank" data-icon="world" title="View Salesforce {{  field.sObject }}s"></a>
+                    {% endif %}
                 </div>
             </div>
             <div class="upsert ignore-sort">
@@ -89,22 +93,22 @@
     );
 {% endjs %}
 
-{% macro sObjectViewUrl(criteria) %}
+{% macro sObjectViewUrl(field, criteria) %}
     {{ craft.app.view.renderString(
-        craft.force.settings.sObjectViewUrlString,
+        field.viewUrl,
         {
-            instanceUrl: criteria.connection.provider.domain ?? craft.force.settings.instanceUrl,
+            instanceUrl: criteria.connection.instanceUrl,
             id: criteria.id,
             sObject: criteria.sObject
         }
     ) }}
 {% endmacro %}
 
-{% macro sObjectListUrl(criteria) %}
+{% macro sObjectListUrl(field, criteria) %}
     {{ craft.app.view.renderString(
-        craft.force.settings.sObjectListUrlString,
+        field.listUrl,
         {
-            instanceUrl: criteria.connection.provider.domain ?? craft.force.settings.instanceUrl,
+            instanceUrl: criteria.connection.instanceUrl,
             sObject: criteria.sObject
         }
     ) }}

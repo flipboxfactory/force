@@ -1,0 +1,66 @@
+/* ----------------------------------------
+/* SOBJECT
+/* ----------------------------------------*/
+body.ltr .element-sobjects .btngroup {
+  float: left; }
+body.ltr .element-sobjects .btn.dashed {
+  margin-right: 0 !important; }
+  body.ltr .element-sobjects .btn.dashed.menubtn {
+    margin-left: -1px;
+    border-left: none !important; }
+
+.sObject {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  padding: .85em 1em .85em .85em;
+  position: relative;
+  margin-bottom: .5em; }
+  .sObject figure {
+    width: 3em;
+    padding: .5em 0;
+    float: left;
+    margin-right: 1em; }
+    .sObject figure svg {
+      width: 100%;
+      height: auto; }
+  .sObject .spinner {
+    position: absolute;
+    bottom: .3em;
+    right: .5em; }
+  .sObject .details .field {
+    margin-bottom: 0; }
+  .sObject .details .buttons {
+    margin-top: 6px; }
+  .sObject .details .meta {
+    display: block; }
+  .sObject .details .upsert {
+    display: none; }
+  .sObject .menubtn {
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+    position: absolute;
+    top: .35em;
+    right: 0;
+    opacity: 0; }
+    .sObject .menubtn:after {
+      content: ''; }
+  .sObject:focus .menubtn, .sObject:hover .menubtn {
+    opacity: .8; }
+  .sObject .menubtn {
+    cursor: pointer; }
+    .sObject .menubtn.active {
+      opacity: .8; }
+  .sObject.save-disabled .upsert .buttons {
+    display: none; }
+  .sObject.edit-mode .details {
+    width: 100%; }
+  .sObject.edit-mode .menubtn {
+    display: none; }
+  .sObject.edit-mode .meta {
+    display: none; }
+  .sObject.edit-mode .upsert {
+    display: block; }
+
+/*# sourceMappingURL=SObjects.css.map */

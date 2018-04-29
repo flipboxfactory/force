@@ -4,6 +4,10 @@ Changelog
 ### Added
 - View Url property to the SObject field which supports direct linking to Salesforce Object
 - List Url property to the SObject field which supports direct linking to Salesforce Object List
+- The default connection and cache strategy can be set via settings
+
+### Removed
+- The following plugins settings: instanceUrl, sObjectViewUrlString, sObjectListUrlString, 
 
 ## 1.0.0-beta.3 - 2018-04-27
 ### Fixed

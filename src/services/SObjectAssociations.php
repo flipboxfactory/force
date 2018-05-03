@@ -141,13 +141,11 @@ class SObjectAssociations extends SortableAssociations
 
     /**
      * @param SObjectAssociation $record
-     * @param bool $reOrder
      * @return bool
      * @throws \Exception
      */
-    public function validateAndAssociate(
-        SObjectAssociation $record,
-        bool $reOrder = true
+    public function validateSObject(
+        SObjectAssociation $record
     ): bool {
 
         if (null === ($fieldId = $record->fieldId)) {
@@ -165,11 +163,7 @@ class SObjectAssociations extends SortableAssociations
         /** @var DynamicModel $response */
         $response = $criteria->get(['transformer' => AdminTransformerCollection::class], $record);
 
-        if ($response->hasErrors()) {
-            return false;
-        }
-
-        return $this->associate($record, $reOrder);
+        return !$response->hasErrors();
     }
 
     /**

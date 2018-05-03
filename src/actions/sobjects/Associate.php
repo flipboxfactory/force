@@ -32,10 +32,10 @@ class Associate extends AbstractAssociationAction
     protected function performAction(Model $model): bool
     {
         if (true === $this->ensureAssociation($model)) {
-            if ($this->validate) {
-                return Force::getInstance()->getSObjectAssociations()->validateAndAssociate(
-                    $model
-                );
+            if ($this->validate === true &&
+                !Force::getInstance()->getSObjectAssociations()->validateSObject($model)
+            ) {
+                return false;
             }
 
             return Force::getInstance()->getSObjectAssociations()->associate(

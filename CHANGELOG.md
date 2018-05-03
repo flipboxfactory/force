@@ -1,8 +1,9 @@
 Changelog
 =========
-## Unreleased
+## 1.0.0-beta.6 - 2018-05-03
 ### Added
 - A SObject ID is validated prior to performing an association
+- Updated dependencies
 
 ## 1.0.0-beta.5 - 2018-04-29
 ### Changed

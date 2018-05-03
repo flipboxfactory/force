@@ -44,13 +44,11 @@ class Elements extends Component
             $element,
             $field,
             $criteria
-        )->addToDataPipeline(
-            new ElementSaveStage($field),
-            'response:saveElement'
-        )->addToDataPipeline(
-            new ElementAssociationStage($field),
-            'response:associateElement'
-        )->execute($element);
+        )->build()->pipe(
+            new ElementSaveStage($field)
+        )->pipe(
+            new ElementAssociationStage($field)
+        )->process(null, $element);
 
         return !$element->hasErrors();
     }
@@ -91,10 +89,9 @@ class Elements extends Component
                     'resource' => [get_class($element)]
                 ]
             )
-        )->addToDataPipeline(
-            new ElementAssociationStage($field),
-            'response:associateElement'
-        )->execute($element);
+        )->build()->pipe(
+                new ElementAssociationStage($field)
+        )->process(null, $element);
 
         return !$element->hasErrors();
     }

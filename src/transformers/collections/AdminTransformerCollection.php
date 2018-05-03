@@ -14,8 +14,8 @@ use flipbox\force\transformers\elements\SObjectId;
 use flipbox\force\transformers\elements\SObjectPayload;
 use flipbox\force\transformers\ErrorToDynamicModel;
 use flipbox\force\transformers\ResponseToDynamicModel;
-use Flipbox\Salesforce\Pipeline\Processors\HttpResponseProcessor;
 use Flipbox\Salesforce\Transformers\Collections\TransformerCollection;
+use Flipbox\Salesforce\Transformers\Collections\TransformerCollectionInterface;
 
 class AdminTransformerCollection extends TransformerCollection
 {
@@ -49,8 +49,8 @@ class AdminTransformerCollection extends TransformerCollection
     private function transformers($transformers = []): array
     {
         $allTransformers = [
-            HttpResponseProcessor::ERROR_KEY => ErrorToDynamicModel::class,
-            HttpResponseProcessor::SUCCESS_KEY => ResponseToDynamicModel::class,
+            TransformerCollectionInterface::ERROR_KEY => ErrorToDynamicModel::class,
+            TransformerCollectionInterface::SUCCESS_KEY => ResponseToDynamicModel::class,
             SObject::ID_TRANSFORMER_KEY => SObjectId::class,
             SObject::PAYLOAD_TRANSFORMER_KEY => SObjectPayload::class
         ];

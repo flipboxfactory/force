@@ -64,6 +64,11 @@ class ElementAssociationStage extends BaseObject implements StageInterface
             return null;
         }
 
+        if ($source->hasErrors()) {
+            Force::error("The element has errors, not associating...");
+            return null;
+        }
+
         if (null === ($sObjectId = $this->getSobjectIdFromPayload($payload))) {
             Force::error(sprintf(
                 "Unable to identify sObjectId from payload: %s",

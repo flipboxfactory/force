@@ -13,11 +13,11 @@ use craft\helpers\StringHelper;
 use craft\helpers\UrlHelper;
 use flipbox\flux\helpers\TransformerHelper;
 use flipbox\force\Force;
-use Flipbox\Salesforce\Pipeline\Processors\HttpResponseProcessor;
 use Flipbox\Salesforce\Resources\Query as QueryResource;
 use Flipbox\Salesforce\Resources\SObject\Row\Delete as DeleteSObjectResource;
 use Flipbox\Salesforce\Resources\SObject\Row\Get as GetSObjectResource;
 use Flipbox\Salesforce\Resources\SObject\Row\Upsert as UpsertSObjectResource;
+use Flipbox\Salesforce\Transformers\Collections\TransformerCollectionInterface;
 use yii\web\Response;
 
 /**
@@ -147,8 +147,8 @@ class DataController extends AbstractController
     private function getContextTypes(): array
     {
         return [
-            HttpResponseProcessor::SUCCESS_KEY => 'Success',
-            HttpResponseProcessor::ERROR_KEY => 'Error',
+            TransformerCollectionInterface::SUCCESS_KEY => 'Success',
+            TransformerCollectionInterface::ERROR_KEY => 'Error',
             'payload' => 'SObject Payload',
             'id' => 'SObject Id'
         ];

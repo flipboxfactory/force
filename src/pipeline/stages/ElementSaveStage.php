@@ -13,6 +13,7 @@ use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\helpers\Json;
 use flipbox\force\fields\SObjects;
+use flipbox\force\Force;
 use Flipbox\Skeleton\Logger\AutoLoggerTrait;
 use League\Pipeline\StageInterface;
 use Psr\Log\InvalidArgumentException;
@@ -57,6 +58,11 @@ class ElementSaveStage extends BaseObject implements StageInterface
 
         if ($source === null) {
             throw new InvalidArgumentException("Source must be an element.");
+        }
+
+        if ($source->hasErrors()) {
+            Force::error("The element has errors, not saving...");
+            return null;
         }
 
         if (false === $this->save($source)) {

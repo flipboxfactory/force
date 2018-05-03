@@ -16,7 +16,7 @@ use flipbox\force\fields\SObjects;
 use flipbox\force\Force;
 use flipbox\force\transformers\collections\AdminTransformerCollection;
 use flipbox\force\transformers\elements\PopulateFromSObject;
-use Flipbox\Salesforce\Pipeline\Processors\HttpResponseProcessor;
+use Flipbox\Salesforce\Transformers\Collections\TransformerCollectionInterface;
 use yii\base\Action;
 
 /**
@@ -66,7 +66,7 @@ abstract class AbstractSyncFrom extends Action
         $criteria->transformer([
             'class' => AdminTransformerCollection::class,
             'transformers' => [
-                HttpResponseProcessor::SUCCESS_KEY => PopulateFromSObject::class
+                TransformerCollectionInterface::SUCCESS_KEY => PopulateFromSObject::class
             ]
         ]);
 

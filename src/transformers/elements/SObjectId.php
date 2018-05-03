@@ -53,7 +53,7 @@ class SObjectId extends AbstractTransformer
             return null;
         }
 
-        Force::debug(sprintf(
+        Force::info(sprintf(
             "SObject Id '%s' was found for element '%s'",
             $sObjectId,
             $element->getId()

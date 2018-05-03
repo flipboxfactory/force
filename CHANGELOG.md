@@ -1,5 +1,9 @@
 Changelog
 =========
+## Unreleased
+### Changed
+- Logging will now occur in a separate force.log file
+
 ## 1.0.0-beta.4 - 2018-04-29
 ### Added
 - View Url property to the SObject field which supports direct linking to Salesforce Object

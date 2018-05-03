@@ -14,7 +14,7 @@
   "require": {
     "craftcms/cms": "^3.0.0",
     "flipboxdigital/salesforce": "^2.1.0",
-    "flipboxfactory/craft-ember": "^1.0.0",
+    "flipboxfactory/craft-ember": "^1.0.2",
     "flipboxfactory/craft-psr16": "^1.0.0",
     "flipboxfactory/craft-psr3": "^1.0.0",
     "flipboxfactory/flux": "~1.0.0-rc",
@@ -51,27 +51,6 @@
     "developer": "Flipbox Digital",
     "developerUrl": "https://www.flipboxdigital.com",
     "changelogUrl": "https://raw.githubusercontent.com/flipboxfactory/force/master/CHANGELOG.md",
-    "downloadUrl": "https://github.com/flipboxfactory/force/archive/master.zip",
-    "components": {
-      "cache": "flipbox\\force\\services\\Cache",
-      "connections": "flipbox\\force\\services\\Connections",
-      "elements": "flipbox\\force\\services\\Elements",
-      "logger": "flipbox\\craft\\psr3\\Logger",
-      "queryField": "flipbox\\force\\services\\QueryField",
-      "queries": "flipbox\\force\\services\\Queries",
-      "resources": "flipbox\\force\\services\\Resources",
-      "sObjectAssociations": "flipbox\\force\\services\\SObjectAssociations",
-      "sObjectsField": "flipbox\\force\\services\\SObjectsField",
-      "transformers": "flipbox\\force\\services\\Transformers"
-    },
-    "modules": {
-      "cp": {
-        "basePath": "@flipbox/force/cp",
-        "class": "flipbox\\force\\cp\\Cp",
-        "components": {
-          "queryManager": "flipbox\\force\\cp\\services\\QueryManager"
-        }
-      }
-    }
+    "downloadUrl": "https://github.com/flipboxfactory/force/archive/master.zip"
   }
 }

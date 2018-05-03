@@ -44,10 +44,7 @@ abstract class AbstractAssociationAction extends Action
         int $sortOrder = null
     ) {
         // Resolve Field
-        $sObjectField = Craft::$app->getFields()->getFieldById($field);
-        if (null === $sObjectField || !$sObjectField instanceof SObjects) {
-            return $this->handleInvalidFieldResponse($field);
-        }
+        $sObjectField = $this->resolveField($field);
 
         // Resolve Element
         if (null === ($sourceElement = Craft::$app->getElements()->getElementById($element))) {
@@ -68,6 +65,19 @@ abstract class AbstractAssociationAction extends Action
         ]));
     }
 
+    /**
+     * @param string $field
+     * @return SObjects
+     * @throws HttpException
+     */
+    protected function resolveField(string $field): SObjects
+    {
+        if (null === ($sObjectField = Force::getInstance()->getSObjectsField()->findById($field))) {
+            return $this->handleInvalidFieldResponse($field);
+        }
+
+        return $sObjectField;
+    }
 
     /**
      * @param Model $model

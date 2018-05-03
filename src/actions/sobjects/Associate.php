@@ -19,12 +19,25 @@ use yii\base\Model;
 class Associate extends AbstractAssociationAction
 {
     /**
+     * Validate that the Salesforce Object exists prior to associating
+     *
+     * @var bool
+     */
+    public $validate = true;
+
+    /**
      * @inheritdoc
      * @param SObjectAssociation $model
      */
     protected function performAction(Model $model): bool
     {
         if (true === $this->ensureAssociation($model)) {
+            if ($this->validate) {
+                return Force::getInstance()->getSObjectAssociations()->validateAndAssociate(
+                    $model
+                );
+            }
+
             return Force::getInstance()->getSObjectAssociations()->associate(
                 $model
             );

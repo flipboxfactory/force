@@ -66,18 +66,19 @@ class SObjectsField extends SortableFields
      */
     public function findById(int $id)
     {
-        if (null === ($field = ($this->fields[$id] ?? null))) {
+        if (!array_key_exists($id, $this->fields)) {
             $field = Craft::$app->getFields()->getFieldById($id);
-
             if (!$field instanceof SObjects) {
-                $field = false;
+                $field = null;
             }
 
             $this->fields[$id] = $field;
         }
 
-        return $field instanceof SObjects ? $field : null;
+        return $this->fields[$id];
     }
+
+
 
     /**
      * @param FieldInterface $field

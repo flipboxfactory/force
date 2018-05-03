@@ -21,6 +21,8 @@ use flipbox\force\fields\SObjects;
 use flipbox\force\Force;
 use flipbox\force\migrations\SObjectAssociations as SObjectAssociationsMigration;
 use flipbox\force\records\SObjectAssociation;
+use flipbox\force\transformers\collections\AdminTransformerCollection;
+use yii\base\DynamicModel;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -135,6 +137,39 @@ class SObjectAssociations extends SortableAssociations
         }
 
         return $this->associations($source, $field, $site);
+    }
+
+    /**
+     * @param SObjectAssociation $record
+     * @param bool $reOrder
+     * @return bool
+     * @throws \Exception
+     */
+    public function validateAndAssociate(
+        SObjectAssociation $record,
+        bool $reOrder = true
+    ): bool {
+
+        if (null === ($fieldId = $record->fieldId)) {
+            return false;
+        }
+
+        if (null === ($field = Force::getInstance()->getSObjectsField()->findById($fieldId))) {
+            return false;
+        }
+
+        $criteria = $field->createCriteria([
+            'id' => $record->sObjectId
+        ]);
+
+        /** @var DynamicModel $response */
+        $response = $criteria->get(['transformer' => AdminTransformerCollection::class], $record);
+
+        if ($response->hasErrors()) {
+            return false;
+        }
+
+        return $this->associate($record, $reOrder);
     }
 
     /**

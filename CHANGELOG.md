@@ -1,5 +1,9 @@
 Changelog
 =========
+## Unreleased
+### Added
+- A SObject ID is validated prior to performing an association
+
 ## 1.0.0-beta.5 - 2018-04-29
 ### Changed
 - Logging will now occur in a separate force.log file

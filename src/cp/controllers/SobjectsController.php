@@ -12,8 +12,6 @@ use Craft;
 use craft\helpers\ArrayHelper;
 use flipbox\force\actions\sobjects\Associate;
 use flipbox\force\actions\sobjects\Dissociate;
-use flipbox\force\actions\sobjects\SyncFrom;
-use flipbox\force\actions\sobjects\SyncTo;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

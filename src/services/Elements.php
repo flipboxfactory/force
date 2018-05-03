@@ -90,7 +90,7 @@ class Elements extends Component
                 ]
             )
         )->build()->pipe(
-                new ElementAssociationStage($field)
+            new ElementAssociationStage($field)
         )->process(null, $element);
 
         return !$element->hasErrors();

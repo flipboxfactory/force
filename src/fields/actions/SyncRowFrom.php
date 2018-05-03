@@ -46,7 +46,7 @@ class SyncRowFrom extends AbstractSObjectRowAction
             $field,
             $criteria
         )) {
-            $this->setMessage("Failed from sync from Salesforce Object");
+            $this->setMessage("Failed to sync from Salesforce Object");
             return false;
         }
 

@@ -186,6 +186,12 @@ Craft.ForceSObjectsActions = Garnish.Base.extend(
                                     Craft.t('force', response.message)
                                 );
                             }
+                        } else {
+                            if (jqXHR.responseJSON.message) {
+                                Craft.cp.displayError(
+                                    Craft.t('force', jqXHR.responseJSON.message)
+                                );
+                            }
                         }
                     },
                     this

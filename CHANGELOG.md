@@ -1,5 +1,9 @@
 Changelog
 =========
+## 1.0.0-beta.7 - 2018-05-03
+### Changed
+- SObject field entries will return more than the limit, even if it exceeds the max
+
 ## 1.0.0-beta.6 - 2018-05-03
 ### Added
 - A SObject ID is validated prior to performing an association

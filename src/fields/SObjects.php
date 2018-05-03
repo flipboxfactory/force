@@ -15,7 +15,7 @@ use craft\elements\db\ElementQueryInterface;
 use flipbox\ember\helpers\ModelHelper;
 use flipbox\ember\validators\MinMaxValidator;
 use flipbox\force\criteria\SObjectCriteria;
-use flipbox\force\db\SObjectAssociationQuery;
+use flipbox\force\db\SObjectFieldQuery;
 use flipbox\force\Force;
 
 /**
@@ -206,7 +206,7 @@ class SObjects extends Field
      *******************************************/
 
     /**
-     * @param SObjectAssociationQuery $value
+     * @param SObjectFieldQuery $value
      * @inheritdoc
      */
     public function getSearchKeywords($value, ElementInterface $element): string
@@ -226,11 +226,12 @@ class SObjects extends Field
      *******************************************/
 
     /**
-     * @param SObjectAssociationQuery $value
+     * @param SObjectFieldQuery $value
      * @inheritdoc
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {
+        $value->limit(null);
         return Force::getInstance()->getSObjectsField()->getInputHtml($this, $value, $element, false);
     }
 

@@ -84,8 +84,7 @@ class SObject extends Component
             TransformerHelper::populateTransformerCollection($transformer, [
                 'resource' => [SObjectDescribe::class],
                 'handle' => ['sobject', $sObject]
-            ]),
-            Force::getInstance()->getLogger()
+            ])
         ));
     }
 
@@ -134,8 +133,7 @@ class SObject extends Component
             $this->transformSObjectId($id, $transformer),
             $connection,
             $cache,
-            $transformer,
-            Force::getInstance()->getLogger()
+            $transformer
         ));
     }
 
@@ -188,8 +186,7 @@ class SObject extends Component
             $connection,
             $cache,
             $this->transformSObjectId($id, $transformer, $sObject),
-            $transformer,
-            Force::getInstance()->getLogger()
+            $transformer
         ));
     }
 

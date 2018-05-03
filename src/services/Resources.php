@@ -29,7 +29,7 @@ class Resources extends ServiceLocator
         parent::init();
 
         Salesforce::setLogger(
-            Force::getInstance()->getLogger()
+            Force::getInstance()->getPSR3()
         );
 
         $this->setComponents([

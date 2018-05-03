@@ -10,7 +10,6 @@ namespace flipbox\force\services\resources;
 
 use flipbox\ember\helpers\ObjectHelper;
 use flipbox\force\criteria\QueryCriteria;
-use flipbox\force\Force;
 use flipbox\force\helpers\TransformerHelper;
 use Flipbox\Salesforce\Connections\ConnectionInterface;
 use Flipbox\Salesforce\Query\QueryBuilderInterface;
@@ -70,8 +69,7 @@ class Query extends Component
             TransformerHelper::populateTransformerCollection($transformer, [
                 'resource' => [QueryResource::class],
                 'handle' => ['query']
-            ]),
-            Force::getInstance()->getLogger()
+            ])
         ));
     }
 

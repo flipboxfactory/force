@@ -10,7 +10,6 @@ namespace flipbox\force\services\resources;
 
 use flipbox\ember\helpers\ObjectHelper;
 use flipbox\force\criteria\ListCriteria;
-use flipbox\force\Force;
 use flipbox\force\helpers\TransformerHelper;
 use Flipbox\Salesforce\Connections\ConnectionInterface;
 use Flipbox\Salesforce\Resources\Describe as DescribeResource;
@@ -105,8 +104,7 @@ class General extends Component
             TransformerHelper::populateTransformerCollection($transformer, [
                 'resource' => [LimitsResource::class],
                 'handle' => ['limits']
-            ]),
-            Force::getInstance()->getLogger()
+            ])
         ));
     }
 
@@ -144,8 +142,7 @@ class General extends Component
             TransformerHelper::populateTransformerCollection($transformer, [
                 'resource' => [ResourcesResource::class],
                 'handle' => ['resources']
-            ]),
-            Force::getInstance()->getLogger()
+            ])
         ));
     }
 

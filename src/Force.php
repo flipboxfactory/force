@@ -49,9 +49,13 @@ class Force extends Plugin
             'cache' => services\Cache::class,
             'connections' => services\Connections::class,
             'elements' => services\Elements::class,
-            'logger' => [
-                'class' => Logger::class
-            ],
+            'psr3' => function () {
+                return Craft::createObject([
+                    'class' => Logger::class,
+                    'logger' => static::getLogger(),
+                    'category' => 'salesforce'
+                ]);
+            },
             'queryField' => services\QueryField::class,
             'queries' => services\Queries::class,
             'resources' => services\Resources::class,
@@ -209,9 +213,9 @@ class Force extends Plugin
      * @inheritdoc
      * @return \flipbox\craft\psr3\Logger
      */
-    public function getLogger()
+    public function getPSR3()
     {
-        return $this->get('logger');
+        return $this->get('psr3');
     }
 
     /**

@@ -13,7 +13,7 @@ use craft\base\ElementInterface;
 use flipbox\force\db\SObjectFieldQuery;
 use flipbox\force\fields\SObjects;
 use flipbox\force\Force;
-use flipbox\force\transformers\collections\AdminTransformerCollection;
+use flipbox\force\transformers\collections\TransformerCollection;
 use yii\web\HttpException;
 
 class SyncTo extends AbstractSObjectAction
@@ -45,7 +45,7 @@ class SyncTo extends AbstractSObjectAction
         // Assemble request criteria
         $criteria = Force::getInstance()->getResources()->getSObject()->getCriteria([
             'sObject' => $field->sObject,
-            'transformer' => AdminTransformerCollection::class,
+            'transformer' => TransformerCollection::class,
             'id' => false
         ]);
 

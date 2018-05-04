@@ -10,26 +10,9 @@ namespace flipbox\force\transformers\collections;
 
 use flipbox\flux\helpers\TransformerHelper;
 use flipbox\force\Force;
-use flipbox\force\services\resources\SObject;
-use flipbox\force\transformers\elements\SObjectId;
-use flipbox\force\transformers\elements\SObjectPayload;
-use flipbox\force\transformers\ErrorToDynamicModel;
-use flipbox\force\transformers\ResponseToDynamicModel;
-use Flipbox\Salesforce\Transformers\Collections\TransformerCollectionInterface;
-use yii\base\BaseObject;
 
-class DynamicTransformerCollection extends BaseObject implements TransformerCollectionInterface
+class DynamicTransformerCollection extends TransformerCollection
 {
-    /**
-     * @var array
-     */
-    public $defaultTransformers = [
-        TransformerCollectionInterface::ERROR_KEY => ErrorToDynamicModel::class,
-        TransformerCollectionInterface::SUCCESS_KEY => ResponseToDynamicModel::class,
-        SObject::ID_TRANSFORMER_KEY => SObjectId::class,
-        SObject::PAYLOAD_TRANSFORMER_KEY => SObjectPayload::class
-    ];
-
     /**
      * The transformer handle parts.  We'll assemble these in to a string such as 'sobject:account:response'
      *
@@ -109,14 +92,8 @@ class DynamicTransformerCollection extends BaseObject implements TransformerColl
      */
     public function getTransformer(string $key)
     {
-        $event = TransformerHelper::eventName(array_merge($this->handle, [$key]));
-
-        if (null === ($transformer = $this->resolveTransformer($key, $event))) {
-            Force::warning(sprintf(
-                "Unable to resolve transformer via event '%s' and key '%s'.",
-                $event,
-                $key
-            ), __METHOD__);
+        if (null === ($transformer = $this->dynamicTransformer($key))) {
+            $transformer = parent::getTransformer($key);
         }
 
         return $transformer;
@@ -124,10 +101,27 @@ class DynamicTransformerCollection extends BaseObject implements TransformerColl
 
     /**
      * @param string $key
+     * @return callable|\Flipbox\Transform\Transformers\TransformerInterface|null
+     */
+    protected function dynamicTransformer(string $key)
+    {
+        $event = TransformerHelper::eventName(array_merge($this->handle, [$key]));
+
+        if (null === ($transformer = $this->resolveTransformer($event))) {
+            Force::warning(sprintf(
+                "Unable to resolve transformer via event '%s'.",
+                $event
+            ), __METHOD__);
+        }
+
+        return $transformer;
+    }
+
+    /**s
      * @param string $eventName
      * @return callable|\Flipbox\Transform\Transformers\TransformerInterface|null
      */
-    protected function resolveTransformer(string $key, string $eventName)
+    protected function resolveTransformer(string $eventName)
     {
         foreach ($this->resource as $class) {
             if (null !== ($transformer = Force::getInstance()->getTransformers()->find(
@@ -138,6 +132,6 @@ class DynamicTransformerCollection extends BaseObject implements TransformerColl
             }
         }
 
-        return TransformerHelper::resolve($this->defaultTransformers[$key] ?? null);
+        return null;
     }
 }

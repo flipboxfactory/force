@@ -14,9 +14,7 @@ use flipbox\ember\actions\traits\CheckAccess;
 use flipbox\force\criteria\SObjectCriteria;
 use flipbox\force\fields\SObjects;
 use flipbox\force\Force;
-use flipbox\force\transformers\collections\AdminTransformerCollection;
-use flipbox\force\transformers\elements\PopulateFromSObject;
-use Flipbox\Salesforce\Transformers\Collections\TransformerCollectionInterface;
+use flipbox\force\transformers\collections\TransformerCollection;
 use yii\base\Action;
 
 /**
@@ -64,10 +62,7 @@ abstract class AbstractSyncFrom extends Action
         SObjects $field
     ) {
         $criteria->transformer([
-            'class' => AdminTransformerCollection::class,
-            'transformers' => [
-                TransformerCollectionInterface::SUCCESS_KEY => PopulateFromSObject::class
-            ]
+            'class' => TransformerCollection::class
         ]);
 
         return Force::getInstance()->getElements()->syncDown(

@@ -13,7 +13,7 @@ use craft\base\ElementInterface;
 use flipbox\force\criteria\SObjectCriteria;
 use flipbox\force\fields\SObjects;
 use flipbox\force\Force;
-use flipbox\force\transformers\collections\AdminTransformerCollection;
+use flipbox\force\transformers\collections\TransformerCollection;
 
 class SyncRowFrom extends AbstractSObjectRowAction
 {
@@ -39,7 +39,7 @@ class SyncRowFrom extends AbstractSObjectRowAction
     public function performAction(SObjects $field, ElementInterface $element, SObjectCriteria $criteria): bool
     {
         // Ensure consistent transformers
-        $criteria->transformer(AdminTransformerCollection::class);
+        $criteria->transformer(TransformerCollection::class);
 
         if (!Force::getInstance()->getElements()->syncDown(
             $element,

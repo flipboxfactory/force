@@ -11,7 +11,7 @@ namespace flipbox\force\cp\controllers\settings\view;
 use Craft;
 use flipbox\ember\helpers\ArrayHelper;
 use flipbox\force\Force;
-use flipbox\force\transformers\collections\AdminTransformerCollection;
+use flipbox\force\transformers\collections\TransformerCollection;
 use yii\web\Response;
 
 /**
@@ -44,7 +44,7 @@ class SobjectsController extends AbstractController
         if ($sobject !== null) {
             $describedSobject = Force::getInstance()->getResources()->getSObject()->getCriteria([
                 'sObject' => $sobject,
-                'transformer' => AdminTransformerCollection::class
+                'transformer' => TransformerCollection::class
             ])->describe();
         }
 
@@ -66,7 +66,7 @@ class SobjectsController extends AbstractController
     private function getSObjectOptions()
     {
         $describe = Force::getInstance()->getResources()->getGeneral()->getCriteria([
-            'transformer' => AdminTransformerCollection::class
+            'transformer' => TransformerCollection::class
         ])->describe();
         $describeOptions = [];
 

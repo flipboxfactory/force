@@ -8,7 +8,7 @@
 
 namespace flipbox\force\transformers\collections;
 
-use flipbox\force\transformers\ResponseToDynamicModel;
+use flipbox\force\transformers\DynamicModelSuccess;
 use Flipbox\Salesforce\Transformers\Collections\TransformerCollectionInterface;
 use Flipbox\Salesforce\Transformers\Error\Interpret;
 use Flipbox\Salesforce\Transformers\Response\QueryCollection;
@@ -24,19 +24,23 @@ class QueryTransformerCollection extends DynamicTransformerCollection
         parent::init();
 
         // Wrap the error interpreter with an 'error' key
-        $this->defaultTransformers[TransformerCollectionInterface::ERROR_KEY] = function ($data) {
-            return ['errors' => Factory::item(
-                new Interpret(),
-                $data
-            )];
+        $this->transformers[TransformerCollectionInterface::ERROR_KEY] = function ($data) {
+            return [
+                'errors' => Factory::item(
+                    new Interpret(),
+                    $data
+                )
+            ];
         };
 
         // Wrap the data transformer with an 'items' key and select the 'records'
-        $this->defaultTransformers[TransformerCollectionInterface::SUCCESS_KEY] = function ($data) {
-            return ['items' => Factory::Collection(
-                new ResponseToDynamicModel(),
-                $data['records'] ?? []
-            )];
+        $this->transformers[TransformerCollectionInterface::SUCCESS_KEY] = function ($data) {
+            return [
+                'items' => Factory::Collection(
+                    new DynamicModelSuccess(),
+                    $data['records'] ?? []
+                )
+            ];
         };
     }
 

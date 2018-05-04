@@ -21,7 +21,7 @@ use flipbox\force\fields\SObjects;
 use flipbox\force\Force;
 use flipbox\force\migrations\SObjectAssociations as SObjectAssociationsMigration;
 use flipbox\force\records\SObjectAssociation;
-use flipbox\force\transformers\collections\AdminTransformerCollection;
+use flipbox\force\transformers\collections\TransformerCollection;
 use yii\base\DynamicModel;
 
 /**
@@ -161,7 +161,7 @@ class SObjectAssociations extends SortableAssociations
         ]);
 
         /** @var DynamicModel $response */
-        $response = $criteria->get(['transformer' => AdminTransformerCollection::class], $record);
+        $response = $criteria->get(['transformer' => TransformerCollection::class], $record);
 
         return !$response->hasErrors();
     }

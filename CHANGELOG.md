@@ -1,5 +1,9 @@
 Changelog
 =========
+## 1.0.0-beta.8- 2018-05-04
+### Changed
+- Altered/Removed transformers
+
 ## 1.0.0-beta.7 - 2018-05-03
 ### Changed
 - SObject field entries will return more than the limit, even if it exceeds the max

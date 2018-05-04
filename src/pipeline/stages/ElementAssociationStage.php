@@ -84,6 +84,12 @@ class ElementAssociationStage extends BaseObject implements StageInterface
             ));
         }
 
+        Force::info(sprintf(
+            "Successfully associated SObject '%s' to element '%s'",
+            (string)$sObjectId,
+            $source->getId()
+        ));
+
 
         return $payload;
     }

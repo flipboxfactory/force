@@ -72,6 +72,11 @@ class ElementSaveStage extends BaseObject implements StageInterface
             ));
         }
 
+        Force::info(sprintf(
+            "Successfully saved element '%s'",
+            $source->getId()
+        ));
+
         return $payload;
     }
 

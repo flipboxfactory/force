@@ -25,7 +25,7 @@ class Search extends Component
     /**
      * The resource name
      */
-    const SALESFORCE_RESOURCE = 'soql';
+    const SALESFORCE_RESOURCE = 'search';
 
     /**
      * @return array

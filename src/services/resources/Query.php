@@ -25,7 +25,7 @@ class Query extends Component
     /**
      * The resource name
      */
-    const SALESFORCE_RESOURCE = 'soql';
+    const SALESFORCE_RESOURCE = 'query';
 
     /**
      * @return array

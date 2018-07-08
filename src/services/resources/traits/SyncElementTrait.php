@@ -31,28 +31,32 @@ trait SyncElementTrait
         TransformElementPayloadTrait;
 
     /**
+     * @param string $object
      * @param string $id
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @return callable
      */
     public abstract function rawHttpReadRelay(
+        string $object,
         string $id,
         ConnectionInterface $connection = null,
         CacheInterface $cache = null
     ): callable;
 
     /**
+     * @param string $object
+     * @param string $id
      * @param array $payload
-     * @param string $identifier
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @return callable
      * @throws \yii\base\InvalidConfigException
      */
     public abstract function rawHttpUpsertRelay(
+        string $object,
+        string $id,
         array $payload,
-        string $identifier,
         ConnectionInterface $connection = null,
         CacheInterface $cache = null
     ): callable;
@@ -107,6 +111,7 @@ trait SyncElementTrait
 
         (new Resource(
             $this->rawHttpReadRelay(
+                $field->object,
                 $id,
                 ConnectionHelper::resolveConnection($connection),
                 $cache
@@ -169,8 +174,9 @@ trait SyncElementTrait
 
         (new Resource(
             $this->rawHttpUpsertRelay(
-                $payload,
+                $field->object,
                 $id,
+                $payload,
                 $connection,
                 $cache
             ),

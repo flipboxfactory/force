@@ -54,7 +54,7 @@ trait ReadObjectTrait
     }
 
     /**
-     * @param string $sObject
+     * @param string $object
      * @param string $id
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
@@ -64,7 +64,7 @@ trait ReadObjectTrait
      * @throws \yii\base\InvalidConfigException
      */
     public function rawRead(
-        string $sObject,
+        string $object,
         string $id,
         ConnectionInterface $connection = null,
         CacheInterface $cache = null,
@@ -72,7 +72,7 @@ trait ReadObjectTrait
         $source = null
     ) {
         return $this->rawReadPipeline(
-            $sObject,
+            $object,
             $id,
             $connection,
             $cache,
@@ -98,7 +98,7 @@ trait ReadObjectTrait
     }
 
     /**
-     * @param string $sObject
+     * @param string $object
      * @param string $id
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
@@ -107,7 +107,7 @@ trait ReadObjectTrait
      * @throws \yii\base\InvalidConfigException
      */
     public function rawReadPipeline(
-        string $sObject,
+        string $object,
         string $id,
         ConnectionInterface $connection = null,
         CacheInterface $cache = null,
@@ -122,7 +122,7 @@ trait ReadObjectTrait
 
         return (new Resource(
             $this->rawHttpReadRelay(
-                $sObject,
+                $object,
                 $id,
                 ConnectionHelper::resolveConnection($connection),
                 $cache
@@ -149,7 +149,7 @@ trait ReadObjectTrait
     }
 
     /**
-     * @param string $sObject
+     * @param string $object
      * @param string $id
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
@@ -157,13 +157,13 @@ trait ReadObjectTrait
      * @throws \yii\base\InvalidConfigException
      */
     public function rawHttpRead(
-        string $sObject,
+        string $object,
         string $id,
         ConnectionInterface $connection = null,
         CacheInterface $cache = null
     ): ResponseInterface {
         return $this->rawHttpReadRelay(
-            $sObject,
+            $object,
             $id,
             $connection,
             $cache
@@ -187,7 +187,7 @@ trait ReadObjectTrait
     }
 
     /**
-     * @param string $sObject
+     * @param string $object
      * @param string $id
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
@@ -195,7 +195,7 @@ trait ReadObjectTrait
      * @throws \yii\base\InvalidConfigException
      */
     public function rawHttpReadRelay(
-        string $sObject,
+        string $object,
         string $id,
         ConnectionInterface $connection = null,
         CacheInterface $cache = null
@@ -207,7 +207,7 @@ trait ReadObjectTrait
             $connection,
             $connection,
             CacheHelper::resolveCache($cache),
-            $sObject,
+            $object,
             $id,
             Force::getInstance()->getPsrLogger()
         );

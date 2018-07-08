@@ -53,7 +53,7 @@ trait DescribeObjectTrait
     }
 
     /**
-     * @param string $sObject
+     * @param string $object
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @param TransformerCollectionInterface|array|null $transformer
@@ -62,14 +62,14 @@ trait DescribeObjectTrait
      * @throws \yii\base\InvalidConfigException
      */
     public function rawDescribe(
-        string $sObject,
+        string $object,
         ConnectionInterface $connection = null,
         CacheInterface $cache = null,
         TransformerCollectionInterface $transformer = null,
         $source = null
     ) {
         return $this->rawDescribePipeline(
-            $sObject,
+            $object,
             $connection,
             $cache,
             $transformer
@@ -93,7 +93,7 @@ trait DescribeObjectTrait
     }
 
     /**
-     * @param string $sObject
+     * @param string $object
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @param TransformerCollectionInterface|array|null $transformer
@@ -101,7 +101,7 @@ trait DescribeObjectTrait
      * @throws \yii\base\InvalidConfigException
      */
     public function rawDescribePipeline(
-        string $sObject,
+        string $object,
         ConnectionInterface $connection = null,
         CacheInterface $cache = null,
         TransformerCollectionInterface $transformer = null
@@ -115,7 +115,7 @@ trait DescribeObjectTrait
 
         return (new Resource(
             $this->rawHttpDescribeRelay(
-                $sObject,
+                $object,
                 ConnectionHelper::resolveConnection($connection),
                 $cache
             ),
@@ -141,14 +141,14 @@ trait DescribeObjectTrait
     }
 
     /**
-     * @param string $sObject
+     * @param string $object
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @return callable
      * @throws \yii\base\InvalidConfigException
      */
     public function rawHttpDescribeRelay(
-        string $sObject,
+        string $object,
         ConnectionInterface $connection = null,
         CacheInterface $cache = null
     ): callable {
@@ -159,7 +159,7 @@ trait DescribeObjectTrait
             $connection,
             $connection,
             CacheHelper::resolveCache($cache),
-            $sObject,
+            $object,
             Force::getInstance()->getPsrLogger()
         );
 
@@ -182,19 +182,19 @@ trait DescribeObjectTrait
     }
 
     /**
-     * @param string $sObject
+     * @param string $object
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @return ResponseInterface
      * @throws \yii\base\InvalidConfigException
      */
     public function rawHttpDescribe(
-        string $sObject,
+        string $object,
         ConnectionInterface $connection = null,
         CacheInterface $cache = null
     ): ResponseInterface {
         return $this->rawHttpDescribeRelay(
-            $sObject,
+            $object,
             $connection,
             $cache
         )();

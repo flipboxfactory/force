@@ -1,0 +1,14 @@
+{
+  "name": "salesforce",
+  "version": "1.0.0",
+  "description": "Salesforce Integration for Craft CMS",
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs"
+  },
+  "author": "Flipbox Digital",
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^0.10.0"
+  }
+}

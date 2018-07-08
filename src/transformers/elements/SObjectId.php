@@ -39,7 +39,7 @@ class SObjectId extends AbstractTransformer
      */
     protected function transformerElementToId(ElementInterface $element)
     {
-        $sObjectId = Force::getInstance()->getSObjectAssociations()->getQuery([
+        $sObjectId = Force::getInstance()->getObjectAssociations()->getQuery([
             'select' => ['sObjectId'],
             'elementId' => $element->getId()
         ])->scalar();

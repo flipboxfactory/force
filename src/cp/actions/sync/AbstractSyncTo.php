@@ -12,7 +12,7 @@ use Craft;
 use craft\base\ElementInterface;
 use flipbox\ember\actions\traits\CheckAccess;
 use flipbox\force\criteria\SObjectCriteria;
-use flipbox\force\fields\SObjects;
+use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use yii\base\Action;
 
@@ -27,14 +27,14 @@ abstract class AbstractSyncTo extends Action
     /**
      * @param SObjectCriteria $value
      * @param ElementInterface $element
-     * @param SObjects $field
+     * @param Objects $field
      * @return mixed
      * @throws \Exception
      */
     protected function runInternal(
         SObjectCriteria $value,
         ElementInterface $element,
-        SObjects $field
+        Objects $field
     ) {
         // Check access
         if (($access = $this->checkAccess($value, $element, $field)) !== true) {
@@ -51,14 +51,14 @@ abstract class AbstractSyncTo extends Action
     /**
      * @param SObjectCriteria $value
      * @param ElementInterface $element
-     * @param SObjects $field
+     * @param Objects $field
      * @return false|string
      * @throws \yii\base\InvalidConfigException
      */
     protected function performAction(
         SObjectCriteria $value,
         ElementInterface $element,
-        SObjects $field
+        Objects $field
     ) {
         return Force::getInstance()->getElements()->syncUp(
             $element,

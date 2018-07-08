@@ -10,7 +10,7 @@ namespace flipbox\force\fields\actions;
 
 use craft\base\ElementInterface;
 use craft\base\SavableComponent;
-use flipbox\force\fields\SObjects;
+use flipbox\force\fields\Objects;
 
 abstract class AbstractSObjectAction extends SavableComponent implements SObjectActionInterface
 {
@@ -55,7 +55,7 @@ abstract class AbstractSObjectAction extends SavableComponent implements SObject
     /**
      * @inheritdoc
      */
-    public function performAction(SObjects $field, ElementInterface $element): bool
+    public function performAction(Objects $field, ElementInterface $element): bool
     {
         return true;
     }

@@ -8,16 +8,36 @@
 
 namespace flipbox\force\helpers;
 
-use flipbox\ember\helpers\ObjectHelper;
 use flipbox\force\Force;
-use Flipbox\Salesforce\Transformers\Collections\TransformerCollectionInterface;
+use flipbox\force\transformers\collections\TransformerCollection;
+use flipbox\force\transformers\collections\TransformerCollectionInterface;
+use Flipbox\Skeleton\Helpers\ObjectHelper;
+use Flipbox\Transform\Transformers\TransformerInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class TransformerHelper extends \Flipbox\Salesforce\Helpers\TransformerHelper
+class TransformerHelper extends \Flipbox\Transform\Helpers\TransformerHelper
 {
+    /**
+     * @param array|TransformerInterface|callable|null $transformer
+     * @return TransformerInterface|callable|null
+     * @throws \Flipbox\Skeleton\Exceptions\InvalidConfigurationException
+     */
+    public static function resolve($transformer = null)
+    {
+        if (empty($transformer)) {
+            return null;
+        }
+
+        if (is_string($transformer) || is_array($transformer)) {
+            return static::resolve(ObjectHelper::create($transformer));
+        }
+
+        return parent::resolve($transformer);
+    }
+
     /**
      * @param $transformer
      * @return bool
@@ -38,12 +58,17 @@ class TransformerHelper extends \Flipbox\Salesforce\Helpers\TransformerHelper
 
     /**
      * @param TransformerCollectionInterface|array|string|null $transformer
+     * @param TransformerCollectionInterface|array|null $default
      * @return TransformerCollectionInterface|null
      */
-    public static function resolveCollection($transformer = null)
+    public static function resolveCollection($transformer = null, $default = ['class' => TransformerCollection::class])
     {
-        if (empty($transformer)) {
+        if ($transformer === false) {
             return null;
+        }
+
+        if ($transformer === null && $default !== null) {
+            $transformer = $default;
         }
 
         if (null !== ($collection = static::returnCollectionFromTransformer($transformer))) {

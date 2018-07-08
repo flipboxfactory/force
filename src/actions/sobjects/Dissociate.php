@@ -25,7 +25,7 @@ class Dissociate extends AbstractAssociationAction
     protected function performAction(Model $model): bool
     {
         if (true === $this->ensureAssociation($model)) {
-            return Force::getInstance()->getSObjectAssociations()->dissociate(
+            return Force::getInstance()->getObjectAssociations()->dissociate(
                 $model
             );
         }

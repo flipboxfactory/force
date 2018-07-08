@@ -12,7 +12,7 @@ use Craft;
 use craft\base\FieldInterface;
 use flipbox\ember\actions\model\traits\Manage;
 use flipbox\ember\exceptions\RecordNotFoundException;
-use flipbox\force\fields\SObjects;
+use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use flipbox\force\records\SObjectAssociation;
 use yii\base\Action;
@@ -56,7 +56,7 @@ abstract class AbstractAssociationAction extends Action
             $siteId = Craft::$app->getSites()->currentSite->id;
         }
 
-        return $this->runInternal(Force::getInstance()->getSObjectAssociations()->create([
+        return $this->runInternal(Force::getInstance()->getObjectAssociations()->create([
             'sObjectId' => $sObjectId,
             'elementId' => $sourceElement->getId(),
             'fieldId' => $sObjectField->id,
@@ -67,12 +67,12 @@ abstract class AbstractAssociationAction extends Action
 
     /**
      * @param string $field
-     * @return SObjects
+     * @return Objects
      * @throws HttpException
      */
-    protected function resolveField(string $field): SObjects
+    protected function resolveField(string $field): Objects
     {
-        if (null === ($sObjectField = Force::getInstance()->getSObjectsField()->findById($field))) {
+        if (null === ($sObjectField = Force::getInstance()->getObjectsField()->findById($field))) {
             return $this->handleInvalidFieldResponse($field);
         }
 
@@ -119,7 +119,7 @@ abstract class AbstractAssociationAction extends Action
         throw new HttpException(sprintf(
             "The provided source '%s' must be an instance of '%s'",
             (string)$elementId,
-            (string)SObjects::class
+            (string)Objects::class
         ));
     }
 }

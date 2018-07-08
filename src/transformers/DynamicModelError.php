@@ -10,7 +10,7 @@ namespace flipbox\force\transformers;
 
 use craft\base\ElementInterface;
 use flipbox\force\Force;
-use Flipbox\Salesforce\Transformers\Error\Interpret;
+use flipbox\force\transformers\error\Interpret;
 use Flipbox\Transform\Factory;
 use Flipbox\Transform\Scope;
 use Flipbox\Transform\Transformers\AbstractTransformer;

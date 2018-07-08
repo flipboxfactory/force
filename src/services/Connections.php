@@ -8,9 +8,9 @@
 
 namespace flipbox\force\services;
 
+use flipbox\force\connections\ConnectionInterface;
 use flipbox\force\events\RegisterConnectionsEvent;
 use flipbox\force\Force;
-use Flipbox\Salesforce\Connections\ConnectionInterface;
 use yii\base\InvalidConfigException;
 use yii\di\ServiceLocator;
 

@@ -12,7 +12,7 @@ use Craft;
 use craft\base\ElementInterface;
 use flipbox\ember\actions\traits\CheckAccess;
 use flipbox\force\criteria\SObjectCriteria;
-use flipbox\force\fields\SObjects;
+use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use flipbox\force\transformers\collections\TransformerCollection;
 use yii\base\Action;
@@ -28,14 +28,14 @@ abstract class AbstractSyncFrom extends Action
     /**
      * @param SObjectCriteria $criteria
      * @param ElementInterface $element
-     * @param SObjects $field
+     * @param Objects $field
      * @return mixed
      * @throws \Exception
      */
     protected function runInternal(
         SObjectCriteria $criteria,
         ElementInterface $element,
-        SObjects $field
+        Objects $field
     ) {
         // Check access
         if (($access = $this->checkAccess($criteria, $element, $field)) !== true) {
@@ -52,14 +52,14 @@ abstract class AbstractSyncFrom extends Action
     /**
      * @param SObjectCriteria $criteria
      * @param ElementInterface $element
-     * @param SObjects $field
+     * @param Objects $field
      * @return false|string
      * @throws \yii\base\InvalidConfigException
      */
     protected function performAction(
         SObjectCriteria $criteria,
         ElementInterface $element,
-        SObjects $field
+        Objects $field
     ) {
         $criteria->transformer([
             'class' => TransformerCollection::class

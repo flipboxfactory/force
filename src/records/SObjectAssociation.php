@@ -49,7 +49,7 @@ class SObjectAssociation extends SortableAssociation
      */
     public function __construct(array $config = [])
     {
-        Force::getInstance()->getSObjectAssociations()->ensureTableExists();
+        Force::getInstance()->getObjectAssociations()->ensureTableExists();
         parent::__construct($config);
     }
 
@@ -75,7 +75,7 @@ class SObjectAssociation extends SortableAssociation
      */
     protected function associationService(): SortableAssociations
     {
-        return Force::getInstance()->getSObjectAssociations();
+        return Force::getInstance()->getObjectAssociations();
     }
 
     /**

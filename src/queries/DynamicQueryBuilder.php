@@ -9,7 +9,7 @@
 namespace flipbox\force\queries;
 
 use Craft;
-use Flipbox\Salesforce\Query\AbstractQueryBuilder;
+use flipbox\force\query\AbstractQueryBuilder;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

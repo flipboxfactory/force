@@ -13,11 +13,13 @@ use craft\helpers\StringHelper;
 use craft\helpers\UrlHelper;
 use flipbox\flux\helpers\TransformerHelper;
 use flipbox\force\Force;
-use Flipbox\Salesforce\Resources\Query as QueryResource;
-use Flipbox\Salesforce\Resources\SObject\Row\Delete as DeleteSObjectResource;
-use Flipbox\Salesforce\Resources\SObject\Row\Get as GetSObjectResource;
-use Flipbox\Salesforce\Resources\SObject\Row\Upsert as UpsertSObjectResource;
-use Flipbox\Salesforce\Transformers\Collections\TransformerCollectionInterface;
+use flipbox\force\transformers\collections\TransformerCollectionInterface;
+use Flipbox\Relay\Salesforce\Builder\Resources\Query as QueryResource;
+use Flipbox\Relay\Salesforce\Builder\Resources\SObject\Row\Create as CreateSObjectResource;
+use Flipbox\Relay\Salesforce\Builder\Resources\SObject\Row\Delete as DeleteSObjectResource;
+use Flipbox\Relay\Salesforce\Builder\Resources\SObject\Row\Get as GetSObjectResource;
+use Flipbox\Relay\Salesforce\Builder\Resources\SObject\Row\Update as UpdateSObjectResource;
+use Flipbox\Relay\Salesforce\Builder\Resources\SObject\Row\Upsert as UpsertSObjectResource;
 use yii\web\Response;
 
 /**
@@ -125,9 +127,11 @@ class DataController extends AbstractController
     private function getSobjectResourceOptions(): array
     {
         return [
-            GetSObjectResource::class => 'SObject: Get Row',
-            UpsertSObjectResource::class => 'SObject: Upsert Row',
-            DeleteSObjectResource::class => 'SObject: Delete Row'
+            CreateSObjectResource::class => 'SObject: Create Row',
+            GetSObjectResource::class => 'SObject: Read Row',
+            UpdateSObjectResource::class => 'SObject: Update Row',
+            DeleteSObjectResource::class => 'SObject: Delete Row',
+            UpsertSObjectResource::class => 'SObject: Upsert Row'
         ];
     }
 

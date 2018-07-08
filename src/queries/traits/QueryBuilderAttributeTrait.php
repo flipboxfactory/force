@@ -10,7 +10,7 @@ namespace flipbox\force\queries\traits;
 
 use craft\helpers\ArrayHelper;
 use flipbox\force\queries\DynamicQueryBuilder;
-use Flipbox\Salesforce\Query\QueryBuilderInterface;
+use flipbox\force\query\QueryBuilderInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

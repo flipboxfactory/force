@@ -8,7 +8,7 @@
 
 namespace flipbox\force\events;
 
-use Flipbox\Salesforce\Connections\ConnectionInterface;
+use flipbox\force\connections\ConnectionInterface;
 use yii\base\Event;
 
 class RegisterConnectionsEvent extends Event

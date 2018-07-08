@@ -12,7 +12,7 @@ use Craft;
 use craft\base\ElementInterface;
 use flipbox\ember\actions\traits\Manage;
 use flipbox\force\criteria\SObjectCriteria;
-use flipbox\force\fields\SObjects;
+use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use yii\base\Action;
 use yii\web\HttpException;
@@ -50,7 +50,7 @@ class CreateRow extends Action
     }
 
     /**
-     * @param SObjects $field
+     * @param Objects $field
      * @param ElementInterface $element
      * @param SObjectCriteria $criteria
      * @return mixed
@@ -58,7 +58,7 @@ class CreateRow extends Action
      * @throws \yii\web\UnauthorizedHttpException
      */
     protected function runInternal(
-        SObjects $field,
+        Objects $field,
         ElementInterface $element,
         SObjectCriteria $criteria
     ) {
@@ -75,13 +75,13 @@ class CreateRow extends Action
     }
 
     /**
-     * @param SObjects $field
+     * @param Objects $field
      * @param SObjectCriteria $criteria
      * @return array
      * @throws \yii\base\Exception
      */
     public function performAction(
-        SObjects $field,
+        Objects $field,
         SObjectCriteria $criteria
     ): array {
 

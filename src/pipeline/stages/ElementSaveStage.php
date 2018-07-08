@@ -12,7 +12,7 @@ use Craft;
 use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\helpers\Json;
-use flipbox\force\fields\SObjects;
+use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use Flipbox\Skeleton\Logger\AutoLoggerTrait;
 use League\Pipeline\StageInterface;
@@ -31,16 +31,16 @@ class ElementSaveStage extends BaseObject implements StageInterface
         traits\SObjectIdTrait;
 
     /**
-     * @var SObjects
+     * @var Objects
      */
     private $field;
 
     /**
      * ElementAssociationStage constructor.
-     * @param SObjects $field
+     * @param Objects $field
      * @param array $config
      */
-    public function __construct(SObjects $field, $config = [])
+    public function __construct(Objects $field, $config = [])
     {
         $this->field = $field;
         parent::__construct($config);

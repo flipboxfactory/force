@@ -12,7 +12,7 @@ use Craft;
 use craft\base\ElementInterface;
 use flipbox\force\cp\actions\sync\AbstractSyncFrom;
 use flipbox\force\db\SObjectFieldQuery;
-use flipbox\force\fields\SObjects;
+use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use yii\web\HttpException;
 
@@ -32,7 +32,7 @@ class SyncFrom extends AbstractSyncFrom
      */
     public function run(string $id, string $field, string $elementType)
     {
-        /** @var SObjects $field */
+        /** @var Objects $field */
         if (null === ($field = Craft::$app->getFields()->getFieldbyId($field))) {
             throw new HttpException(400, 'Object not supported');
         }
@@ -55,17 +55,17 @@ class SyncFrom extends AbstractSyncFrom
     }
 
     /**
-     * @param SObjects $field
+     * @param Objects $field
      * @param string $id
      * @param string $elementType
      * @return ElementInterface
      */
     private function resolveElement(
-        SObjects $field,
+        Objects $field,
         string $id,
         string $elementType
     ): ElementInterface {
-        $elementId = Force::getInstance()->getSObjectAssociations()->getQuery([
+        $elementId = Force::getInstance()->getObjectAssociations()->getQuery([
             'select' => ['elementId'],
             'fieldId' => $field->id,
             'sObjectId' => $id

@@ -12,7 +12,7 @@ use Craft;
 use flipbox\ember\models\Model;
 use flipbox\force\Force;
 use flipbox\force\queries\DynamicQueryBuilder;
-use Flipbox\Salesforce\Query\QueryBuilderInterface;
+use flipbox\force\query\QueryBuilderInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

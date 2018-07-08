@@ -21,7 +21,7 @@ use flipbox\craft\psr3\Logger;
 use flipbox\ember\helpers\UrlHelper;
 use flipbox\ember\modules\LoggerTrait;
 use flipbox\force\fields\Query as QueryField;
-use flipbox\force\fields\SObjects as SObjectIdsField;
+use flipbox\force\fields\Objects as SObjectIdsField;
 use flipbox\force\models\Settings as SettingsModel;
 use flipbox\force\patron\Events;
 use flipbox\force\web\twig\variables\Force as ForceVariable;
@@ -32,6 +32,14 @@ use yii\base\Event;
  * @since 1.0.0
  *
  * @method SettingsModel getSettings()
+ *
+ * @property services\Cache $cache
+ * @property services\Connections $connections
+ * @property Logger $psr3Logger
+ * @property services\Resources $resources
+ * @property services\ObjectAssociations $objectAssociations
+ * @property services\ObjectsField $objectsField
+ * @property services\Transformers $transformers
  */
 class Force extends Plugin
 {
@@ -48,19 +56,18 @@ class Force extends Plugin
         $this->setComponents([
             'cache' => services\Cache::class,
             'connections' => services\Connections::class,
-            'elements' => services\Elements::class,
-            'psr3' => function () {
+            'psr3Logger' => function () {
                 return Craft::createObject([
                     'class' => Logger::class,
                     'logger' => static::getLogger(),
-                    'category' => 'salesforce'
+                    'category' => self::getLogFileName()
                 ]);
             },
             'queryField' => services\QueryField::class,
             'queries' => services\Queries::class,
             'resources' => services\Resources::class,
-            'sObjectAssociations' => services\SObjectAssociations::class,
-            'sObjectsField' => services\SObjectsField::class,
+            'objectAssociations' => services\ObjectAssociations::class,
+            'objectsField' => services\ObjectsField::class,
             'transformers' => services\Transformers::class
         ]);
 
@@ -183,39 +190,36 @@ class Force extends Plugin
      *******************************************/
 
     /**
-     * @inheritdoc
+     * @noinspection PhpDocMissingThrowsInspection
      * @return services\Cache
      */
     public function getCache()
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->get('cache');
     }
 
     /**
-     * @inheritdoc
+     * @noinspection PhpDocMissingThrowsInspection
      * @return services\Connections
      */
     public function getConnections()
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->get('connections');
     }
 
     /**
-     * @inheritdoc
-     * @return services\Elements
+     * @noinspection PhpDocMissingThrowsInspection
+     * @return Logger
      */
-    public function getElements()
+    public function getPsrLogger(): Logger
     {
-        return $this->get('elements');
-    }
-
-    /**
-     * @inheritdoc
-     * @return \flipbox\craft\psr3\Logger
-     */
-    public function getPSR3()
-    {
-        return $this->get('psr3');
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->get('psr3Logger');
     }
 
     /**
@@ -237,29 +241,35 @@ class Force extends Plugin
     }
 
     /**
-     * @inheritdoc
-     * @return services\SObjectAssociations
+     * @noinspection PhpDocMissingThrowsInspection
+     * @return services\ObjectAssociations
      */
-    public function getSObjectAssociations()
+    public function getObjectAssociations()
     {
-        return $this->get('sObjectAssociations');
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->get('objectAssociations');
     }
 
     /**
-     * @inheritdoc
-     * @return services\SObjectsField
+     * @noinspection PhpDocMissingThrowsInspection
+     * @return services\ObjectsField
      */
-    public function getSObjectsField()
+    public function getObjectsField()
     {
-        return $this->get('sObjectsField');
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->get('objectsField');
     }
 
     /**
-     * @inheritdoc
+     * @noinspection PhpDocMissingThrowsInspection
      * @return services\Transformers
      */
     public function getTransformers()
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->get('transformers');
     }
 
@@ -268,11 +278,13 @@ class Force extends Plugin
      *******************************************/
 
     /**
-     * @inheritdoc
+     * @noinspection PhpDocMissingThrowsInspection
      * @return services\Resources
      */
     public function getResources()
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->get('resources');
     }
 

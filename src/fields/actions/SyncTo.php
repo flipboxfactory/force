@@ -11,7 +11,7 @@ namespace flipbox\force\fields\actions;
 use Craft;
 use craft\base\ElementInterface;
 use flipbox\force\db\SObjectFieldQuery;
-use flipbox\force\fields\SObjects;
+use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use flipbox\force\transformers\collections\TransformerCollection;
 use yii\web\HttpException;
@@ -40,7 +40,7 @@ class SyncTo extends AbstractSObjectAction
     /**
      * @inheritdoc
      */
-    public function performAction(SObjects $field, ElementInterface $element): bool
+    public function performAction(Objects $field, ElementInterface $element): bool
     {
         // Assemble request criteria
         $criteria = Force::getInstance()->getResources()->getSObject()->getCriteria([

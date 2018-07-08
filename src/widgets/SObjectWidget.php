@@ -12,7 +12,7 @@ use Craft;
 use craft\base\ElementInterface;
 use craft\base\Widget;
 use craft\db\Query;
-use flipbox\force\fields\SObjects;
+use flipbox\force\fields\Objects;
 use flipbox\force\web\assets\widgets\SyncWidget;
 
 class SObjectWidget extends Widget
@@ -96,7 +96,7 @@ class SObjectWidget extends Widget
     }
 
     /**
-     * @return SObjects[] The fields
+     * @return Objects[] The fields
      */
     public function getFields(): array
     {
@@ -188,7 +188,7 @@ class SObjectWidget extends Widget
             ->from(['{{%fields}} fields'])
             ->orderBy(['fields.name' => SORT_ASC])
             ->andWhere([
-                'fields.type' => SObjects::class
+                'fields.type' => Objects::class
             ]);
     }
 }

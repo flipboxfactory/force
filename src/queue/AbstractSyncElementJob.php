@@ -11,7 +11,7 @@ namespace flipbox\force\queue;
 use Craft;
 use craft\base\ElementInterface;
 use craft\queue\BaseJob;
-use flipbox\force\fields\SObjects;
+use flipbox\force\fields\Objects;
 use yii\base\InvalidConfigException;
 
 /**
@@ -20,7 +20,7 @@ use yii\base\InvalidConfigException;
 abstract class AbstractSyncElementJob extends BaseJob
 {
     /**
-     * @var SObjects
+     * @var Objects
      */
     public $field;
 
@@ -68,10 +68,10 @@ abstract class AbstractSyncElementJob extends BaseJob
     }
 
     /**
-     * @return SObjects
+     * @return Objects
      * @throws InvalidConfigException
      */
-    protected function getField(): SObjects
+    protected function getField(): Objects
     {
         if ($this->isFieldInstance($this->field)) {
             return $this->field;
@@ -102,6 +102,6 @@ abstract class AbstractSyncElementJob extends BaseJob
      */
     private function isFieldInstance($field = null)
     {
-        return $field instanceof SObjects;
+        return $field instanceof Objects;
     }
 }

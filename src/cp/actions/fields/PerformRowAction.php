@@ -12,7 +12,7 @@ use craft\base\ElementInterface;
 use flipbox\ember\actions\traits\Manage;
 use flipbox\force\criteria\SObjectCriteria;
 use flipbox\force\fields\actions\SObjectRowActionInterface;
-use flipbox\force\fields\SObjects;
+use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use yii\base\Action;
 use yii\web\HttpException;
@@ -45,7 +45,7 @@ class PerformRowAction extends Action
         $element = $this->resolveElement($element);
         $criteria = $this->resolveCriteria($field, $element, $id);
 
-        $availableActions = Force::getInstance()->getSObjectsField()->getRowActions($field, $element);
+        $availableActions = Force::getInstance()->getObjectsField()->getRowActions($field, $element);
 
         foreach ($availableActions as $availableAction) {
             if ($action === get_class($availableAction)) {
@@ -63,7 +63,7 @@ class PerformRowAction extends Action
 
     /**
      * @param SObjectRowActionInterface $action
-     * @param SObjects $field
+     * @param Objects $field
      * @param ElementInterface $element
      * @param SObjectCriteria $criteria
      * @return mixed
@@ -71,7 +71,7 @@ class PerformRowAction extends Action
      */
     protected function runInternal(
         SObjectRowActionInterface $action,
-        SObjects $field,
+        Objects $field,
         ElementInterface $element,
         SObjectCriteria $criteria
     ) {
@@ -89,14 +89,14 @@ class PerformRowAction extends Action
 
     /**
      * @param SObjectRowActionInterface $action
-     * @param SObjects $field
+     * @param Objects $field
      * @param ElementInterface $element
      * @param SObjectCriteria $criteria
      * @return bool
      */
     public function performAction(
         SObjectRowActionInterface $action,
-        SObjects $field,
+        Objects $field,
         ElementInterface $element,
         SObjectCriteria $criteria
     ): bool {

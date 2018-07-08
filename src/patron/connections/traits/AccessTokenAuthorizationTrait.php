@@ -8,8 +8,8 @@
 
 namespace flipbox\force\patron\connections\traits;
 
+use flipbox\force\helpers\ErrorHelper;
 use flipbox\patron\Patron;
-use Flipbox\Salesforce\Helpers\ErrorHelper;
 use Flipbox\Skeleton\Helpers\JsonHelper;
 use League\OAuth2\Client\Token\AccessToken;
 use Psr\Http\Message\RequestInterface;

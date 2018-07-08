@@ -32,7 +32,7 @@ class SObjectAssociationQuery extends SortableAssociationQuery
      */
     public function __construct($modelClass, $config = [])
     {
-        Force::getInstance()->getSObjectAssociations()->ensureTableExists();
+        Force::getInstance()->getObjectAssociations()->ensureTableExists();
         parent::__construct($modelClass, $config);
     }
 

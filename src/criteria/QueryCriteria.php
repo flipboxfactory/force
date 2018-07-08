@@ -8,29 +8,52 @@
 
 namespace flipbox\force\criteria;
 
+use flipbox\ember\helpers\ObjectHelper;
 use flipbox\force\Force;
 use flipbox\force\queries\traits\QueryBuilderAttributeTrait;
-use flipbox\force\transformers\collections\QueryTransformerCollection;
+use flipbox\force\services\resources\Query;
+use yii\base\BaseObject;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class QueryCriteria extends ResourceCriteria
+class QueryCriteria extends BaseObject implements QueryCriteriaInterface
 {
-    use QueryBuilderAttributeTrait;
+    use traits\ConnectionTrait,
+        traits\CacheTrait,
+        traits\TransformerCollectionTrait,
+        QueryBuilderAttributeTrait;
 
     /**
      * @inheritdoc
      */
-    protected $transformer = ['class' => QueryTransformerCollection::class];
+    public function init()
+    {
+        $this->transformer = Query::defaultTransformer();
+        parent::init();
+    }
 
     /**
-     * @inheritdoc
+     * @param array $config
+     * @param null $source
+     * @return mixed
+     * @throws \yii\base\InvalidConfigException
      */
     public function fetch(array $config = [], $source = null)
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getQuery()->fetchFromCriteria($this)->execute($source);
+        return Force::getInstance()->getResources()->getQuery()->query($this, $source);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function prepare(array $criteria = [])
+    {
+        ObjectHelper::populate(
+            $this,
+            $criteria
+        );
     }
 }

@@ -9,9 +9,8 @@
 namespace flipbox\force\transformers\collections;
 
 use flipbox\force\transformers\DynamicModelSuccess;
-use Flipbox\Salesforce\Transformers\Collections\TransformerCollectionInterface;
-use Flipbox\Salesforce\Transformers\Error\Interpret;
-use Flipbox\Salesforce\Transformers\Response\QueryCollection;
+use flipbox\force\transformers\error\Interpret;
+use flipbox\force\transformers\response\QueryCollection;
 use Flipbox\Transform\Factory;
 
 class QueryTransformerCollection extends DynamicTransformerCollection

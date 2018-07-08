@@ -11,7 +11,7 @@ namespace flipbox\force\cp\actions\fields\traits;
 use Craft;
 use craft\base\ElementInterface;
 use flipbox\force\db\SObjectFieldQuery;
-use flipbox\force\fields\SObjects;
+use flipbox\force\fields\Objects;
 use yii\web\HttpException;
 
 /**
@@ -22,20 +22,20 @@ trait FieldResolverTrait
 {
     /**
      * @param string $field
-     * @return SObjects
+     * @return Objects
      * @throws HttpException
      */
-    protected function resolveField(string $field): SObjects
+    protected function resolveField(string $field): Objects
     {
-        /** @var SObjects $field */
+        /** @var Objects $field */
         if (null === ($field = Craft::$app->getFields()->getFieldbyId($field))) {
             throw new HttpException(400, 'Invalid field.');
         }
 
-        if (!$field instanceof SObjects) {
+        if (!$field instanceof Objects) {
             throw new HttpException(400, sprintf(
                 "Field must be an instance of '%s', '%s' given.",
-                SObjects::class,
+                Objects::class,
                 get_class($field)
             ));
         }
@@ -44,13 +44,13 @@ trait FieldResolverTrait
     }
 
     /**
-     * @param SObjects $field
+     * @param Objects $field
      * @param ElementInterface $element
      * @param string $sObjectId
      * @return array|mixed|null|\yii\base\BaseObject
      * @throws HttpException
      */
-    protected function resolveCriteria(SObjects $field, ElementInterface $element, string $sObjectId)
+    protected function resolveCriteria(Objects $field, ElementInterface $element, string $sObjectId)
     {
         /** @var SObjectFieldQuery $query */
         if (null === ($query = $element->getFieldValue($field->handle))) {

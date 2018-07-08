@@ -8,7 +8,7 @@
 
 namespace flipbox\force\patron\connections;
 
-use Flipbox\Salesforce\Connections\ConnectionInterface;
+use flipbox\force\connections\ConnectionInterface;
 use Psr\Http\Message\RequestInterface;
 use yii\base\BaseObject;
 use Zend\Diactoros\Uri;

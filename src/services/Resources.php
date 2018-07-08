@@ -8,9 +8,7 @@
 
 namespace flipbox\force\services;
 
-use flipbox\force\Force;
 use flipbox\force\models\Settings as SettingsModel;
-use Flipbox\Salesforce\Salesforce;
 use yii\di\ServiceLocator;
 
 /**
@@ -28,41 +26,55 @@ class Resources extends ServiceLocator
     {
         parent::init();
 
-        Salesforce::setLogger(
-            Force::getInstance()->getPSR3()
-        );
-
         $this->setComponents([
-            'general' => resources\General::class,
-            'query' => resources\Query::class,
-            'sObject' => resources\SObject::class
+            resources\Instance::SALESFORCE_RESOURCE => resources\Instance::class,
+            resources\Query::SALESFORCE_RESOURCE => resources\Query::class,
+            resources\Object::SALESFORCE_RESOURCE => resources\Object::class,
+            resources\Search::SALESFORCE_RESOURCE => resources\Search::class
         ]);
     }
 
     /**
-     * @inheritdoc
+     * @noinspection PhpDocMissingThrowsInspection
+     * @return resources\Object
+     */
+    public function getSObject(): resources\Object
+    {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->get(resources\Object::SALESFORCE_RESOURCE);
+    }
+
+    /**
+     * @noinspection PhpDocMissingThrowsInspection
+     * @return resources\Instance
+     */
+    public function getGeneral(): resources\Instance
+    {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->get(resources\Instance::SALESFORCE_RESOURCE);
+    }
+
+    /**
+     * @noinspection PhpDocMissingThrowsInspection
      * @return resources\Query
      */
-    public function getQuery()
+    public function getQuery(): resources\Query
     {
-        return $this->get('query');
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->get(resources\Query::SALESFORCE_RESOURCE);
     }
 
     /**
-     * @inheritdoc
-     * @return resources\SObject
+     * @noinspection PhpDocMissingThrowsInspection
+     * @return resources\Search
      */
-    public function getSObject()
+    public function getSearch(): resources\Search
     {
-        return $this->get('sObject');
-    }
-
-    /**
-     * @inheritdoc
-     * @return resources\General
-     */
-    public function getGeneral()
-    {
-        return $this->get('general');
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->get(resources\Search::SALESFORCE_RESOURCE);
     }
 }

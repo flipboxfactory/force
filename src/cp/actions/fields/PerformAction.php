@@ -11,7 +11,7 @@ namespace flipbox\force\cp\actions\fields;
 use craft\base\ElementInterface;
 use flipbox\ember\actions\traits\Manage;
 use flipbox\force\fields\actions\SObjectActionInterface;
-use flipbox\force\fields\SObjects;
+use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use yii\base\Action;
 use yii\web\HttpException;
@@ -40,7 +40,7 @@ class PerformAction extends Action
         $field = $this->resolveField($field);
         $element = $this->resolveElement($element);
 
-        $availableActions = Force::getInstance()->getSObjectsField()->getActions($field);
+        $availableActions = Force::getInstance()->getObjectsField()->getActions($field);
 
         foreach ($availableActions as $availableAction) {
             if ($action === get_class($availableAction)) {
@@ -58,14 +58,14 @@ class PerformAction extends Action
 
     /**
      * @param SObjectActionInterface $action
-     * @param SObjects $field
+     * @param Objects $field
      * @param ElementInterface $element
      * @return mixed
      * @throws \yii\web\UnauthorizedHttpException
      */
     protected function runInternal(
         SObjectActionInterface $action,
-        SObjects $field,
+        Objects $field,
         ElementInterface $element
     ) {
         // Check access
@@ -82,13 +82,13 @@ class PerformAction extends Action
 
     /**
      * @param SObjectActionInterface $action
-     * @param SObjects $field
+     * @param Objects $field
      * @param ElementInterface $element
      * @return bool
      */
     public function performAction(
         SObjectActionInterface $action,
-        SObjects $field,
+        Objects $field,
         ElementInterface $element
     ): bool {
         return $action->performAction($field, $element);

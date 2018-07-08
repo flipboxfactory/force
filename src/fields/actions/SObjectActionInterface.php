@@ -10,7 +10,7 @@ namespace flipbox\force\fields\actions;
 
 use craft\base\ElementInterface;
 use craft\base\SavableComponentInterface;
-use flipbox\force\fields\SObjects;
+use flipbox\force\fields\Objects;
 
 interface SObjectActionInterface extends SavableComponentInterface
 {
@@ -45,11 +45,11 @@ interface SObjectActionInterface extends SavableComponentInterface
     /**
      * Performs the action.
      *
-     * @param SObjects $field The field on which the action is occurring.
+     * @param Objects $field The field on which the action is occurring.
      * @param ElementInterface $element The element which the field is associated to
      * @return bool Whether the action was performed successfully.
      */
-    public function performAction(SObjects $field, ElementInterface $element): bool;
+    public function performAction(Objects $field, ElementInterface $element): bool;
 
     /**
      * Returns the message that should be displayed to the user after the action is performed.

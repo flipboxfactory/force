@@ -10,12 +10,8 @@ namespace flipbox\force\services\resources;
 
 use flipbox\ember\helpers\ObjectHelper;
 use flipbox\force\criteria\QueryCriteria;
-use flipbox\force\helpers\TransformerHelper;
-use Flipbox\Salesforce\Connections\ConnectionInterface;
-use Flipbox\Salesforce\Query\QueryBuilderInterface;
-use Flipbox\Salesforce\Resources\Query as QueryResource;
-use Flipbox\Salesforce\Transformers\Collections\TransformerCollectionInterface;
-use Psr\SimpleCache\CacheInterface;
+use flipbox\force\criteria\QueryCriteriaInterface;
+use flipbox\force\transformers\collections\QueryTransformerCollection;
 use yii\base\Component;
 
 /**
@@ -24,6 +20,23 @@ use yii\base\Component;
  */
 class Query extends Component
 {
+    use traits\QueryTrait;
+
+    /**
+     * The resource name
+     */
+    const SALESFORCE_RESOURCE = 'soql';
+
+    /**
+     * @return array
+     */
+    public static function defaultTransformer()
+    {
+        return [
+            'class' => QueryTransformerCollection::class
+        ];
+    }
+
     /*******************************************
      * CRITERIA
      *******************************************/
@@ -32,7 +45,7 @@ class Query extends Component
      * @param array $criteria
      * @return QueryCriteria
      */
-    public function getCriteria(array $criteria = [])
+    public function getCriteria(array $criteria = []): QueryCriteriaInterface
     {
         $object = new QueryCriteria();
 
@@ -42,49 +55,5 @@ class Query extends Component
         );
 
         return $object;
-    }
-
-
-    /*******************************************
-     * FETCH
-     *******************************************/
-
-    /**
-     * @param QueryBuilderInterface $query
-     * @param ConnectionInterface|string|null $connection
-     * @param CacheInterface $cache
-     * @param TransformerCollectionInterface|null $transformer
-     * @return mixed
-     */
-    public function fetch(
-        ConnectionInterface $connection,
-        CacheInterface $cache,
-        QueryBuilderInterface $query,
-        TransformerCollectionInterface $transformer = null
-    ) {
-        return (new QueryResource(
-            $query->build(),
-            $connection,
-            $cache,
-            TransformerHelper::populateTransformerCollection($transformer, [
-                'resource' => [QueryResource::class],
-                'handle' => ['query']
-            ])
-        ));
-    }
-
-    /**
-     * @param QueryCriteria $criteria
-     * @return mixed
-     */
-    public function fetchFromCriteria(
-        QueryCriteria $criteria
-    ) {
-        return $this->fetch(
-            $criteria->getConnection(),
-            $criteria->getCache(),
-            $criteria->getQuery(),
-            $criteria->getTransformer()
-        );
     }
 }

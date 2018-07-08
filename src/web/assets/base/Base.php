@@ -10,7 +10,6 @@ namespace flipbox\force\web\assets\base;
 
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
-use flipbox\ember\web\assets\actions\Actions;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

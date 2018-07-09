@@ -10,10 +10,9 @@ namespace flipbox\force\fields\actions;
 
 use craft\base\ElementInterface;
 use craft\base\SavableComponentInterface;
-use flipbox\force\criteria\SObjectCriteria;
 use flipbox\force\fields\Objects;
 
-interface SObjectRowActionInterface extends SavableComponentInterface
+interface ObjectActionInterface extends SavableComponentInterface
 {
     /**
      * Returns whether this action is destructive in nature.
@@ -48,10 +47,9 @@ interface SObjectRowActionInterface extends SavableComponentInterface
      *
      * @param Objects $field The field on which the action is occurring.
      * @param ElementInterface $element The element which the field is associated to
-     * @param SObjectCriteria $criteria The criteria
      * @return bool Whether the action was performed successfully.
      */
-    public function performAction(Objects $field, ElementInterface $element, SObjectCriteria $criteria): bool;
+    public function performAction(Objects $field, ElementInterface $element): bool;
 
     /**
      * Returns the message that should be displayed to the user after the action is performed.

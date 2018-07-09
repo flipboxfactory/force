@@ -14,9 +14,9 @@ use craft\base\Field;
 use craft\elements\db\ElementQueryInterface;
 use flipbox\ember\helpers\ModelHelper;
 use flipbox\ember\validators\MinMaxValidator;
-use flipbox\force\criteria\SObjectCriteria;
-use flipbox\force\db\SObjectFieldQuery;
+use flipbox\force\db\ObjectAssociationQuery;
 use flipbox\force\Force;
+use flipbox\force\records\ObjectAssociation;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -37,7 +37,7 @@ class Objects extends Field
     /**
      * @var string
      */
-    public $sObject;
+    public $object;
 
     /**
      * @var int|null
@@ -101,8 +101,8 @@ class Objects extends Field
         return [
             [
                 MinMaxValidator::class,
-                'min' => $this->min,
-                'max' => $this->max,
+                'min' => $this->min ? (int)$this->min : null,
+                'max' => $this->max ? (int)$this->max : null,
                 'tooFew' => Craft::t(
                     'force',
                     '{attribute} should contain at least {min, number} {min, plural, one{domain} other{domains}}.'
@@ -116,24 +116,6 @@ class Objects extends Field
         ];
     }
 
-
-    /*******************************************
-     * VALUE
-     *******************************************/
-
-    /**
-     * @param array $criteria
-     * @return SObjectCriteria
-     */
-    public function createCriteria(array $criteria = [])
-    {
-        return Force::getInstance()->getResources()->getSObject()->getCriteria(array_merge(
-            $criteria,
-            [
-                'sObject' => $this->sObject
-            ]
-        ));
-    }
 
     /*******************************************
      * VALUE
@@ -182,14 +164,17 @@ class Objects extends Field
             parent::rules(),
             [
                 [
-                    'sObject',
+                    'object',
                     'required',
                     'message' => Craft::t('force', 'Salesforce Object cannot be empty.')
                 ],
                 [
                     [
-                        'sObject',
-                        'limit',
+                        'object',
+                        'min',
+                        'max',
+                        'viewUrl',
+                        'listUrl',
                         'selectionLabel'
                     ],
                     'safe',
@@ -206,16 +191,16 @@ class Objects extends Field
      *******************************************/
 
     /**
-     * @param SObjectFieldQuery $value
+     * @param ObjectAssociationQuery $value
      * @inheritdoc
      */
     public function getSearchKeywords($value, ElementInterface $element): string
     {
         $sobjects = [];
 
-        /** @var SObjectCriteria $association */
+        /** @var ObjectAssociation $association */
         foreach ($value->all() as $association) {
-            array_push($sobjects, $association->id);
+            array_push($sobjects, $association->sObjectId);
         }
 
         return parent::getSearchKeywords($sobjects, $element);
@@ -226,8 +211,10 @@ class Objects extends Field
      *******************************************/
 
     /**
-     * @param SObjectFieldQuery $value
      * @inheritdoc
+     * @param ObjectAssociationQuery $value
+     * @throws \Twig_Error_Loader
+     * @throws \yii\base\Exception
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {

@@ -12,7 +12,7 @@ use craft\db\Migration;
 use craft\records\Element as ElementRecord;
 use craft\records\Field as FieldRecord;
 use craft\records\Site as SiteRecord;
-use flipbox\force\records\SObjectAssociation as SObjectAssociationRecord;
+use flipbox\force\records\ObjectAssociation as SObjectAssociationRecord;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

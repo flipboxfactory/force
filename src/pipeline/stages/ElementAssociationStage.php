@@ -11,7 +11,8 @@ namespace flipbox\force\pipeline\stages;
 use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\helpers\Json;
-use flipbox\force\db\SObjectFieldQuery;
+use flipbox\force\criteria\ObjectAccessorCriteria;
+use flipbox\force\db\ObjectAssociationQuery;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use Flipbox\Skeleton\Logger\AutoLoggerTrait;
@@ -105,15 +106,15 @@ class ElementAssociationStage extends BaseObject implements StageInterface
         /** @var Element $element */
         $fieldHandle = $this->field->handle;
 
-        /** @var SObjectFieldQuery $fieldValue */
+        /** @var ObjectAssociationQuery $fieldValue */
         if (null === ($fieldValue = $element->{$fieldHandle})) {
             $this->warning("Field is not available on element.");
             return false;
         };
 
         if (null === ($criteria = $fieldValue->sObjectId($sobjectId)->one())) {
-            $criteria = Force::getInstance()->getResources()->getSObject()->getCriteria([
-                'sObject' => $this->field->sObject,
+            $criteria = new ObjectAccessorCriteria([
+                'object' => $this->field->object,
                 'id' => $sobjectId
             ]);
         }

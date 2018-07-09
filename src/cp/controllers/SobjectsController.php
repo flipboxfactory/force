@@ -57,7 +57,7 @@ class SobjectsController extends AbstractController
      * @param string|null $sObjectId
      * @param string|null $field
      * @param string|null $element
-     * @return \flipbox\force\records\SObjectAssociation|null
+     * @return \flipbox\force\records\ObjectAssociation|null
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\BadRequestHttpException
      */
@@ -96,7 +96,7 @@ class SobjectsController extends AbstractController
      * @param string|null $sObjectId
      * @param string|null $field
      * @param string|null $element
-     * @return \flipbox\force\records\SObjectAssociation|null
+     * @return \flipbox\force\records\ObjectAssociation|null
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\BadRequestHttpException
      */

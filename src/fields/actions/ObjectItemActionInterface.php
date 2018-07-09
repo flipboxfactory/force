@@ -11,8 +11,9 @@ namespace flipbox\force\fields\actions;
 use craft\base\ElementInterface;
 use craft\base\SavableComponentInterface;
 use flipbox\force\fields\Objects;
+use flipbox\force\records\ObjectAssociation;
 
-interface SObjectActionInterface extends SavableComponentInterface
+interface ObjectItemActionInterface extends SavableComponentInterface
 {
     /**
      * Returns whether this action is destructive in nature.
@@ -47,9 +48,14 @@ interface SObjectActionInterface extends SavableComponentInterface
      *
      * @param Objects $field The field on which the action is occurring.
      * @param ElementInterface $element The element which the field is associated to
+     * @param ObjectAssociation $record The record
      * @return bool Whether the action was performed successfully.
      */
-    public function performAction(Objects $field, ElementInterface $element): bool;
+    public function performAction(
+        Objects $field,
+        ElementInterface $element,
+        ObjectAssociation $record
+    ): bool;
 
     /**
      * Returns the message that should be displayed to the user after the action is performed.

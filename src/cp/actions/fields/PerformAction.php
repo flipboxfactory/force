@@ -10,7 +10,7 @@ namespace flipbox\force\cp\actions\fields;
 
 use craft\base\ElementInterface;
 use flipbox\ember\actions\traits\Manage;
-use flipbox\force\fields\actions\SObjectActionInterface;
+use flipbox\force\fields\actions\ObjectActionInterface;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use yii\base\Action;
@@ -49,7 +49,7 @@ class PerformAction extends Action
             }
         }
 
-        if (!$action instanceof SObjectActionInterface) {
+        if (!$action instanceof ObjectActionInterface) {
             throw new HttpException(400, 'Field action is not supported by the field');
         }
 
@@ -57,14 +57,14 @@ class PerformAction extends Action
     }
 
     /**
-     * @param SObjectActionInterface $action
+     * @param ObjectActionInterface $action
      * @param Objects $field
      * @param ElementInterface $element
      * @return mixed
      * @throws \yii\web\UnauthorizedHttpException
      */
     protected function runInternal(
-        SObjectActionInterface $action,
+        ObjectActionInterface $action,
         Objects $field,
         ElementInterface $element
     ) {
@@ -81,13 +81,13 @@ class PerformAction extends Action
     }
 
     /**
-     * @param SObjectActionInterface $action
+     * @param ObjectActionInterface $action
      * @param Objects $field
      * @param ElementInterface $element
      * @return bool
      */
     public function performAction(
-        SObjectActionInterface $action,
+        ObjectActionInterface $action,
         Objects $field,
         ElementInterface $element
     ): bool {

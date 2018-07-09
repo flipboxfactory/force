@@ -10,8 +10,8 @@ namespace flipbox\force\cp\actions\fields;
 
 use craft\base\ElementInterface;
 use flipbox\ember\actions\traits\Manage;
-use flipbox\force\criteria\SObjectCriteria;
-use flipbox\force\fields\actions\SObjectRowActionInterface;
+use flipbox\force\criteria\ObjectMutatorCriteriaInterface;
+use flipbox\force\fields\actions\ObjectItemActionInterface;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use yii\base\Action;
@@ -54,7 +54,7 @@ class PerformRowAction extends Action
             }
         }
 
-        if (!$action instanceof SObjectRowActionInterface) {
+        if (!$action instanceof ObjectItemActionInterface) {
             throw new HttpException(400, 'Field action is not supported by the field');
         }
 
@@ -62,18 +62,18 @@ class PerformRowAction extends Action
     }
 
     /**
-     * @param SObjectRowActionInterface $action
+     * @param ObjectItemActionInterface $action
      * @param Objects $field
      * @param ElementInterface $element
-     * @param SObjectCriteria $criteria
+     * @param ObjectMutatorCriteriaInterface $criteria
      * @return mixed
      * @throws \yii\web\UnauthorizedHttpException
      */
     protected function runInternal(
-        SObjectRowActionInterface $action,
+        ObjectItemActionInterface $action,
         Objects $field,
         ElementInterface $element,
-        SObjectCriteria $criteria
+        ObjectMutatorCriteriaInterface $criteria
     ) {
         // Check access
         if (($access = $this->checkAccess($action, $field, $element, $criteria)) !== true) {
@@ -88,17 +88,17 @@ class PerformRowAction extends Action
     }
 
     /**
-     * @param SObjectRowActionInterface $action
+     * @param ObjectItemActionInterface $action
      * @param Objects $field
      * @param ElementInterface $element
-     * @param SObjectCriteria $criteria
+     * @param ObjectMutatorCriteriaInterface $criteria
      * @return bool
      */
     public function performAction(
-        SObjectRowActionInterface $action,
+        ObjectItemActionInterface $action,
         Objects $field,
         ElementInterface $element,
-        SObjectCriteria $criteria
+        ObjectMutatorCriteriaInterface $criteria
     ): bool {
         return $action->performAction($field, $element, $criteria);
     }

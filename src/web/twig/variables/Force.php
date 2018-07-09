@@ -8,6 +8,7 @@
 
 namespace flipbox\force\web\twig\variables;
 
+use flipbox\force\criteria\ObjectAccessorCriteriaInterface;
 use flipbox\force\Force as ForcePlugin;
 use flipbox\force\models\Settings;
 use flipbox\force\services\Cache;
@@ -50,11 +51,11 @@ class Force extends ServiceLocator
 
     /**
      * @param array $criteria
-     * @return \flipbox\force\criteria\SObjectCriteria
+     * @return ObjectAccessorCriteriaInterface
      */
-    public function getSObject(array $criteria = [])
+    public function getObject(array $criteria = []): ObjectAccessorCriteriaInterface
     {
-        return $this->getResources()->getSObject()->getCriteria($criteria);
+        return $this->getResources()->getSObject()->getAccessorCriteria($criteria);
     }
 
     /**

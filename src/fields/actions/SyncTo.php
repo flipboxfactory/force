@@ -10,13 +10,12 @@ namespace flipbox\force\fields\actions;
 
 use Craft;
 use craft\base\ElementInterface;
-use flipbox\force\db\SObjectFieldQuery;
+use flipbox\force\db\ObjectAssociationQuery;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
-use flipbox\force\transformers\collections\TransformerCollection;
 use yii\web\HttpException;
 
-class SyncTo extends AbstractSObjectAction
+class SyncTo extends AbstractObjectAction
 {
     /**
      * @inheritdoc
@@ -38,32 +37,28 @@ class SyncTo extends AbstractSObjectAction
     }
 
     /**
-     * @inheritdoc
+     * @param Objects $field
+     * @param ElementInterface $element
+     * @return bool
+     * @throws HttpException
+     * @throws \yii\base\InvalidConfigException
      */
     public function performAction(Objects $field, ElementInterface $element): bool
     {
-        // Assemble request criteria
-        $criteria = Force::getInstance()->getResources()->getSObject()->getCriteria([
-            'sObject' => $field->sObject,
-            'transformer' => TransformerCollection::class,
-            'id' => false
-        ]);
+        /** @var ObjectAssociationQuery $query */
+        if (null === ($query = $element->getFieldValue($field->handle))) {
+            throw new HttpException(400, 'Field is not associated to element');
+        }
 
-        if (!Force::getInstance()->getElements()->syncUp(
+        if (!Force::getInstance()->getResources()->getSObject()->syncUp(
             $element,
-            $field,
-            $criteria
+            $field
         )) {
-            $this->setMessage("Failed to sync from Salesforce Object");
+            $this->setMessage("Failed to sync from HubSpot Object");
             return false;
         }
 
         $element->setFieldValue($field->handle, null);
-
-        /** @var SObjectFieldQuery $query */
-        if (null === ($query = $element->getFieldValue($field->handle))) {
-            throw new HttpException(400, 'Field is not associated to element');
-        }
 
         $this->id = $query->select(['sObjectId'])->scalar();
 

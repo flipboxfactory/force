@@ -14,7 +14,7 @@ use flipbox\ember\actions\model\traits\Manage;
 use flipbox\ember\exceptions\RecordNotFoundException;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
-use flipbox\force\records\SObjectAssociation;
+use flipbox\force\records\ObjectAssociation;
 use yii\base\Action;
 use yii\base\Model;
 use yii\web\HttpException;
@@ -86,10 +86,10 @@ abstract class AbstractAssociationAction extends Action
      */
     protected function ensureAssociation(Model $model): bool
     {
-        if (!$model instanceof SObjectAssociation) {
+        if (!$model instanceof ObjectAssociation) {
             throw new RecordNotFoundException(sprintf(
                 "SObject Association must be an instance of '%s', '%s' given.",
-                SObjectAssociation::class,
+                ObjectAssociation::class,
                 get_class($model)
             ));
         }

@@ -78,7 +78,7 @@ class Object extends Component
      * @param array $criteria
      * @return ObjectMutatorCriteria
      */
-    public function getMutatorBuilder(array $criteria = []): ObjectMutatorCriteriaInterface
+    public function getMutatorCriteria(array $criteria = []): ObjectMutatorCriteriaInterface
     {
         $object = new ObjectMutatorCriteria();
 

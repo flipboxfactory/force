@@ -9,7 +9,7 @@
 namespace flipbox\force\actions\sobjects;
 
 use flipbox\force\Force;
-use flipbox\force\records\SObjectAssociation;
+use flipbox\force\records\ObjectAssociation;
 use yii\base\Model;
 
 /**
@@ -27,7 +27,7 @@ class Associate extends AbstractAssociationAction
 
     /**
      * @inheritdoc
-     * @param SObjectAssociation $model
+     * @param ObjectAssociation $model
      */
     protected function performAction(Model $model): bool
     {

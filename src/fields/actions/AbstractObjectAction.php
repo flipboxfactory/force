@@ -10,10 +10,9 @@ namespace flipbox\force\fields\actions;
 
 use craft\base\ElementInterface;
 use craft\base\SavableComponent;
-use flipbox\force\criteria\SObjectCriteria;
 use flipbox\force\fields\Objects;
 
-abstract class AbstractSObjectRowAction extends SavableComponent implements SObjectRowActionInterface
+abstract class AbstractObjectAction extends SavableComponent implements ObjectActionInterface
 {
     /**
      * The message that should be displayed to the user after the action is performed.
@@ -56,7 +55,7 @@ abstract class AbstractSObjectRowAction extends SavableComponent implements SObj
     /**
      * @inheritdoc
      */
-    public function performAction(Objects $field, ElementInterface $element, SObjectCriteria $criteria): bool
+    public function performAction(Objects $field, ElementInterface $element): bool
     {
         return true;
     }

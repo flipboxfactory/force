@@ -17,17 +17,16 @@ use craft\helpers\StringHelper;
 use flipbox\craft\sortable\associations\db\SortableAssociationQueryInterface;
 use flipbox\craft\sortable\associations\records\SortableAssociationInterface;
 use flipbox\craft\sortable\associations\services\SortableFields;
-use flipbox\force\criteria\SObjectCriteria;
-use flipbox\force\db\SObjectFieldQuery;
+use flipbox\force\db\ObjectAssociationQuery;
 use flipbox\force\events\RegisterSObjectFieldActionsEvent;
-use flipbox\force\fields\actions\SObjectActionInterface;
-use flipbox\force\fields\actions\SObjectRowActionInterface;
-use flipbox\force\fields\actions\SyncRowFrom;
-use flipbox\force\fields\actions\SyncRowTo;
+use flipbox\force\fields\actions\ObjectActionInterface;
+use flipbox\force\fields\actions\ObjectItemActionInterface;
+use flipbox\force\fields\actions\SyncItemFrom;
+use flipbox\force\fields\actions\SyncItemTo;
 use flipbox\force\fields\actions\SyncTo;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
-use flipbox\force\records\SObjectAssociation;
+use flipbox\force\records\ObjectAssociation;
 use flipbox\force\web\assets\sobjects\SObjects as SObjectsAsset;
 use yii\base\Exception;
 
@@ -40,12 +39,12 @@ class ObjectsField extends SortableFields
     /**
      * @inheritdoc
      */
-    const SOURCE_ATTRIBUTE = SObjectAssociation::SOURCE_ATTRIBUTE;
+    const SOURCE_ATTRIBUTE = ObjectAssociation::SOURCE_ATTRIBUTE;
 
     /**
      * @inheritdoc
      */
-    const TARGET_ATTRIBUTE = SObjectAssociation::TARGET_ATTRIBUTE;
+    const TARGET_ATTRIBUTE = ObjectAssociation::TARGET_ATTRIBUTE;
 
     /**
      * @var Objects[]
@@ -57,7 +56,7 @@ class ObjectsField extends SortableFields
      */
     protected static function tableAlias(): string
     {
-        return SObjectAssociation::tableAlias();
+        return ObjectAssociation::tableAlias();
     }
 
     /**
@@ -89,17 +88,35 @@ class ObjectsField extends SortableFields
         FieldInterface $field,
         ElementInterface $element = null
     ): SortableAssociationQueryInterface {
-        /** @var Objects $field */
-        $this->ensureField($field);
+        $query = $this->baseQuery($field, $element);
 
-        $query = new SObjectFieldQuery($field);
+        /** @var Objects $field */
 
         if ($field->max !== null) {
             $query->limit($field->max);
         }
 
-        $query->siteId = $this->targetSiteId($element);
-        $query->element = $element === null ? null : $element->getId();
+        return $query;
+    }
+
+    /**
+     * @param FieldInterface $field
+     * @param ElementInterface|null $element
+     * @return ObjectAssociationQuery
+     * @throws Exception
+     */
+    private function baseQuery(
+        FieldInterface $field,
+        ElementInterface $element = null
+    ): ObjectAssociationQuery {
+        /** @var Objects $field */
+        $this->ensureField($field);
+
+        $query = Force::getInstance()->getObjectAssociations()->getQuery()
+            ->field($field->id)
+            ->site($this->targetSiteId($element));
+
+        $query->{ObjectAssociation::SOURCE_ATTRIBUTE} = $element === null ? null : $element->getId();
 
         return $query;
     }
@@ -128,8 +145,8 @@ class ObjectsField extends SortableFields
         return Force::getInstance()->getObjectAssociations()->create(
             [
                 'fieldId' => $field->id,
-                SObjectAssociation::TARGET_ATTRIBUTE => $value,
-                SObjectAssociation::SOURCE_ATTRIBUTE => $element === null ? null : $element->getId(),
+                ObjectAssociation::TARGET_ATTRIBUTE => $value,
+                ObjectAssociation::SOURCE_ATTRIBUTE => $element === null ? null : $element->getId(),
                 'siteId' => $this->targetSiteId($element),
                 'sortOrder' => $sortOrder++
             ]
@@ -138,7 +155,7 @@ class ObjectsField extends SortableFields
 
     /**
      * @param Objects $field
-     * @param SObjectFieldQuery $query
+     * @param ObjectAssociationQuery $query
      * @param ElementInterface|null $element
      * @param bool $static
      * @return null|string
@@ -147,7 +164,7 @@ class ObjectsField extends SortableFields
      */
     public function getInputHtml(
         Objects $field,
-        SObjectFieldQuery $query,
+        ObjectAssociationQuery $query,
         ElementInterface $element = null,
         bool $static
     ) {
@@ -200,20 +217,20 @@ class ObjectsField extends SortableFields
 
     /**
      * @param Objects $field
-     * @param SObjectCriteria $value
+     * @param ObjectAssociation $value
      * @param ElementInterface $element
      * @return bool
      */
     public function saveAssociation(
         Objects $field,
-        SObjectCriteria $value,
+        ObjectAssociation $value,
         ElementInterface $element
     ) {
         /** @var Element $element */
         $association = Force::getInstance()->getObjectAssociations()->create([
             'fieldId' => $field->id,
             'siteId' => $element->siteId,
-            'sObjectId' => $value->id,
+            'sObjectId' => $value->sObjectId,
             'elementId' => $element->getId()
         ]);
 
@@ -273,7 +290,7 @@ class ObjectsField extends SortableFields
     /**
      * @param Objects $field
      * @param ElementInterface|null $element
-     * @return SObjectRowActionInterface[]
+     * @return ObjectItemActionInterface[]
      * @throws \craft\errors\MissingComponentException
      * @throws \yii\base\InvalidConfigException
      */
@@ -281,8 +298,8 @@ class ObjectsField extends SortableFields
     {
         $event = new RegisterSObjectFieldActionsEvent([
             'actions' => [
-                SyncRowFrom::class,
-                SyncRowTo::class
+                SyncItemFrom::class,
+                SyncItemTo::class
             ],
             'element' => $element
         ]);
@@ -292,13 +309,13 @@ class ObjectsField extends SortableFields
             $event
         );
 
-        return $this->resolveActions($event->actions, SObjectRowActionInterface::class);
+        return $this->resolveActions($event->actions, ObjectItemActionInterface::class);
     }
 
     /**
      * @param Objects $field
      * @param ElementInterface|null $element
-     * @return SObjectActionInterface[]
+     * @return ObjectActionInterface[]
      * @throws \craft\errors\MissingComponentException
      * @throws \yii\base\InvalidConfigException
      */
@@ -320,7 +337,7 @@ class ObjectsField extends SortableFields
             $event
         );
 
-        return $this->resolveActions($event->actions, SObjectActionInterface::class);
+        return $this->resolveActions($event->actions, ObjectActionInterface::class);
     }
 
     /**

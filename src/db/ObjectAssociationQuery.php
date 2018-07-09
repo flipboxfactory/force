@@ -15,12 +15,12 @@ use flipbox\craft\sortable\associations\db\SortableAssociationQuery;
 use flipbox\craft\sortable\associations\db\traits\SiteAttribute;
 use flipbox\ember\db\traits\ElementAttribute;
 use flipbox\force\Force;
-use flipbox\force\records\SObjectAssociation;
+use flipbox\force\records\ObjectAssociation;
 
 /**
- * @method SObjectAssociation[] getCachedResult()
+ * @method ObjectAssociation[] getCachedResult()
  */
-class SObjectAssociationQuery extends SortableAssociationQuery
+class ObjectAssociationQuery extends SortableAssociationQuery
 {
     use traits\FieldAttribute,
         traits\SObjectAttribute,

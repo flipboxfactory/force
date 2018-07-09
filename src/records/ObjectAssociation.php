@@ -14,7 +14,8 @@ use flipbox\craft\sortable\associations\services\SortableAssociations;
 use flipbox\ember\helpers\ModelHelper;
 use flipbox\ember\records\traits\ElementAttribute;
 use flipbox\ember\records\traits\SiteAttribute;
-use flipbox\force\db\SObjectAssociationQuery;
+use flipbox\force\db\ObjectAssociationQuery;
+use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 
 /**
@@ -24,10 +25,11 @@ use flipbox\force\Force;
  * @property int $fieldId
  * @property string $sObjectId
  */
-class SObjectAssociation extends SortableAssociation
+class ObjectAssociation extends SortableAssociation
 {
     use SiteAttribute,
-        ElementAttribute;
+        ElementAttribute,
+        traits\FieldAttribute;
 
     /**
      * @inheritdoc
@@ -43,6 +45,11 @@ class SObjectAssociation extends SortableAssociation
      * @inheritdoc
      */
     const SOURCE_ATTRIBUTE = 'elementId';
+
+    /**
+     * The default Object Id (if none exists)
+     */
+    const DEFAULT_ID = 'UNKNOWN_ID';
 
     /**
      * @inheritdoc
@@ -62,12 +69,14 @@ class SObjectAssociation extends SortableAssociation
     }
 
     /**
-     * @inheritdoc
-     * @return SObjectAssociationQuery
+     * @noinspection PhpDocMissingThrowsInspection
+     * @return ObjectAssociationQuery
      */
-    public static function find()
+    public static function find(): ObjectAssociationQuery
     {
-        return Craft::createObject(SObjectAssociationQuery::class, [get_called_class()]);
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        /** @noinspection PhpUnhandledExceptionInspection */
+        return Craft::createObject(ObjectAssociationQuery::class, [get_called_class()]);
     }
 
     /**
@@ -76,6 +85,30 @@ class SObjectAssociation extends SortableAssociation
     protected function associationService(): SortableAssociations
     {
         return Force::getInstance()->getObjectAssociations();
+    }
+
+    /**
+     * @param array $criteria
+     * @return mixed|null
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getObject(array $criteria = [])
+    {
+        if (null === ($field = $this->getField())) {
+            return null;
+        }
+
+        if (!$field instanceof Objects) {
+            return null;
+        }
+
+        $resource = Force::getInstance()->getResources()->getSObject();
+
+        $criteria['id'] = $this->{self::TARGET_ATTRIBUTE} ?: self::DEFAULT_ID;
+
+        return $resource->read(
+            $resource->getAccessorCriteria($criteria)
+        );
     }
 
     /**

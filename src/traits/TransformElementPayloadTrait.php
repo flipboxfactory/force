@@ -31,7 +31,7 @@ trait TransformElementPayloadTrait
     ): array {
 
         $transformer = Force::getInstance()->getTransformers()->find(
-            TransformerHelper::eventName([$field->sObject, 'payload']),
+            TransformerHelper::eventName([$field->object, 'payload']),
             get_class($element)
         );
 

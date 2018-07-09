@@ -15,12 +15,12 @@ use flipbox\craft\sortable\associations\records\SortableAssociationInterface;
 use flipbox\craft\sortable\associations\services\SortableAssociations;
 use flipbox\ember\services\traits\records\Accessor;
 use flipbox\ember\validators\MinMaxValidator;
-use flipbox\force\db\SObjectAssociationQuery;
-use flipbox\force\db\SObjectFieldQuery;
+use flipbox\force\criteria\ObjectAccessorCriteria;
+use flipbox\force\db\ObjectAssociationQuery;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use flipbox\force\migrations\SObjectAssociations as SObjectAssociationsMigration;
-use flipbox\force\records\SObjectAssociation;
+use flipbox\force\records\ObjectAssociation;
 use flipbox\force\transformers\collections\TransformerCollection;
 use yii\base\DynamicModel;
 
@@ -29,18 +29,18 @@ use yii\base\DynamicModel;
  * @since 1.0.0
  *
  *
- * @method SObjectAssociationQuery parentGetQuery($config = [])
- * @method SObjectAssociation create(array $attributes = [])
- * @method SObjectAssociation find($identifier)
- * @method SObjectAssociation get($identifier)
- * @method SObjectAssociation findByCondition($condition = [])
- * @method SObjectAssociation getByCondition($condition = [])
- * @method SObjectAssociation findByCriteria($criteria = [])
- * @method SObjectAssociation getByCriteria($criteria = [])
- * @method SObjectAssociation[] findAllByCondition($condition = [])
- * @method SObjectAssociation[] getAllByCondition($condition = [])
- * @method SObjectAssociation[] findAllByCriteria($criteria = [])
- * @method SObjectAssociation[] getAllByCriteria($criteria = [])
+ * @method ObjectAssociationQuery parentGetQuery($config = [])
+ * @method ObjectAssociation create(array $attributes = [])
+ * @method ObjectAssociation find($identifier)
+ * @method ObjectAssociation get($identifier)
+ * @method ObjectAssociation findByCondition($condition = [])
+ * @method ObjectAssociation getByCondition($condition = [])
+ * @method ObjectAssociation findByCriteria($criteria = [])
+ * @method ObjectAssociation getByCriteria($criteria = [])
+ * @method ObjectAssociation[] findAllByCondition($condition = [])
+ * @method ObjectAssociation[] getAllByCondition($condition = [])
+ * @method ObjectAssociation[] findAllByCriteria($criteria = [])
+ * @method ObjectAssociation[] getAllByCriteria($criteria = [])
  */
 class ObjectAssociations extends SortableAssociations
 {
@@ -51,19 +51,19 @@ class ObjectAssociations extends SortableAssociations
     /**
      * @inheritdoc
      */
-    const SOURCE_ATTRIBUTE = SObjectAssociation::SOURCE_ATTRIBUTE;
+    const SOURCE_ATTRIBUTE = ObjectAssociation::SOURCE_ATTRIBUTE;
 
     /**
      * @inheritdoc
      */
-    const TARGET_ATTRIBUTE = SObjectAssociation::TARGET_ATTRIBUTE;
+    const TARGET_ATTRIBUTE = ObjectAssociation::TARGET_ATTRIBUTE;
 
     /**
      * @inheritdoc
      */
     protected static function tableAlias(): string
     {
-        return SObjectAssociation::tableAlias();
+        return ObjectAssociation::tableAlias();
     }
 
     /**
@@ -71,7 +71,7 @@ class ObjectAssociations extends SortableAssociations
      */
     public static function recordClass(): string
     {
-        return SObjectAssociation::class;
+        return ObjectAssociation::class;
     }
 
     /**
@@ -103,7 +103,7 @@ class ObjectAssociations extends SortableAssociations
 
     /**
      * @inheritdoc
-     * @return SObjectAssociationQuery
+     * @return ObjectAssociationQuery
      */
     public function getQuery($config = []): SortableAssociationQueryInterface
     {
@@ -112,8 +112,8 @@ class ObjectAssociations extends SortableAssociations
 
     /**
      * @inheritdoc
-     * @param SObjectAssociation $record
-     * @return SObjectAssociationQuery
+     * @param ObjectAssociation $record
+     * @return ObjectAssociationQuery
      */
     protected function associationQuery(
         SortableAssociationInterface $record
@@ -127,7 +127,7 @@ class ObjectAssociations extends SortableAssociations
 
     /**
      * @inheritdoc
-     * @param SObjectAssociationQuery $query
+     * @param ObjectAssociationQuery $query
      */
     protected function existingAssociations(
         SortableAssociationQueryInterface $query
@@ -144,12 +144,12 @@ class ObjectAssociations extends SortableAssociations
     }
 
     /**
-     * @param SObjectAssociation $record
+     * @param ObjectAssociation $record
      * @return bool
      * @throws \Exception
      */
     public function validateSObject(
-        SObjectAssociation $record
+        ObjectAssociation $record
     ): bool {
 
         if (null === ($fieldId = $record->fieldId)) {
@@ -160,9 +160,12 @@ class ObjectAssociations extends SortableAssociations
             return false;
         }
 
-        $criteria = $field->createCriteria([
-            'id' => $record->sObjectId
-        ]);
+        $criteria = new ObjectAccessorCriteria(
+            [
+                'object' => $field->object,
+                'id' => $record->sObjectId
+            ]
+        );
 
         /** @var DynamicModel $response */
         $response = $criteria->get(['transformer' => TransformerCollection::class], $record);
@@ -174,13 +177,13 @@ class ObjectAssociations extends SortableAssociations
      * @param $source
      * @param int $fieldId
      * @param int $siteId
-     * @return SObjectAssociationQuery
+     * @return ObjectAssociationQuery
      */
     private function query(
         $source,
         int $fieldId,
         int $siteId
-    ): SObjectAssociationQuery {
+    ): ObjectAssociationQuery {
         return $this->getQuery()
             ->where([
                 static::SOURCE_ATTRIBUTE => $source,
@@ -242,10 +245,6 @@ class ObjectAssociations extends SortableAssociations
     protected function resolveFieldFromQuery(
         SortableAssociationQueryInterface $query
     ) {
-        if ($query instanceof SObjectFieldQuery) {
-            return $query->getField();
-        }
-
         if (null === ($fieldId = $this->resolveStringAttribute($query, 'field'))) {
             return null;
         }

@@ -11,7 +11,8 @@ namespace flipbox\force\actions\widgets;
 use Craft;
 use craft\base\ElementInterface;
 use flipbox\force\cp\actions\sync\AbstractSyncFrom;
-use flipbox\force\db\SObjectFieldQuery;
+use flipbox\force\criteria\ObjectAccessorCriteria;
+use flipbox\force\db\ObjectAssociationQuery;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use yii\web\HttpException;
@@ -40,15 +41,18 @@ class SyncFrom extends AbstractSyncFrom
         /** @var ElementInterface $element */
         $element = $this->resolveElement($field, $id, $elementType);
 
-        /** @var SObjectFieldQuery $query */
+        /** @var ObjectAssociationQuery $query */
         if (null === ($query = $element->getFieldValue($field->handle))) {
             throw new HttpException(400, 'Invalid value');
         }
 
         if (null === ($criteria = $query->sObjectId($id)->one())) {
-            $criteria = $field->createCriteria([
-                'id' => $id
-            ]);
+            $criteria = new ObjectAccessorCriteria(
+                [
+                    'object' => $field->object,
+                    'id' => $id
+                ]
+            );
         }
 
         return $this->runInternal($criteria, $element, $field);

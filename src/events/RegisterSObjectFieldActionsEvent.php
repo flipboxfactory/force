@@ -9,14 +9,14 @@
 namespace flipbox\force\events;
 
 use craft\base\ElementInterface;
-use flipbox\force\fields\actions\SObjectActionInterface;
-use flipbox\force\fields\actions\SObjectRowActionInterface;
+use flipbox\force\fields\actions\ObjectActionInterface;
+use flipbox\force\fields\actions\ObjectItemActionInterface;
 use yii\base\Event;
 
 class RegisterSObjectFieldActionsEvent extends Event
 {
     /**
-     * @var array|SObjectActionInterface[]|SObjectRowActionInterface[]
+     * @var array|ObjectActionInterface[]|ObjectItemActionInterface[]
      */
     public $actions = [];
 

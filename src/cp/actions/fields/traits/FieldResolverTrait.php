@@ -10,7 +10,7 @@ namespace flipbox\force\cp\actions\fields\traits;
 
 use Craft;
 use craft\base\ElementInterface;
-use flipbox\force\db\SObjectFieldQuery;
+use flipbox\force\db\ObjectAssociationQuery;
 use flipbox\force\fields\Objects;
 use yii\web\HttpException;
 
@@ -52,7 +52,7 @@ trait FieldResolverTrait
      */
     protected function resolveCriteria(Objects $field, ElementInterface $element, string $sObjectId)
     {
-        /** @var SObjectFieldQuery $query */
+        /** @var ObjectAssociationQuery $query */
         if (null === ($query = $element->getFieldValue($field->handle))) {
             throw new HttpException(400, 'Field is not associated to element');
         }

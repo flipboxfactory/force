@@ -10,12 +10,11 @@ namespace flipbox\force\fields\actions;
 
 use Craft;
 use craft\base\ElementInterface;
-use flipbox\force\criteria\SObjectCriteria;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
-use flipbox\force\transformers\collections\TransformerCollection;
+use flipbox\force\records\ObjectAssociation;
 
-class SyncRowTo extends AbstractSObjectRowAction
+class SyncItemTo extends AbstractObjectItemAction
 {
     /**
      * @inheritdoc
@@ -35,22 +34,16 @@ class SyncRowTo extends AbstractSObjectRowAction
 
     /**
      * @inheritdoc
+     * @throws \yii\base\InvalidConfigException
      */
-    public function performAction(Objects $field, ElementInterface $element, SObjectCriteria $criteria): bool
+    public function performAction(Objects $field, ElementInterface $element, ObjectAssociation $record): bool
     {
-        // Ensure consistent transformers
-        $criteria->transformer(TransformerCollection::class);
-
-        if (!Force::getInstance()->getElements()->syncUp(
-            $element,
-            $field,
-            $criteria
-        )) {
-            $this->setMessage("Failed to sync to Salesforce Object");
+        if (!Force::getInstance()->getResources()->getSObject()->syncUp($element, $field)) {
+            $this->setMessage("Failed to sync to HubSpot Object");
             return false;
         }
 
-        $this->setMessage("Sync to Salesforce executed successfully");
+        $this->setMessage("Sync to HubSpot executed successfully");
         return true;
     }
 }

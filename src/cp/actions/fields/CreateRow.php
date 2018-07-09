@@ -11,9 +11,9 @@ namespace flipbox\force\cp\actions\fields;
 use Craft;
 use craft\base\ElementInterface;
 use flipbox\ember\actions\traits\Manage;
-use flipbox\force\criteria\SObjectCriteria;
+use flipbox\force\criteria\ObjectAccessorCriteria;
+use flipbox\force\criteria\ObjectAccessorCriteriaInterface;
 use flipbox\force\fields\Objects;
-use flipbox\force\Force;
 use yii\base\Action;
 use yii\web\HttpException;
 
@@ -41,8 +41,8 @@ class CreateRow extends Action
         $field = $this->resolveField($field);
         $element = $this->resolveElement($element);
 
-        $criteria = Force::getInstance()->getResources()->getSObject()->getCriteria([
-            'sObject' => $field->sObject,
+        $criteria = new ObjectAccessorCriteria([
+            'object' => $field->object,
             'id' => $id
         ]);
 
@@ -52,7 +52,7 @@ class CreateRow extends Action
     /**
      * @param Objects $field
      * @param ElementInterface $element
-     * @param SObjectCriteria $criteria
+     * @param ObjectAccessorCriteriaInterface $criteria
      * @return mixed
      * @throws \yii\base\Exception
      * @throws \yii\web\UnauthorizedHttpException
@@ -60,7 +60,7 @@ class CreateRow extends Action
     protected function runInternal(
         Objects $field,
         ElementInterface $element,
-        SObjectCriteria $criteria
+        ObjectAccessorCriteriaInterface $criteria
     ) {
         // Check access
         if (($access = $this->checkAccess($field, $element, $criteria)) !== true) {
@@ -76,13 +76,13 @@ class CreateRow extends Action
 
     /**
      * @param Objects $field
-     * @param SObjectCriteria $criteria
+     * @param ObjectAccessorCriteriaInterface $criteria
      * @return array
      * @throws \yii\base\Exception
      */
     public function performAction(
         Objects $field,
-        SObjectCriteria $criteria
+        ObjectAccessorCriteriaInterface $criteria
     ): array {
 
         $view = Craft::$app->getView();

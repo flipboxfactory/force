@@ -47,7 +47,7 @@ class PerformItemAction extends Action
         $element = $this->resolveElement($element);
         $record = $this->resolveRecord($field, $element, $id);
 
-        $availableActions = Force::getInstance()->getObjectsField()->getRowActions($field, $element);
+        $availableActions = Force::getInstance()->getObjectsField()->getItemActions($field, $element);
 
         foreach ($availableActions as $availableAction) {
             if ($action === get_class($availableAction)) {

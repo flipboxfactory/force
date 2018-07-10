@@ -11,12 +11,12 @@ namespace flipbox\force\pipeline\stages;
 use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\helpers\Json;
-use flipbox\force\criteria\ObjectAccessorCriteria;
 use flipbox\force\db\ObjectAssociationQuery;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use Flipbox\Skeleton\Logger\AutoLoggerTrait;
 use League\Pipeline\StageInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\InvalidArgumentException;
 use yii\base\BaseObject;
 
@@ -28,8 +28,7 @@ use yii\base\BaseObject;
  */
 class ElementAssociationStage extends BaseObject implements StageInterface
 {
-    use AutoLoggerTrait,
-        traits\ObjectIdTrait;
+    use AutoLoggerTrait;
 
     /**
      * @var Objects
@@ -48,16 +47,24 @@ class ElementAssociationStage extends BaseObject implements StageInterface
     }
 
     /**
-     * @param mixed $payload
+     * @param mixed $response
      * @param ElementInterface|null $source
      * @return string|null
      * @throws \Throwable
      */
-    public function __invoke($payload, ElementInterface $source = null)
+    public function __invoke($response, ElementInterface $source = null)
     {
         /** @var Element $source */
         if ($source === null) {
             throw new InvalidArgumentException("Source must be an element.");
+        }
+
+        /** @var Element $source */
+        if (!$response instanceof ResponseInterface) {
+            throw new InvalidArgumentException(sprintf(
+                "Data must be an instance of '%s'.",
+                ResponseInterface::class
+            ));
         }
 
         if (null === $source->getId()) {
@@ -70,10 +77,10 @@ class ElementAssociationStage extends BaseObject implements StageInterface
             return null;
         }
 
-        if (null === ($objectId = $this->getSobjectIdFromPayload($payload))) {
+        if (null === ($objectId = $this->getObjectIdFromResponse($response))) {
             Force::error(sprintf(
-                "Unable to identify objectId from payload: %s",
-                (string)Json::encode($payload)
+                "Unable to identify Force id from payload: %s",
+                (string)Json::encode($response)
             ));
             return null;
         }
@@ -86,13 +93,13 @@ class ElementAssociationStage extends BaseObject implements StageInterface
         }
 
         Force::info(sprintf(
-            "Successfully associated SObject '%s' to element '%s'",
+            "Successfully associated object '%s' to element '%s'",
             (string)$objectId,
             $source->getId()
         ));
 
 
-        return $payload;
+        return $response;
     }
 
     /**
@@ -112,17 +119,38 @@ class ElementAssociationStage extends BaseObject implements StageInterface
             return false;
         };
 
-        if (null === ($criteria = $fieldValue->objectId($objectId)->one())) {
-            $criteria = new ObjectAccessorCriteria([
-                'object' => $this->field->object,
-                'id' => $objectId
+        $associations = $fieldValue->indexBy('objectId')->all();
+
+        if (!array_key_exists($objectId, $associations)) {
+            $associations[$objectId] = Force::getInstance()->getObjectAssociations()->create([
+                'objectId' => $objectId,
+                'elementId' => $element->getId(),
+                'fieldId' => $this->field->id,
+                'siteId' => $element->siteId
             ]);
+
+            $fieldValue->setCachedResult($associations);
+
+            return Force::getInstance()->getObjectAssociations()->save(
+                $fieldValue
+            );
         }
 
-        return Force::getInstance()->getObjectsField()->saveAssociation(
-            $this->field,
-            $criteria,
-            $element
+        return true;
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @return string|null
+     */
+    protected function getObjectIdFromResponse(ResponseInterface $response)
+    {
+        $data = Json::decodeIfJson(
+            $response->getBody()->getContents()
         );
+
+        $id = $data['Id'] ?? ($data['id'] ?? null);
+
+        return $id ? (string)$id : null;
     }
 }

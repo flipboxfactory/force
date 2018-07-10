@@ -16,7 +16,7 @@ use flipbox\ember\web\assets\actions\Actions;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class SObjects extends AssetBundle
+class Objects extends AssetBundle
 {
     /**
      * @inheritdoc
@@ -24,10 +24,10 @@ class SObjects extends AssetBundle
     public function init()
     {
         $this->js = [
-            'js/SObjects' . $this->dotJs()
+            'js/Objects' . $this->dotJs()
         ];
         $this->css = [
-            'css/SObjects.css'
+            'css/Objects.css'
         ];
 
         parent::init();

@@ -10,7 +10,7 @@ namespace flipbox\force\cp\controllers;
 
 use Craft;
 use flipbox\ember\helpers\ArrayHelper;
-use flipbox\force\cp\actions\fields\CreateRow;
+use flipbox\force\cp\actions\fields\CreateItem;
 use flipbox\force\cp\actions\fields\PerformAction;
 use flipbox\force\cp\actions\fields\PerformItemAction;
 use flipbox\force\cp\actions\fields\SyncTo;
@@ -62,7 +62,7 @@ class FieldsController extends AbstractController
      * @throws BadRequestHttpException
      * @throws \yii\base\InvalidConfigException
      */
-    public function actionPerformRowAction(
+    public function actionPerformItemAction(
         string $field = null,
         string $element = null,
         string $action = null,
@@ -146,7 +146,7 @@ class FieldsController extends AbstractController
      * @throws BadRequestHttpException
      * @throws \yii\base\InvalidConfigException
      */
-    public function actionCreateRow(
+    public function actionCreateItem(
         string $field = null,
         string $element = null,
         string $id = null
@@ -163,11 +163,11 @@ class FieldsController extends AbstractController
             $id = Craft::$app->getRequest()->getParam('id');
         }
 
-        /** @var CreateRow $action */
+        /** @var CreateItem $action */
         return (Craft::createObject([
-            'class' => CreateRow::class
+            'class' => CreateItem::class
         ], [
-            'create-row',
+            'create-item',
             $this
         ]))->runWithParams([
             'field' => $field,

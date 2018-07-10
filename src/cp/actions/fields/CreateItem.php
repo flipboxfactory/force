@@ -10,12 +10,14 @@ namespace flipbox\force\cp\actions\fields;
 
 use Craft;
 use craft\base\ElementInterface;
+use craft\helpers\StringHelper;
 use flipbox\ember\actions\traits\Manage;
+use flipbox\ember\helpers\SiteHelper;
 use flipbox\force\actions\traits\ElementResolverTrait;
 use flipbox\force\actions\traits\FieldResolverTrait;
-use flipbox\force\criteria\ObjectAccessorCriteria;
-use flipbox\force\criteria\ObjectAccessorCriteriaInterface;
 use flipbox\force\fields\Objects;
+use flipbox\force\Force;
+use flipbox\force\records\ObjectAssociation;
 use yii\base\Action;
 use yii\web\HttpException;
 
@@ -23,7 +25,7 @@ use yii\web\HttpException;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class CreateRow extends Action
+class CreateItem extends Action
 {
     use ElementResolverTrait,
         FieldResolverTrait,
@@ -43,18 +45,20 @@ class CreateRow extends Action
         $field = $this->resolveField($field);
         $element = $this->resolveElement($element);
 
-        $criteria = new ObjectAccessorCriteria([
-            'object' => $field->object,
-            'id' => $id
+        $record = Force::getInstance()->getObjectAssociations()->create([
+            'fieldId' => $field->id,
+            'objectId' => $id,
+            'elementId' => $element->getId(),
+            'siteId' => SiteHelper::ensureSiteId($element->siteId),
         ]);
 
-        return $this->runInternal($field, $element, $criteria);
+        return $this->runInternal($field, $element, $record);
     }
 
     /**
      * @param Objects $field
      * @param ElementInterface $element
-     * @param ObjectAccessorCriteriaInterface $criteria
+     * @param ObjectAssociation $record
      * @return mixed
      * @throws \yii\base\Exception
      * @throws \yii\web\UnauthorizedHttpException
@@ -62,14 +66,14 @@ class CreateRow extends Action
     protected function runInternal(
         Objects $field,
         ElementInterface $element,
-        ObjectAccessorCriteriaInterface $criteria
+        ObjectAssociation $record
     ) {
         // Check access
-        if (($access = $this->checkAccess($field, $element, $criteria)) !== true) {
+        if (($access = $this->checkAccess($field, $element, $record)) !== true) {
             return $access;
         }
 
-        if (null === ($html = $this->performAction($field, $criteria))) {
+        if (null === ($html = $this->performAction($field, $record))) {
             return $this->handleFailResponse($html);
         }
 
@@ -78,24 +82,25 @@ class CreateRow extends Action
 
     /**
      * @param Objects $field
-     * @param ObjectAccessorCriteriaInterface $criteria
+     * @param ObjectAssociation $record
      * @return array
      * @throws \yii\base\Exception
      */
     public function performAction(
         Objects $field,
-        ObjectAccessorCriteriaInterface $criteria
+        ObjectAssociation $record
     ): array {
 
         $view = Craft::$app->getView();
 
         return [
             'html' => $view->renderTemplateMacro(
-                'force/_components/fieldtypes/SObjects/input',
-                'createRow',
+                Objects::INPUT_TEMPLATE_PATH,
+                'createItem',
                 [
                     'field' => $field,
-                    'value' => $criteria
+                    'record' => $record,
+                    'objectLabel' => Force::getInstance()->getObjectsField()->getObjectLabel($field)
                 ]
             ),
             'headHtml' => $view->getHeadHtml(),

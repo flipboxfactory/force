@@ -27,8 +27,7 @@ use yii\base\BaseObject;
  */
 class ElementSaveStage extends BaseObject implements StageInterface
 {
-    use AutoLoggerTrait,
-        traits\ObjectIdTrait;
+    use AutoLoggerTrait;
 
     /**
      * @var Objects

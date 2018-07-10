@@ -9,6 +9,7 @@
 namespace flipbox\force\actions\traits;
 
 use Craft;
+use craft\base\Element;
 use craft\base\ElementInterface;
 use yii\web\HttpException;
 
@@ -20,7 +21,7 @@ trait ElementResolverTrait
 {
     /**
      * @param string $element
-     * @return ElementInterface
+     * @return ElementInterface|Element
      * @throws HttpException
      */
     protected function resolveElement(string $element): ElementInterface

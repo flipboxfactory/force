@@ -49,6 +49,48 @@
     <hr />
     <a class="fieldtoggle" data-target="advanced">{{ "Advanced"|t('app') }}</a>
     <div id="advanced" class="hidden">
+        {% block actions %}
+            {% set selectedActions = [] %}
+            {% for action in availableActions %}
+                {% set selectedActions = selectedActions|merge([{
+                    label: action.getTriggerLabel(),
+                    value: className(action)
+                }]) %}
+            {% endfor %}
+            {% if selectedActions|length %}
+                {{ forms.checkboxGroupField({
+                    label: "Item Actions"|t('force'),
+                    instructions: "Actions that are available at the field level."|t('force'),
+                    id: 'selectedActions',
+                    name: 'selectedActions',
+                    options: selectedActions,
+                    values: field.selectedActions,
+                    errors: field.getErrors('selectedActions')
+                }) }}
+            {% endif %}
+        {% endblock %}
+
+        {% block itemActions %}
+            {% set selectedItemActions = [] %}
+            {% for itemAction in availableItemActions %}
+                {% set selectedItemActions = selectedItemActions|merge([{
+                    label: itemAction.getTriggerLabel(),
+                    value: className(itemAction)
+                }]) %}
+            {% endfor %}
+            {% if selectedItemActions|length %}
+                {{ forms.checkboxGroupField({
+                    label: "Item Actions"|t('force'),
+                    instructions: "Actions that are available at the object level."|t('force'),
+                    id: 'selectedItemActions',
+                    name: 'selectedItemActions',
+                    options: selectedItemActions,
+                    values: field.selectedItemActions,
+                    errors: field.getErrors('selectedItemActions')
+                }) }}
+            {% endif %}
+        {% endblock %}
+
         {% block viewUrlField %}
             {{ forms.textField({
                 label: "Salesforce Object View Url"|t('force'),
@@ -74,5 +116,3 @@
         {% endblock %}
     </div>
 {% endblock %}
-
-

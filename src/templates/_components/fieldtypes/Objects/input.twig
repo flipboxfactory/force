@@ -2,9 +2,9 @@
 <div id="{{ id }}" class="element-objects">
 
     <div class="objects">
-        {% from _self import createRow %}
-        {% for criteria in value.all() %}
-            {{ createRow(field, criteria) }}
+        {% from _self import createItem %}
+        {% for record in value.all() %}
+            {{ createItem(field, record, objectLabel) }}
         {% endfor %}
     </div>
 
@@ -13,8 +13,8 @@
     </div>
 </div>
 
-{% macro createRow(field, criteria) %}
-    <div class="object{% if not criteria.id %} edit-mode{% endif %}">
+{% macro createItem(field, record, objectLabel) %}
+    <div class="object{% if not record.objectId %} edit-mode{% endif %}">
         <figure>
             {{ svg('@vendor/flipboxfactory/force/src/icon-mask.svg') }}
         </figure>
@@ -22,15 +22,17 @@
             <div class="meta ignore-sort">
                 {% from _self import objectViewUrl, objectListUrl %}
                 <div>
-                    <span class="light">Id:</span> <span class="objectIdLabel">{{ criteria.id }}</span>
+                    <span class="light">Id:</span> <span class="objectIdLabel">{{ record.objectId }}</span>
                     {% if field.viewUrl %}
-                        <a href="{{ objectViewUrl(field, criteria) }}" target="_blank" data-icon="world" title="View Salesforce Object"></a>
+                        <a href="{{ objectViewUrl(field, record) }}" target="_blank" data-icon="world"
+                           title="View Salesforce Object"></a>
                     {% endif %}
                 </div>
                 <div>
-                    <span class="light">Object:</span> {{ field.object }}
+                    <span class="light">Object:</span> {{ objectLabel }}
                     {% if field.listUrl %}
-                        <a href="{{ objectListUrl(field, criteria) }}" target="_blank" data-icon="world" title="View Salesforce {{  field.object }}s"></a>
+                        <a href="{{ objectListUrl(field, record) }}" target="_blank" data-icon="world"
+                           title="View Salesforce {{ field.object }}s"></a>
                     {% endif %}
                 </div>
             </div>
@@ -39,9 +41,10 @@
 
                 {{ forms.textField({
                     placeholder: "Salesforce Object Id"|t('force'),
-                    name: 'id',
+                    name: 'objectId',
                     class: 'objectId',
-                    value: criteria.id
+                    value: record.objectId,
+                    type: "number"
                 }) }}
 
                 <div class="buttons">
@@ -61,15 +64,16 @@
                     </ul>
                 </div>
                 <ul>
-                    <li><a class="error remove" data-ignore="true" href="#">Remove</a></li>
+                    <li><a class="error remove" data-ignore="true" href="#">Dissociate</a></li>
                 </ul>
             </div>
         </div>
     </div>
+
 {% endmacro %}
 
 {% js %}
-    new Craft.ForceSObjectsField(
+    new Craft.ForceObjectsField(
         '#{{ id|namespaceInputId|e('js') }}',
         {
             limit: '{{ field.max ?: null }}',
@@ -78,38 +82,38 @@
                 element: '{{ element.id }}'
             },
             actions: {{ actions|json_encode|raw }},
-            rowData: {
+            itemData: {
                 field: '{{ field.id }}',
                 element: '{{ element.id }}'
             },
-            rowSettings: {
+            itemSettings: {
                 data: {
                     field: '{{ field.id }}',
-                    element: '{{ element.id }}'
+                    element: '{{ element.id }}',
                 },
-                actions: {{ rowActions|json_encode|raw }}
+                actions: {{ itemActions|json_encode|raw }}
             }
         }
     );
 {% endjs %}
 
-{% macro objectViewUrl(field, criteria) %}
+{% macro objectViewUrl(field, record) %}
     {{ craft.app.view.renderString(
         field.viewUrl,
         {
-            instanceUrl: criteria.connection.instanceUrl,
-            id: criteria.id,
-            object: criteria.object
+            instanceUrl: field.connection.instanceUrl,
+            id: record.objectId,
+            object: field.object
         }
     ) }}
 {% endmacro %}
 
-{% macro objectListUrl(field, criteria) %}
+{% macro objectListUrl(field, record) %}
     {{ craft.app.view.renderString(
         field.listUrl,
         {
-            instanceUrl: criteria.connection.instanceUrl,
-            object: criteria.object
+            instanceUrl: field.connection.instanceUrl,
+            object: field.object
         }
     ) }}
 {% endmacro %}

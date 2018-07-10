@@ -9,7 +9,6 @@
 namespace flipbox\force\services;
 
 use Craft;
-use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\base\FieldInterface;
 use craft\helpers\Component as ComponentHelper;
@@ -27,7 +26,7 @@ use flipbox\force\fields\actions\SyncTo;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use flipbox\force\records\ObjectAssociation;
-use flipbox\force\web\assets\objects\SObjects as SObjectsAsset;
+use flipbox\force\web\assets\objects\Objects as SObjectsAsset;
 use yii\base\Exception;
 
 /**
@@ -128,7 +127,7 @@ class ObjectsField extends SortableFields
 
     /**
      * @inheritdoc
-     * @throws Exception
+     * @throws \Throwable
      */
     protected function normalizeQueryInputValue(
         FieldInterface $field,
@@ -143,11 +142,11 @@ class ObjectsField extends SortableFields
             $value = StringHelper::toString($value);
         }
 
-        return Force::getInstance()->getObjectAssociations()->create(
+        return new ObjectAssociation(
             [
-                'fieldId' => $field->id,
-                ObjectAssociation::TARGET_ATTRIBUTE => $value,
-                ObjectAssociation::SOURCE_ATTRIBUTE => $element === null ? null : $element->getId(),
+                'field' => $field,
+                'element' => $element,
+                'objectId' => $value,
                 'siteId' => $this->targetSiteId($element),
                 'sortOrder' => $sortOrder++
             ]
@@ -172,13 +171,14 @@ class ObjectsField extends SortableFields
         Craft::$app->getView()->registerAssetBundle(SObjectsAsset::class);
 
         return Craft::$app->getView()->renderTemplate(
-            'force/_components/fieldtypes/SObjects/input',
+            $field::INPUT_TEMPLATE_PATH,
             [
                 'field' => $field,
                 'element' => $element,
                 'value' => $query,
+                'objectLabel' => $this->getObjectLabel($field),
                 'actions' => $this->getActionHtml($field, $element),
-                'rowActions' => $this->getRowActionHtml($field, $element),
+                'itemActions' => $this->getItemActionHtml($field, $element),
                 'static' => $static
             ]
         );
@@ -194,48 +194,155 @@ class ObjectsField extends SortableFields
         Objects $field
     ) {
         return Craft::$app->getView()->renderTemplate(
-            'force/_components/fieldtypes/SObjects/settings',
+            'force/_components/fieldtypes/Objects/settings',
             [
-                'field' => $field
+                'field' => $field,
+                'availableActions' => $this->getAvailableActions($field),
+                'availableItemActions' => $this->getAvailableItemActions($field)
             ]
         );
     }
 
+
+    /*******************************************
+     * OBJECT
+     *******************************************/
+
     /**
-     * @param FieldInterface $field
-     * @throws Exception
+     * @param Objects $field
+     * @return null
      */
-    private function ensureField(FieldInterface $field)
+    public function getObjectLabel(Objects $field)
     {
-        if (!$field instanceof Objects) {
-            throw new Exception(sprintf(
-                "The field must be an instance of '%s', '%s' given.",
-                (string)Objects::class,
-                (string)get_class($field)
-            ));
-        }
+        return StringHelper::titleize($field->object);
+    }
+
+    /*******************************************
+     * ACTIONS
+     *******************************************/
+
+    /**
+     * @param Objects $field
+     * @return ObjectActionInterface[]
+     * @throws \craft\errors\MissingComponentException
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getAvailableActions(Objects $field): array
+    {
+        $event = new RegisterObjectFieldActionsEvent([
+            'actions' => [
+                SyncTo::class
+            ]
+        ]);
+
+        $field->trigger(
+            $field::EVENT_REGISTER_AVAILABLE_ACTIONS,
+            $event
+        );
+
+        return $this->resolveActions(
+            array_filter((array)$event->actions),
+            ObjectActionInterface::class
+        );
     }
 
     /**
      * @param Objects $field
-     * @param ObjectAssociation $value
-     * @param ElementInterface $element
-     * @return bool
+     * @param ElementInterface|null $element
+     * @return ObjectActionInterface[]
+     * @throws \craft\errors\MissingComponentException
+     * @throws \yii\base\InvalidConfigException
      */
-    public function saveAssociation(
-        Objects $field,
-        ObjectAssociation $value,
-        ElementInterface $element
-    ) {
-        /** @var Element $element */
-        $association = Force::getInstance()->getObjectAssociations()->create([
-            'fieldId' => $field->id,
-            'siteId' => $element->siteId,
-            'objectId' => $value->objectId,
-            'elementId' => $element->getId()
+    public function getActions(Objects $field, ElementInterface $element = null): array
+    {
+        $event = new RegisterObjectFieldActionsEvent([
+            'actions' => $field->selectedActions,
+            'element' => $element
         ]);
 
-        return $association->associate();
+        $field->trigger(
+            $field::EVENT_REGISTER_ACTIONS,
+            $event
+        );
+
+        return $this->resolveActions(
+            array_filter((array)$event->actions),
+            ObjectActionInterface::class
+        );
+    }
+
+    /**
+     * @param Objects $field
+     * @return ObjectActionInterface[]
+     * @throws \craft\errors\MissingComponentException
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getAvailableItemActions(Objects $field): array
+    {
+        $event = new RegisterObjectFieldActionsEvent([
+            'actions' => [
+                SyncItemFrom::class,
+                SyncItemTo::class,
+            ]
+        ]);
+
+        $field->trigger(
+            $field::EVENT_REGISTER_AVAILABLE_ITEM_ACTIONS,
+            $event
+        );
+
+        return $this->resolveActions(
+            array_filter((array)$event->actions),
+            ObjectItemActionInterface::class
+        );
+    }
+
+    /**
+     * @param Objects $field
+     * @param ElementInterface|null $element
+     * @return ObjectItemActionInterface[]
+     * @throws \craft\errors\MissingComponentException
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getItemActions(Objects $field, ElementInterface $element = null): array
+    {
+        $event = new RegisterObjectFieldActionsEvent([
+            'actions' => $field->selectedItemActions,
+            'element' => $element
+        ]);
+
+        $field->trigger(
+            $field::EVENT_REGISTER_ITEM_ACTIONS,
+            $event
+        );
+
+        return $this->resolveActions(
+            array_filter((array)$event->actions),
+            ObjectItemActionInterface::class
+        );
+    }
+
+    /**
+     * @param array $actions
+     * @param string $instance
+     * @return array
+     * @throws \craft\errors\MissingComponentException
+     * @throws \yii\base\InvalidConfigException
+     */
+    protected function resolveActions(array $actions, string $instance)
+    {
+        foreach ($actions as $i => $action) {
+            // $action could be a string or config array
+            if (!$action instanceof $instance) {
+                $actions[$i] = $action = ComponentHelper::createComponent($action, $instance);
+
+                if ($actions[$i] === null) {
+                    unset($actions[$i]);
+                }
+            }
+        }
+
+        return array_values($actions);
     }
 
     /**
@@ -270,11 +377,11 @@ class ObjectsField extends SortableFields
      * @throws \craft\errors\MissingComponentException
      * @throws \yii\base\InvalidConfigException
      */
-    protected function getRowActionHtml(Objects $field, ElementInterface $element = null): array
+    protected function getItemActionHtml(Objects $field, ElementInterface $element = null): array
     {
         $actionData = [];
 
-        foreach ($this->getRowActions($field, $element) as $action) {
+        foreach ($this->getItemActions($field, $element) as $action) {
             $actionData[] = [
                 'type' => get_class($action),
                 'destructive' => $action->isDestructive(),
@@ -289,92 +396,17 @@ class ObjectsField extends SortableFields
     }
 
     /**
-     * @param Objects $field
-     * @param ElementInterface|null $element
-     * @return ObjectItemActionInterface[]
-     * @throws \craft\errors\MissingComponentException
-     * @throws \yii\base\InvalidConfigException
+     * @param FieldInterface $field
+     * @throws Exception
      */
-    public function getRowActions(Objects $field, ElementInterface $element = null): array
+    private function ensureField(FieldInterface $field)
     {
-        $event = new RegisterObjectFieldActionsEvent([
-            'actions' => [
-                SyncItemFrom::class,
-                SyncItemTo::class
-            ],
-            'element' => $element
-        ]);
-
-        $field->trigger(
-            $field::EVENT_REGISTER_ROW_ACTIONS,
-            $event
-        );
-
-        return $this->resolveActions($event->actions, ObjectItemActionInterface::class);
-    }
-
-    /**
-     * @param Objects $field
-     * @param ElementInterface|null $element
-     * @return ObjectActionInterface[]
-     * @throws \craft\errors\MissingComponentException
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function getActions(Objects $field, ElementInterface $element = null): array
-    {
-        $actions = [];
-
-        if (!empty($field->id)) {
-            $actions[] = SyncTo::class;
+        if (!$field instanceof Objects) {
+            throw new Exception(sprintf(
+                "The field must be an instance of '%s', '%s' given.",
+                (string)Objects::class,
+                (string)get_class($field)
+            ));
         }
-
-        $event = new RegisterObjectFieldActionsEvent([
-            'actions' => $actions,
-            'element' => $element
-        ]);
-
-        $field->trigger(
-            $field::EVENT_REGISTER_ACTIONS,
-            $event
-        );
-
-        return $this->resolveActions($event->actions, ObjectActionInterface::class);
-    }
-
-    /**
-     * @param array $actions
-     * @param string $instance
-     * @return array
-     * @throws \craft\errors\MissingComponentException
-     * @throws \yii\base\InvalidConfigException
-     */
-    protected function resolveActions(array $actions, string $instance)
-    {
-        foreach ($actions as $i => $action) {
-            // $action could be a string or config array
-            if (!$action instanceof $instance) {
-                $actions[$i] = $action = ComponentHelper::createComponent($action, $instance);
-
-                if ($actions[$i] === null) {
-                    unset($actions[$i]);
-                }
-            }
-        }
-
-        return array_values($actions);
-    }
-
-    /**
-     * @param Objects $field
-     * @param ElementInterface|Element $element
-     * @return false|null|string
-     */
-    public function findObjectId(Objects $field, ElementInterface $element)
-    {
-        return Force::getInstance()->getObjectAssociations()->getQuery()
-            ->select('objectId')
-            ->field($field->id)
-            ->element($element->getId())
-            ->scalar();
     }
 }

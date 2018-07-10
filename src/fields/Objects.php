@@ -14,9 +14,11 @@ use craft\base\Field;
 use craft\elements\db\ElementQueryInterface;
 use flipbox\ember\helpers\ModelHelper;
 use flipbox\ember\validators\MinMaxValidator;
+use flipbox\force\connections\ConnectionInterface;
 use flipbox\force\db\ObjectAssociationQuery;
 use flipbox\force\Force;
 use flipbox\force\records\ObjectAssociation;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -30,9 +32,24 @@ class Objects extends Field
     const EVENT_REGISTER_ACTIONS = 'registerActions';
 
     /**
-     * The row action event name
+     * The action event name
      */
-    const EVENT_REGISTER_ROW_ACTIONS = 'registerRowActions';
+    const EVENT_REGISTER_AVAILABLE_ACTIONS = 'registerAvailableActions';
+
+    /**
+     * The item action event name
+     */
+    const EVENT_REGISTER_ITEM_ACTIONS = 'registerItemActions';
+
+    /**
+     * The item action event name
+     */
+    const EVENT_REGISTER_AVAILABLE_ITEM_ACTIONS = 'registerAvailableItemActions';
+
+    /**
+     * The input template path
+     */
+    const INPUT_TEMPLATE_PATH = 'force/_components/fieldtypes/Objects/input';
 
     /**
      * @var string
@@ -59,6 +76,15 @@ class Objects extends Field
      */
     public $listUrl = '';
 
+    /**
+     * @var array
+     */
+    public $selectedActions = [];
+
+    /**
+     * @var array
+     */
+    public $selectedItemActions = [];
 
     /**
      * @var string|null
@@ -116,6 +142,33 @@ class Objects extends Field
         ];
     }
 
+    /*******************************************
+     * CONNECTION
+     *******************************************/
+
+    /**
+     * @return ConnectionInterface
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getConnection(): ConnectionInterface
+    {
+        $service = Force::getInstance()->getConnections();
+        return $service->get($service::DEFAULT_CONNECTION);
+    }
+
+    /*******************************************
+     * CACHE
+     *******************************************/
+
+    /**
+     * @return CacheInterface
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getCache(): CacheInterface
+    {
+        $service = Force::getInstance()->getCache();
+        return $service->get($service::DEFAULT_CACHE);
+    }
 
     /*******************************************
      * VALUE

@@ -38,7 +38,7 @@ class Resources extends ServiceLocator
      * @noinspection PhpDocMissingThrowsInspection
      * @return resources\Object
      */
-    public function getSObject(): resources\Object
+    public function getObject(): resources\Object
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         /** @noinspection PhpIncompatibleReturnTypeInspection */

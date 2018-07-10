@@ -16,7 +16,7 @@ trait SObjectAttribute
     /**
      * @var string|string[]|null
      */
-    public $sObject;
+    public $object;
 
     /**
      * Adds an additional WHERE condition to the existing one.
@@ -34,27 +34,27 @@ trait SObjectAttribute
      * @param string|string[]|null $value
      * @return static
      */
-    public function setSObjectId($value)
+    public function setObjectId($value)
     {
-        return $this->setSObject($value);
+        return $this->setObject($value);
     }
 
     /**
      * @param string|string[]|null $value
      * @return static
      */
-    public function sObjectId($value)
+    public function objectId($value)
     {
-        return $this->setSObject($value);
+        return $this->setObject($value);
     }
 
     /**
      * @param string|string[]|null $value
      * @return static
      */
-    public function setSObject($value)
+    public function setObject($value)
     {
-        $this->sObject = $value;
+        $this->object = $value;
         return $this;
     }
 
@@ -62,18 +62,18 @@ trait SObjectAttribute
      * @param string|string[]|null $value
      * @return static
      */
-    public function sObject($value)
+    public function object($value)
     {
-        return $this->setSObject($value);
+        return $this->setObject($value);
     }
 
     /**
      *  Apply query specific conditions
      */
-    protected function applySObjectConditions()
+    protected function applyObjectConditions()
     {
-        if ($this->sObject !== null) {
-            $this->andWhere(Db::parseParam('sObjectId', $this->sObject));
+        if ($this->object !== null) {
+            $this->andWhere(Db::parseParam('objectId', $this->object));
         }
     }
 }

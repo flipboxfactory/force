@@ -49,7 +49,7 @@ class SObjectAssociations extends Migration
     protected function createTables()
     {
         $this->createTable(SObjectAssociationRecord::tableName(), [
-            'sObjectId' => $this->string()->notNull(),
+            'objectId' => $this->string()->notNull(),
             'elementId' => $this->integer()->notNull(),
             'fieldId' => $this->integer()->notNull(),
             'siteId' => $this->integer()->notNull(),
@@ -72,7 +72,7 @@ class SObjectAssociations extends Migration
             SObjectAssociationRecord::tableName(),
             [
                 'elementId',
-                'sObjectId',
+                'objectId',
                 'fieldId',
                 'siteId'
             ]
@@ -80,7 +80,7 @@ class SObjectAssociations extends Migration
         $this->createIndex(
             null,
             SObjectAssociationRecord::tableName(),
-            'sObjectId',
+            'objectId',
             false
         );
     }

@@ -38,7 +38,7 @@ class SyncItemTo extends AbstractObjectItemAction
      */
     public function performAction(Objects $field, ElementInterface $element, ObjectAssociation $record): bool
     {
-        if (!Force::getInstance()->getResources()->getSObject()->syncUp($element, $field)) {
+        if (!Force::getInstance()->getResources()->getObject()->syncUp($element, $field)) {
             $this->setMessage("Failed to sync to HubSpot Object");
             return false;
         }

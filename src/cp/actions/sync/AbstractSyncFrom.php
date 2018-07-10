@@ -11,10 +11,8 @@ namespace flipbox\force\cp\actions\sync;
 use Craft;
 use craft\base\ElementInterface;
 use flipbox\ember\actions\traits\CheckAccess;
-use flipbox\force\criteria\SObjectCriteria;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
-use flipbox\force\transformers\collections\TransformerCollection;
 use yii\base\Action;
 
 /**
@@ -26,23 +24,21 @@ abstract class AbstractSyncFrom extends Action
     use CheckAccess;
 
     /**
-     * @param SObjectCriteria $criteria
      * @param ElementInterface $element
      * @param Objects $field
      * @return mixed
      * @throws \Exception
      */
     protected function runInternal(
-        SObjectCriteria $criteria,
         ElementInterface $element,
         Objects $field
     ) {
         // Check access
-        if (($access = $this->checkAccess($criteria, $element, $field)) !== true) {
+        if (($access = $this->checkAccess($element, $field)) !== true) {
             return $access;
         }
 
-        if (false === $this->performAction($criteria, $element, $field)) {
+        if (false === $this->performAction($element, $field)) {
             return $this->handleFailResponse($element);
         }
 
@@ -50,25 +46,18 @@ abstract class AbstractSyncFrom extends Action
     }
 
     /**
-     * @param SObjectCriteria $criteria
      * @param ElementInterface $element
      * @param Objects $field
      * @return false|string
      * @throws \yii\base\InvalidConfigException
      */
     protected function performAction(
-        SObjectCriteria $criteria,
         ElementInterface $element,
         Objects $field
     ) {
-        $criteria->transformer([
-            'class' => TransformerCollection::class
-        ]);
-
-        return Force::getInstance()->getElements()->syncDown(
+        return Force::getInstance()->getResources()->getObject()->syncDown(
             $element,
-            $field,
-            $criteria
+            $field
         );
     }
 

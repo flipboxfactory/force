@@ -11,6 +11,8 @@ namespace flipbox\force\cp\actions\fields;
 use Craft;
 use craft\base\ElementInterface;
 use flipbox\ember\actions\traits\Manage;
+use flipbox\force\actions\traits\ElementResolverTrait;
+use flipbox\force\actions\traits\FieldResolverTrait;
 use flipbox\force\criteria\ObjectAccessorCriteria;
 use flipbox\force\criteria\ObjectAccessorCriteriaInterface;
 use flipbox\force\fields\Objects;
@@ -23,8 +25,8 @@ use yii\web\HttpException;
  */
 class CreateRow extends Action
 {
-    use traits\ElementResolverTrait,
-        traits\FieldResolverTrait,
+    use ElementResolverTrait,
+        FieldResolverTrait,
         Manage;
 
     /**

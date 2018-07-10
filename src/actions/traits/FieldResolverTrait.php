@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\actions\fields\traits;
+namespace flipbox\force\actions\traits;
 
 use Craft;
 use craft\base\ElementInterface;
@@ -27,10 +27,11 @@ trait FieldResolverTrait
      */
     protected function resolveField(string $field): Objects
     {
+        $field = is_numeric($field) ?
+            Craft::$app->getFields()->getFieldbyId($field) :
+            Craft::$app->getFields()->getFieldByHandle($field);
+
         /** @var Objects $field */
-        if (null === ($field = Craft::$app->getFields()->getFieldbyId($field))) {
-            throw new HttpException(400, 'Invalid field.');
-        }
 
         if (!$field instanceof Objects) {
             throw new HttpException(400, sprintf(
@@ -46,21 +47,21 @@ trait FieldResolverTrait
     /**
      * @param Objects $field
      * @param ElementInterface $element
-     * @param string $sObjectId
+     * @param string $id
      * @return array|mixed|null|\yii\base\BaseObject
      * @throws HttpException
      */
-    protected function resolveCriteria(Objects $field, ElementInterface $element, string $sObjectId)
+    protected function resolveRecord(Objects $field, ElementInterface $element, string $id)
     {
         /** @var ObjectAssociationQuery $query */
         if (null === ($query = $element->getFieldValue($field->handle))) {
             throw new HttpException(400, 'Field is not associated to element');
         }
 
-        if (null === ($criteria = $query->sObjectId($sObjectId)->one())) {
+        if (null === ($record = $query->objectId($id)->one())) {
             throw new HttpException(400, 'Invalid value');
         };
 
-        return $criteria;
+        return $record;
     }
 }

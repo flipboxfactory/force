@@ -10,10 +10,12 @@ namespace flipbox\force\cp\actions\fields;
 
 use craft\base\ElementInterface;
 use flipbox\ember\actions\traits\Manage;
-use flipbox\force\criteria\ObjectMutatorCriteriaInterface;
+use flipbox\force\actions\traits\ElementResolverTrait;
+use flipbox\force\actions\traits\FieldResolverTrait;
 use flipbox\force\fields\actions\ObjectItemActionInterface;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
+use flipbox\force\records\ObjectAssociation;
 use yii\base\Action;
 use yii\web\HttpException;
 
@@ -23,10 +25,10 @@ use yii\web\HttpException;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class PerformRowAction extends Action
+class PerformItemAction extends Action
 {
-    use traits\ElementResolverTrait,
-        traits\FieldResolverTrait,
+    use ElementResolverTrait,
+        FieldResolverTrait,
         Manage;
 
     /**
@@ -43,7 +45,7 @@ class PerformRowAction extends Action
     {
         $field = $this->resolveField($field);
         $element = $this->resolveElement($element);
-        $criteria = $this->resolveCriteria($field, $element, $id);
+        $record = $this->resolveRecord($field, $element, $id);
 
         $availableActions = Force::getInstance()->getObjectsField()->getRowActions($field, $element);
 
@@ -58,14 +60,14 @@ class PerformRowAction extends Action
             throw new HttpException(400, 'Field action is not supported by the field');
         }
 
-        return $this->runInternal($action, $field, $element, $criteria);
+        return $this->runInternal($action, $field, $element, $record);
     }
 
     /**
      * @param ObjectItemActionInterface $action
      * @param Objects $field
      * @param ElementInterface $element
-     * @param ObjectMutatorCriteriaInterface $criteria
+     * @param ObjectAssociation $record
      * @return mixed
      * @throws \yii\web\UnauthorizedHttpException
      */
@@ -73,14 +75,14 @@ class PerformRowAction extends Action
         ObjectItemActionInterface $action,
         Objects $field,
         ElementInterface $element,
-        ObjectMutatorCriteriaInterface $criteria
+        ObjectAssociation $record
     ) {
         // Check access
-        if (($access = $this->checkAccess($action, $field, $element, $criteria)) !== true) {
+        if (($access = $this->checkAccess($action, $field, $element, $record)) !== true) {
             return $access;
         }
 
-        if (!$this->performAction($action, $field, $element, $criteria)) {
+        if (!$this->performAction($action, $field, $element, $record)) {
             return $this->handleFailResponse($action);
         }
 
@@ -91,15 +93,15 @@ class PerformRowAction extends Action
      * @param ObjectItemActionInterface $action
      * @param Objects $field
      * @param ElementInterface $element
-     * @param ObjectMutatorCriteriaInterface $criteria
+     * @param ObjectAssociation $record
      * @return bool
      */
     public function performAction(
         ObjectItemActionInterface $action,
         Objects $field,
         ElementInterface $element,
-        ObjectMutatorCriteriaInterface $criteria
+        ObjectAssociation $record
     ): bool {
-        return $action->performAction($field, $element, $criteria);
+        return $action->performAction($field, $element, $record);
     }
 }

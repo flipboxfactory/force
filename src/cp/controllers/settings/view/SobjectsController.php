@@ -23,7 +23,7 @@ class SobjectsController extends AbstractController
     /**
      * The template base path
      */
-    const TEMPLATE_BASE = parent::TEMPLATE_BASE . DIRECTORY_SEPARATOR . 'sobjects';
+    const TEMPLATE_BASE = parent::TEMPLATE_BASE . DIRECTORY_SEPARATOR . 'objects';
 
     /**
      * The index view template path
@@ -38,18 +38,18 @@ class SobjectsController extends AbstractController
         $variables = [];
         $this->baseVariables($variables);
 
-        $sobject = Craft::$app->getRequest()->getParam('sObject');
+        $object = Craft::$app->getRequest()->getParam('object');
         $describedSobject = null;
 
-        if ($sobject !== null) {
-            $describedSobject = Force::getInstance()->getResources()->getSObject()->getCriteria([
-                'sObject' => $sobject,
+        if ($object !== null) {
+            $describedSobject = Force::getInstance()->getResources()->getObject()->getCriteria([
+                'object' => $object,
                 'transformer' => TransformerCollection::class
             ])->describe();
         }
 
         $variables['describedSobject'] = $describedSobject;
-        $variables['sObjectOptions'] = $this->getSObjectOptions();
+        $variables['objectOptions'] = $this->getSObjectOptions();
         $variables['tabs'] = $this->getTabs();
 
         return $this->renderTemplate(
@@ -70,10 +70,10 @@ class SobjectsController extends AbstractController
         ])->describe();
         $describeOptions = [];
 
-        foreach (ArrayHelper::getValue($describe, 'sobjects', []) as $sobject) {
+        foreach (ArrayHelper::getValue($describe, 'objects', []) as $object) {
             $describeOptions[] = [
-                'label' => $sobject['label'],
-                'value' => $sobject['name']
+                'label' => $object['label'],
+                'value' => $object['name']
             ];
         }
 
@@ -109,7 +109,7 @@ class SobjectsController extends AbstractController
      */
     protected function getBaseCpPath(): string
     {
-        return parent::getBaseCpPath() . '/sobjects';
+        return parent::getBaseCpPath() . '/objects';
     }
 
     /**
@@ -117,6 +117,6 @@ class SobjectsController extends AbstractController
      */
     protected function getBaseActionPath(): string
     {
-        return parent::getBaseActionPath() . '/sobjects';
+        return parent::getBaseActionPath() . '/objects';
     }
 }

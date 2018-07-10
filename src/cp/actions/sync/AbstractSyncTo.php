@@ -11,7 +11,6 @@ namespace flipbox\force\cp\actions\sync;
 use Craft;
 use craft\base\ElementInterface;
 use flipbox\ember\actions\traits\CheckAccess;
-use flipbox\force\criteria\SObjectCriteria;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use yii\base\Action;
@@ -25,65 +24,61 @@ abstract class AbstractSyncTo extends Action
     use CheckAccess;
 
     /**
-     * @param SObjectCriteria $value
      * @param ElementInterface $element
      * @param Objects $field
      * @return mixed
      * @throws \Exception
      */
     protected function runInternal(
-        SObjectCriteria $value,
         ElementInterface $element,
         Objects $field
     ) {
         // Check access
-        if (($access = $this->checkAccess($value, $element, $field)) !== true) {
+        if (($access = $this->checkAccess($element, $field)) !== true) {
             return $access;
         }
 
-        if (false === $this->performAction($value, $element, $field)) {
-            return $this->handleFailResponse();
+        if (false === $this->performAction($element, $field)) {
+            return $this->handleFailResponse($element);
         }
 
-        return $this->handleSuccessResponse($value);
+        return $this->handleSuccessResponse($element);
     }
 
     /**
-     * @param SObjectCriteria $value
      * @param ElementInterface $element
      * @param Objects $field
      * @return false|string
      * @throws \yii\base\InvalidConfigException
      */
     protected function performAction(
-        SObjectCriteria $value,
         ElementInterface $element,
         Objects $field
     ) {
-        return Force::getInstance()->getElements()->syncUp(
+        return Force::getInstance()->getResources()->getObject()->syncUp(
             $element,
-            $field,
-            $value
+            $field
         );
     }
 
     /**
-     * @param SObjectCriteria $criteria
-     * @return array
+     * @param ElementInterface $element
+     * @return ElementInterface
      */
-    protected function handleSuccessResponse(SObjectCriteria $criteria)
+    protected function handleSuccessResponse(ElementInterface $element)
     {
         // Success status code
-        Craft::$app->getResponse()->setStatusCode(empty($criteria->id) ? 200 : 201);
-        return ['sObjectId' => $criteria->id];
+        Craft::$app->getResponse()->setStatusCode($element ? 200 : 201);
+        return $element;
     }
 
     /**
-     * @return mixed
+     * @param ElementInterface $element
+     * @return ElementInterface
      */
-    protected function handleFailResponse()
+    protected function handleFailResponse(ElementInterface $element)
     {
         Craft::$app->getResponse()->setStatusCode(400);
-        return;
+        return $element;
     }
 }

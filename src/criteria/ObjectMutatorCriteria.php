@@ -70,7 +70,7 @@ class ObjectMutatorCriteria extends BaseObject implements ObjectMutatorCriteriaI
     public function create(array $config = [], $source = null)
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getSObject()->create($this, $source);
+        return Force::getInstance()->getResources()->getObject()->create($this, $source);
     }
 
     /**
@@ -82,7 +82,7 @@ class ObjectMutatorCriteria extends BaseObject implements ObjectMutatorCriteriaI
     public function update(array $config = [], $source = null)
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getSObject()->update($this, $source);
+        return Force::getInstance()->getResources()->getObject()->update($this, $source);
     }
 
     /**
@@ -94,7 +94,7 @@ class ObjectMutatorCriteria extends BaseObject implements ObjectMutatorCriteriaI
     public function upsert(array $config = [], $source = null)
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getSObject()->upsert($this, $source);
+        return Force::getInstance()->getResources()->getObject()->upsert($this, $source);
     }
 
     /**
@@ -106,7 +106,7 @@ class ObjectMutatorCriteria extends BaseObject implements ObjectMutatorCriteriaI
     public function delete(array $config = [], $source = null)
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getSObject()->delete($this, $source);
+        return Force::getInstance()->getResources()->getObject()->delete($this, $source);
     }
 
     /**

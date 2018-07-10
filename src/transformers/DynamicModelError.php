@@ -26,7 +26,7 @@ class DynamicModelError extends AbstractTransformer
      * @param Scope $scope
      * @param string|null $identifier
      * @param ElementInterface|null $source
-     * @param string|null $sObject
+     * @param string|null $object
      * @return mixed
      */
     public function __invoke(
@@ -34,7 +34,7 @@ class DynamicModelError extends AbstractTransformer
         Scope $scope,
         string $identifier = null,
         ElementInterface $source = null,
-        string $sObject = null
+        string $object = null
     ) {
         if (!is_array($data)) {
             $data = [$data];

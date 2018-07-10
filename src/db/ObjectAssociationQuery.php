@@ -41,7 +41,7 @@ class ObjectAssociationQuery extends SortableAssociationQuery
      */
     protected function fixedOrderColumn(): string
     {
-        return 'sObjectId';
+        return 'objectId';
     }
 
     /**
@@ -65,7 +65,7 @@ class ObjectAssociationQuery extends SortableAssociationQuery
     {
         // Is the query already doomed?
         if (($this->field !== null && empty($this->field)) ||
-            ($this->sObject !== null && empty($this->sObject)) ||
+            ($this->object !== null && empty($this->object)) ||
             ($this->element !== null && empty($this->element))
         ) {
             throw new QueryAbortedException();
@@ -73,7 +73,7 @@ class ObjectAssociationQuery extends SortableAssociationQuery
 
         $this->applyConditions();
         $this->applySiteConditions();
-        $this->applySObjectConditions();
+        $this->applyObjectConditions();
         $this->applyFieldConditions();
 
         return parent::prepare($builder);

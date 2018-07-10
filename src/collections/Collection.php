@@ -2,8 +2,8 @@
 
 /**
  * @copyright  Copyright (c) Flipbox Digital Limited
- * @license    https://github.com/flipbox/salesforce/blob/master/LICENSE.md
- * @link       https://github.com/flipbox/salesforce
+ * @license    https://flipboxfactory.com/software/force/license
+ * @link       https://www.flipboxfactory.com/software/force/
  */
 
 namespace flipbox\force\collections;
@@ -14,7 +14,7 @@ use Flipbox\Skeleton\Error\ErrorTrait;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
- * @since 2.1.0
+ * @since 1.0.0
  */
 class Collection extends BaseCollection implements ErrorInterface
 {

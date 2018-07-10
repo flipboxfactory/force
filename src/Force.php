@@ -20,8 +20,8 @@ use craft\web\UrlManager;
 use flipbox\craft\psr3\Logger;
 use flipbox\ember\helpers\UrlHelper;
 use flipbox\ember\modules\LoggerTrait;
-use flipbox\force\fields\Query as QueryField;
 use flipbox\force\fields\Objects as SObjectIdsField;
+use flipbox\force\fields\Query as QueryField;
 use flipbox\force\models\Settings as SettingsModel;
 use flipbox\force\patron\Events;
 use flipbox\force\web\twig\variables\Force as ForceVariable;
@@ -324,8 +324,8 @@ class Force extends Plugin
                 'force/queries/<identifier:\d+>' => 'force/cp/view/queries/view',
 
                 // SOBJECTS
-                'force/sobjects' => 'force/cp/view/sobjects/index',
-                'force/sobjects/<identifier:\d+>' => 'force/cp/view/sobjects/view',
+                'force/objects' => 'force/cp/view/objects/index',
+                'force/objects/<identifier:\d+>' => 'force/cp/view/objects/view',
 
                 // SETTINGS
                 'force/settings' => 'force/cp/settings/view/general/index',
@@ -337,7 +337,7 @@ class Force extends Plugin
                 'force/settings/queries/<identifier:\d+>' => 'force/cp/settings/view/queries/upsert',
 
                 // SETTINGS: SOBJECTS
-                'force/settings/sobjects' => 'force/cp/settings/view/sobjects/index'
+                'force/settings/objects' => 'force/cp/settings/view/objects/index'
             ]
         );
     }

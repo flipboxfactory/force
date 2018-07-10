@@ -50,7 +50,7 @@ class SyncTo extends AbstractObjectAction
             throw new HttpException(400, 'Field is not associated to element');
         }
 
-        if (!Force::getInstance()->getResources()->getSObject()->syncUp(
+        if (!Force::getInstance()->getResources()->getObject()->syncUp(
             $element,
             $field
         )) {
@@ -60,7 +60,7 @@ class SyncTo extends AbstractObjectAction
 
         $element->setFieldValue($field->handle, null);
 
-        $this->id = $query->select(['sObjectId'])->scalar();
+        $this->id = $query->select(['objectId'])->scalar();
 
         $this->setMessage("Sync to Salesforce executed successfully");
         return true;

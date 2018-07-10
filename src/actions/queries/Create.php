@@ -26,6 +26,7 @@ class Create extends ModelCreate
      * @inheritdoc
      * @param Query $object
      * @return Query
+     * @throws \flipbox\ember\exceptions\RecordNotFoundException
      */
     protected function populate(BaseObject $object): BaseObject
     {
@@ -48,6 +49,8 @@ class Create extends ModelCreate
     /**
      * @inheritdoc
      * @param Query $model
+     * @return bool
+     * @throws \Throwable
      */
     protected function performAction(Model $model): bool
     {

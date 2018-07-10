@@ -27,7 +27,7 @@ use flipbox\force\fields\actions\SyncTo;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use flipbox\force\records\ObjectAssociation;
-use flipbox\force\web\assets\sobjects\SObjects as SObjectsAsset;
+use flipbox\force\web\assets\objects\SObjects as SObjectsAsset;
 use yii\base\Exception;
 
 /**
@@ -66,12 +66,12 @@ class ObjectsField extends SortableFields
     public function findById(int $id)
     {
         if (!array_key_exists($id, $this->fields)) {
-            $sObjectField = Craft::$app->getFields()->getFieldById($id);
-            if (!$sObjectField instanceof Objects) {
-                $sObjectField = null;
+            $objectField = Craft::$app->getFields()->getFieldById($id);
+            if (!$objectField instanceof Objects) {
+                $objectField = null;
             }
 
-            $this->fields[$id] = $sObjectField;
+            $this->fields[$id] = $objectField;
         }
 
         return $this->fields[$id];
@@ -230,7 +230,7 @@ class ObjectsField extends SortableFields
         $association = Force::getInstance()->getObjectAssociations()->create([
             'fieldId' => $field->id,
             'siteId' => $element->siteId,
-            'sObjectId' => $value->sObjectId,
+            'objectId' => $value->objectId,
             'elementId' => $element->getId()
         ]);
 
@@ -371,7 +371,7 @@ class ObjectsField extends SortableFields
     public function findSObjectId(Objects $field, ElementInterface $element)
     {
         return Force::getInstance()->getObjectAssociations()->getQuery()
-            ->select('sObjectId')
+            ->select('objectId')
             ->field($field->id)
             ->element($element->getId())
             ->scalar();

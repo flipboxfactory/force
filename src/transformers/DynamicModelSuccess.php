@@ -23,7 +23,7 @@ class DynamicModelSuccess extends AbstractTransformer
      * @param Scope $scope
      * @param string|null $identifier
      * @param ElementInterface|null $source
-     * @param string|null $sObject
+     * @param string|null $object
      * @return mixed
      */
     public function __invoke(
@@ -31,7 +31,7 @@ class DynamicModelSuccess extends AbstractTransformer
         Scope $scope,
         string $identifier = null,
         ElementInterface $source = null,
-        string $sObject = null
+        string $object = null
     ) {
         if (!is_array($data)) {
             $data = [$data];
@@ -46,7 +46,7 @@ class DynamicModelSuccess extends AbstractTransformer
             return $this->transform($data);
         }
 
-        $this->populateSource($source, $data, $sObject);
+        $this->populateSource($source, $data, $object);
 
         return $this->transform($data);
     }
@@ -54,14 +54,14 @@ class DynamicModelSuccess extends AbstractTransformer
     /**
      * @param ElementInterface $element
      * @param array $data
-     * @param string|null $sObject
+     * @param string|null $object
      */
-    protected function populateSource(ElementInterface $element, array $data, string $sObject = null)
+    protected function populateSource(ElementInterface $element, array $data, string $object = null)
     {
         $event = ['populate'];
 
-        if (null !== ($sObject = $data['attributes']['type'] ?? $sObject)) {
-            $event = ['sobject', $sObject] + $event;
+        if (null !== ($object = $data['attributes']['type'] ?? $object)) {
+            $event = ['object', $object] + $event;
         }
 
         $event = TransformerHelper::eventName($event);
@@ -93,7 +93,7 @@ class DynamicModelSuccess extends AbstractTransformer
             $transformer,
             $data,
             [],
-            ['source' => $element, 'sObject' => $sObject]
+            ['source' => $element, 'object' => $object]
         );
     }
 

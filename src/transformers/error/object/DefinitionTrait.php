@@ -27,7 +27,7 @@ trait DefinitionTrait
         $errorKeys = ($fields ?: $errorCode);
 
         switch ($errorCode) {
-            // error message looks similar to: No such column 'Foo' on sobject of type Bar
+            // error message looks similar to: No such column 'Foo' on object of type Bar
             case 'INVALID_FIELD':
                 $errorKeys = ErrorHelper::getFieldNameFromMessage($errorMessage);
                 break;

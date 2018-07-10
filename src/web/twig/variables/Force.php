@@ -55,7 +55,7 @@ class Force extends ServiceLocator
      */
     public function getObject(array $criteria = []): ObjectAccessorCriteriaInterface
     {
-        return $this->getResources()->getSObject()->getAccessorCriteria($criteria);
+        return $this->getResources()->getObject()->getAccessorCriteria($criteria);
     }
 
     /**

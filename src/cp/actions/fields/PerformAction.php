@@ -10,6 +10,8 @@ namespace flipbox\force\cp\actions\fields;
 
 use craft\base\ElementInterface;
 use flipbox\ember\actions\traits\Manage;
+use flipbox\force\actions\traits\ElementResolverTrait;
+use flipbox\force\actions\traits\FieldResolverTrait;
 use flipbox\force\fields\actions\ObjectActionInterface;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
@@ -22,8 +24,8 @@ use yii\web\HttpException;
  */
 class PerformAction extends Action
 {
-    use traits\ElementResolverTrait,
-        traits\FieldResolverTrait,
+    use ElementResolverTrait,
+        FieldResolverTrait,
         Manage;
 
     /**

@@ -1,7 +1,7 @@
 {% set id = "fields-"~ field.handle %}
-<div id="{{ id }}" class="element-sobjects">
+<div id="{{ id }}" class="element-objects">
 
-    <div class="sObjects">
+    <div class="objects">
         {% from _self import createRow %}
         {% for criteria in value.all() %}
             {{ createRow(field, criteria) }}
@@ -14,23 +14,23 @@
 </div>
 
 {% macro createRow(field, criteria) %}
-    <div class="sObject{% if not criteria.id %} edit-mode{% endif %}">
+    <div class="object{% if not criteria.id %} edit-mode{% endif %}">
         <figure>
             {{ svg('@vendor/flipboxfactory/force/src/icon-mask.svg') }}
         </figure>
         <div class="details">
             <div class="meta ignore-sort">
-                {% from _self import sObjectViewUrl, sObjectListUrl %}
+                {% from _self import objectViewUrl, objectListUrl %}
                 <div>
-                    <span class="light">Id:</span> <span class="sObjectIdLabel">{{ criteria.id }}</span>
+                    <span class="light">Id:</span> <span class="objectIdLabel">{{ criteria.id }}</span>
                     {% if field.viewUrl %}
-                        <a href="{{ sObjectViewUrl(field, criteria) }}" target="_blank" data-icon="world" title="View Salesforce Object"></a>
+                        <a href="{{ objectViewUrl(field, criteria) }}" target="_blank" data-icon="world" title="View Salesforce Object"></a>
                     {% endif %}
                 </div>
                 <div>
-                    <span class="light">Object:</span> {{ field.sObject }}
+                    <span class="light">Object:</span> {{ field.object }}
                     {% if field.listUrl %}
-                        <a href="{{ sObjectListUrl(field, criteria) }}" target="_blank" data-icon="world" title="View Salesforce {{  field.sObject }}s"></a>
+                        <a href="{{ objectListUrl(field, criteria) }}" target="_blank" data-icon="world" title="View Salesforce {{  field.object }}s"></a>
                     {% endif %}
                 </div>
             </div>
@@ -40,7 +40,7 @@
                 {{ forms.textField({
                     placeholder: "Salesforce Object Id"|t('force'),
                     name: 'id',
-                    class: 'sObjectId',
+                    class: 'objectId',
                     value: criteria.id
                 }) }}
 
@@ -93,23 +93,23 @@
     );
 {% endjs %}
 
-{% macro sObjectViewUrl(field, criteria) %}
+{% macro objectViewUrl(field, criteria) %}
     {{ craft.app.view.renderString(
         field.viewUrl,
         {
             instanceUrl: criteria.connection.instanceUrl,
             id: criteria.id,
-            sObject: criteria.sObject
+            object: criteria.object
         }
     ) }}
 {% endmacro %}
 
-{% macro sObjectListUrl(field, criteria) %}
+{% macro objectListUrl(field, criteria) %}
     {{ craft.app.view.renderString(
         field.listUrl,
         {
             instanceUrl: criteria.connection.instanceUrl,
-            sObject: criteria.sObject
+            object: criteria.object
         }
     ) }}
 {% endmacro %}

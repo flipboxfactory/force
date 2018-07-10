@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\actions\fields\traits;
+namespace flipbox\force\actions\traits;
 
 use Craft;
 use craft\base\ElementInterface;

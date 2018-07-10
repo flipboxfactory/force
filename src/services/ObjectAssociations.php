@@ -21,8 +21,7 @@ use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use flipbox\force\migrations\SObjectAssociations as SObjectAssociationsMigration;
 use flipbox\force\records\ObjectAssociation;
-use flipbox\force\transformers\collections\TransformerCollection;
-use yii\base\DynamicModel;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -146,9 +145,9 @@ class ObjectAssociations extends SortableAssociations
     /**
      * @param ObjectAssociation $record
      * @return bool
-     * @throws \Exception
+     * @throws \yii\base\InvalidConfigException
      */
-    public function validateSObject(
+    public function validateObject(
         ObjectAssociation $record
     ): bool {
 
@@ -163,14 +162,16 @@ class ObjectAssociations extends SortableAssociations
         $criteria = new ObjectAccessorCriteria(
             [
                 'object' => $field->object,
-                'id' => $record->sObjectId
+                'id' => $record->objectId
             ]
         );
 
-        /** @var DynamicModel $response */
-        $response = $criteria->get(['transformer' => TransformerCollection::class], $record);
+        /** @var ResponseInterface $response */
+        $response = Force::getInstance()->getResources()->getObject()->httpRead(
+            $criteria
+        );
 
-        return !$response->hasErrors();
+        return $response->getStatusCode() >= 200 && $response->getStatusCode() <= 299;
     }
 
     /**

@@ -23,7 +23,7 @@ use flipbox\force\Force;
  * @since 1.0.0
  *
  * @property int $fieldId
- * @property string $sObjectId
+ * @property string $objectId
  */
 class ObjectAssociation extends SortableAssociation
 {
@@ -34,12 +34,12 @@ class ObjectAssociation extends SortableAssociation
     /**
      * @inheritdoc
      */
-    const TABLE_ALIAS = 'salesforce_sobject_associations';
+    const TABLE_ALIAS = 'salesforce_object_associations';
 
     /**
      * @inheritdoc
      */
-    const TARGET_ATTRIBUTE = 'sObjectId';
+    const TARGET_ATTRIBUTE = 'objectId';
 
     /**
      * @inheritdoc
@@ -65,7 +65,7 @@ class ObjectAssociation extends SortableAssociation
      */
     public static function tableAlias()
     {
-        return parent::tableAlias() . Force::getInstance()->getSettings()->sObjectAssociationTablePostfix;
+        return parent::tableAlias() . Force::getInstance()->getSettings()->objectAssociationTablePostfix;
     }
 
     /**
@@ -102,7 +102,7 @@ class ObjectAssociation extends SortableAssociation
             return null;
         }
 
-        $resource = Force::getInstance()->getResources()->getSObject();
+        $resource = Force::getInstance()->getResources()->getObject();
 
         $criteria['id'] = $this->{self::TARGET_ATTRIBUTE} ?: self::DEFAULT_ID;
 
@@ -131,7 +131,7 @@ class ObjectAssociation extends SortableAssociation
                 [
                     [
                         'fieldId',
-                        'sObjectId'
+                        'objectId'
                     ],
                     'safe',
                     'on' => [

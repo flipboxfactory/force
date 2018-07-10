@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\actions\sobjects;
+namespace flipbox\force\actions\objects;
 
 use Craft;
 use craft\base\FieldInterface;
@@ -30,7 +30,7 @@ abstract class AbstractAssociationAction extends Action
     /**
      * @param string $field
      * @param string $element
-     * @param string $sObjectId
+     * @param string $objectId
      * @param int|null $siteId
      * @param int|null $sortOrder
      * @return mixed
@@ -39,12 +39,12 @@ abstract class AbstractAssociationAction extends Action
     public function run(
         string $field,
         string $element,
-        string $sObjectId,
+        string $objectId,
         int $siteId = null,
         int $sortOrder = null
     ) {
         // Resolve Field
-        $sObjectField = $this->resolveField($field);
+        $objectField = $this->resolveField($field);
 
         // Resolve Element
         if (null === ($sourceElement = Craft::$app->getElements()->getElementById($element))) {
@@ -57,9 +57,9 @@ abstract class AbstractAssociationAction extends Action
         }
 
         return $this->runInternal(Force::getInstance()->getObjectAssociations()->create([
-            'sObjectId' => $sObjectId,
+            'objectId' => $objectId,
             'elementId' => $sourceElement->getId(),
-            'fieldId' => $sObjectField->id,
+            'fieldId' => $objectField->id,
             'siteId' => $siteId,
             'sortOrder' => $sortOrder
         ]));
@@ -72,11 +72,11 @@ abstract class AbstractAssociationAction extends Action
      */
     protected function resolveField(string $field): Objects
     {
-        if (null === ($sObjectField = Force::getInstance()->getObjectsField()->findById($field))) {
+        if (null === ($objectField = Force::getInstance()->getObjectsField()->findById($field))) {
             return $this->handleInvalidFieldResponse($field);
         }
 
-        return $sObjectField;
+        return $objectField;
     }
 
     /**

@@ -22,10 +22,10 @@
                 <div class="meta read-only">
                     {{ forms.selectField({
                         label: "Salesforce Object"|t('force'),
-                        id: 'sObject',
-                        name: 'sObject',
-                        options: sObjectOptions,
-                        value: sObject ?? craft.app.request.getParam('sObject'),
+                        id: 'object',
+                        name: 'object',
+                        options: objectOptions,
+                        value: object ?? craft.app.request.getParam('object'),
                         required: true
                     }) }}
                 </div>

@@ -196,14 +196,14 @@ class Objects extends Field
      */
     public function getSearchKeywords($value, ElementInterface $element): string
     {
-        $sobjects = [];
+        $objects = [];
 
         /** @var ObjectAssociation $association */
         foreach ($value->all() as $association) {
-            array_push($sobjects, $association->sObjectId);
+            array_push($objects, $association->objectId);
         }
 
-        return parent::getSearchKeywords($sobjects, $element);
+        return parent::getSearchKeywords($objects, $element);
     }
 
     /*******************************************

@@ -22,7 +22,7 @@ class PopulateFromSObject extends ResponseToDynamicModel
      * @param Scope $scope
      * @param string|null $identifier
      * @param ElementInterface|null $source
-     * @param string|null $sObject
+     * @param string|null $object
      * @return mixed
      */
     public function __invoke(
@@ -30,10 +30,10 @@ class PopulateFromSObject extends ResponseToDynamicModel
         Scope $scope,
         string $identifier = null,
         ElementInterface $source = null,
-        string $sObject = null
+        string $object = null
     ) {
         if ($source instanceof ElementInterface) {
-            if (null === ($sObject = $data['attributes']['type'] ?? $sObject)) {
+            if (null === ($object = $data['attributes']['type'] ?? $object)) {
                 Force::warning(
                     "Unable to populate element because the SObject type could not be determined.",
                     __METHOD__
@@ -42,7 +42,7 @@ class PopulateFromSObject extends ResponseToDynamicModel
                 return $this->transform($data);
             }
 
-            $this->populateElement($data, $source, $sObject);
+            $this->populateElement($data, $source, $object);
 
             return $this->transform($data);
         }
@@ -58,11 +58,11 @@ class PopulateFromSObject extends ResponseToDynamicModel
     /**
      * @param array $data
      * @param ElementInterface $element
-     * @param string $sObject
+     * @param string $object
      */
-    protected function populateElement(array $data, ElementInterface $element, string $sObject)
+    protected function populateElement(array $data, ElementInterface $element, string $object)
     {
-        $event = TransformerHelper::eventName(['sobject', $sObject, 'populate']);
+        $event = TransformerHelper::eventName(['object', $object, 'populate']);
         $class = get_class($element);
 
         if (null === ($transformer = Force::getInstance()->getTransformers()->find($event, $class))) {
@@ -82,7 +82,7 @@ class PopulateFromSObject extends ResponseToDynamicModel
             $transformer,
             $data,
             [],
-            ['source' => $element, 'sObject' => $sObject]
+            ['source' => $element, 'object' => $object]
         );
     }
 }

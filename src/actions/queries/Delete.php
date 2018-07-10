@@ -31,7 +31,7 @@ class Delete extends ModelDelete
     /**
      * @inheritdoc
      * @param Query $model
-     * @throws \Exception
+     * @throws \Throwable
      */
     protected function performAction(Model $model): bool
     {

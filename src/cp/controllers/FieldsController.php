@@ -12,7 +12,7 @@ use Craft;
 use flipbox\ember\helpers\ArrayHelper;
 use flipbox\force\cp\actions\fields\CreateRow;
 use flipbox\force\cp\actions\fields\PerformAction;
-use flipbox\force\cp\actions\fields\PerformRowAction;
+use flipbox\force\cp\actions\fields\PerformItemAction;
 use flipbox\force\cp\actions\fields\SyncTo;
 use yii\web\BadRequestHttpException;
 
@@ -84,9 +84,9 @@ class FieldsController extends AbstractController
             $id = Craft::$app->getRequest()->getRequiredParam('id');
         }
 
-        /** @var PerformRowAction $action */
+        /** @var PerformItemAction $action */
         return (Craft::createObject([
-            'class' => PerformRowAction::class
+            'class' => PerformItemAction::class
         ], [
             'preform-action',
             $this

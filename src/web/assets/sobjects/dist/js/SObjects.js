@@ -82,7 +82,7 @@ Craft.ForceSObjectsActions = Garnish.Base.extend(
         },
 
         updateActionBtn: function () {
-            if (this.$sObjects.length === 0) {
+            if (this.$objects.length === 0) {
                 this.enableActionBtn();
             } else {
                 this.disableActionBtn();
@@ -223,12 +223,12 @@ Craft.ForceSObjectsActions = Garnish.Base.extend(
 );
 Craft.ForceSObjectsField = Craft.ForceSObjectsActions.extend(
     {
-        sObjectSelect: null,
-        sObjectSort: null,
+        objectSelect: null,
+        objectSort: null,
 
         $container: null,
-        $sObjectsContainer: null,
-        $sObjects: null,
+        $objectsContainer: null,
+        $objects: null,
         $addBtn: null,
 
         $spinner: null,
@@ -237,7 +237,7 @@ Craft.ForceSObjectsField = Craft.ForceSObjectsActions.extend(
 
         init: function (container, settings) {
             this.$container = $(container);
-            this.$container.data('sobjects', this);
+            this.$container.data('objects', this);
 
             this.setSettings(settings, $.extend(Craft.ForceSObjectsActions.defaults, Craft.ForceSObjectsField.defaults));
 
@@ -246,7 +246,7 @@ Craft.ForceSObjectsField = Craft.ForceSObjectsActions.extend(
                 this.settings.sortable = false;
             }
 
-            this.$sObjectsContainer = this.$container.children('.sObjects');
+            this.$objectsContainer = this.$container.children('.objects');
             ;
             this.$addBtn = this.$container.find('.btn.add');
             if (this.$addBtn) {
@@ -271,8 +271,8 @@ Craft.ForceSObjectsField = Craft.ForceSObjectsActions.extend(
 
         initSObjectSort: function () {
             if (this.settings.sortable) {
-                this.sObjectSort = new Garnish.DragSort({
-                    container: this.$sObjectsContainer,
+                this.objectSort = new Garnish.DragSort({
+                    container: this.$objectsContainer,
                     ignoreHandleSelector: '.ignore-sort',
                     axis: 'list',
                     collapseDraggees: true,
@@ -283,29 +283,29 @@ Craft.ForceSObjectsField = Craft.ForceSObjectsActions.extend(
         },
 
         getSObjects: function () {
-            return this.$sObjectsContainer.children();
+            return this.$objectsContainer.children();
         },
 
         resetSObjects: function () {
-            if (this.$sObjects !== null) {
-                this.removeSObjects(this.$sObjects);
+            if (this.$objects !== null) {
+                this.removeSObjects(this.$objects);
             } else {
-                this.$sObjects = $();
+                this.$objects = $();
             }
             this.addSObjects(this.getSObjects());
         },
 
-        addSObjects: function ($sObjects) {
+        addSObjects: function ($objects) {
             if (this.settings.sortable) {
-                this.sObjectSort.addItems($sObjects);
+                this.objectSort.addItems($objects);
             }
 
             var that = this;
-            $sObjects.each(function (index, el) {
+            $objects.each(function (index, el) {
                 that.createRow(el);
             });
 
-            this.$sObjects = this.$sObjects.add($sObjects);
+            this.$objects = this.$objects.add($objects);
             this.updateBtn();
         },
 
@@ -318,11 +318,11 @@ Craft.ForceSObjectsField = Craft.ForceSObjectsActions.extend(
             }, this.settings.rowSettings));
         },
 
-        removeSObjects: function ($sObjects) {
+        removeSObjects: function ($objects) {
             // Disable the hidden input in case the form is submitted before this element gets removed from the DOM
-            $sObjects.children('input').prop('disabled', true);
+            $objects.children('input').prop('disabled', true);
 
-            this.$sObjects = this.$sObjects.not($sObjects);
+            this.$objects = this.$objects.not($objects);
             this.updateBtn();
 
             this.onRemoveSObjects();
@@ -361,15 +361,15 @@ Craft.ForceSObjectsField = Craft.ForceSObjectsActions.extend(
                         this.deactivateSpinner();
 
                         if (jqXHR.status >= 200 && jqXHR.status <= 299) {
-                            var $sobject = $(response.html);
+                            var $object = $(response.html);
 
                             Craft.appendHeadHtml(response.headHtml);
                             Craft.appendFootHtml(response.footHtml);
 
-                            this.appendSObject($sobject);
-                            this.addSObjects($sobject);
+                            this.appendSObject($object);
+                            this.addSObjects($object);
 
-                            return $sobject;
+                            return $object;
                         }
                     },
                     this
@@ -377,8 +377,8 @@ Craft.ForceSObjectsField = Craft.ForceSObjectsActions.extend(
             );
         },
 
-        appendSObject: function ($sObject) {
-            $sObject.appendTo(this.$sObjectsContainer);
+        appendSObject: function ($object) {
+            $object.appendTo(this.$objectsContainer);
         },
 
         rowData: function (data) {
@@ -386,7 +386,7 @@ Craft.ForceSObjectsField = Craft.ForceSObjectsActions.extend(
         },
 
         canAddMore: function () {
-            return (!this.settings.limit || this.$sObjects.length < this.settings.limit);
+            return (!this.settings.limit || this.$objects.length < this.settings.limit);
         },
 
         disableAddBtn: function () {
@@ -461,8 +461,8 @@ Craft.ForceSObjectRow = Craft.ForceSObjectsActions.extend(
         $dissociateBtn: null,
         $toggleBtn: null,
 
-        $sObjectInput: null,
-        $sObjectLabel: null,
+        $objectInput: null,
+        $objectLabel: null,
 
         id: null,
 
@@ -495,9 +495,9 @@ Craft.ForceSObjectRow = Craft.ForceSObjectsActions.extend(
             this.$actionBtn = this.$actionContainer.find('.menubtn');
             this.$actionMenu = this.$actionContainer.find('.triggers');
 
-            this.$sObjectLabel = this.$container.find('.sObjectIdLabel');
-            this.$sObjectInput = this.$container.find('input.sObjectId');
-            this.id = this.$sObjectInput.val();
+            this.$objectLabel = this.$container.find('.objectIdLabel');
+            this.$objectInput = this.$container.find('input.objectId');
+            this.id = this.$objectInput.val();
 
             this.$spinner = $('<div class="spinner hidden"/>').appendTo(this.$container);
 
@@ -525,16 +525,16 @@ Craft.ForceSObjectRow = Craft.ForceSObjectsActions.extend(
         },
 
         checkButtonVisibility: function () {
-            if (this.$sObjectInput.val() !== '') {
-                this.$sObjectLabel.removeClass('hidden')
+            if (this.$objectInput.val() !== '') {
+                this.$objectLabel.removeClass('hidden')
             } else {
-                this.$sObjectLabel.addClass('hidden')
+                this.$objectLabel.addClass('hidden')
             }
         },
 
         updateSObjectId: function (value) {
-            this.$sObjectInput.val(value);
-            this.$sObjectLabel.html(value);
+            this.$objectInput.val(value);
+            this.$objectLabel.html(value);
 
             this.id = value;
 
@@ -542,14 +542,14 @@ Craft.ForceSObjectRow = Craft.ForceSObjectsActions.extend(
         },
 
         getSortOrder: function () {
-            var sortOrder = this.$container.parent('.sObjects').children().index(this.$container);
+            var sortOrder = this.$container.parent('.objects').children().index(this.$container);
             return sortOrder + 1;
         },
 
         associationData: function () {
             var data = $.extend({}, this.settings.data, this.settings.associationData);
 
-            data['sObjectId'] = this.$sObjectInput.val();
+            data['objectId'] = this.$objectInput.val();
             data['sortOrder'] = this.getSortOrder();
             return data;
         },
@@ -568,8 +568,8 @@ Craft.ForceSObjectRow = Craft.ForceSObjectsActions.extend(
                         if (jqXHR.status >= 200 && jqXHR.status <= 299) {
                             this.toggleEdit();
 
-                            if (response.hasOwnProperty("sObjectId")) {
-                                this.updateSObjectId(response.sObjectId);
+                            if (response.hasOwnProperty("objectId")) {
+                                this.updateSObjectId(response.objectId);
                             }
 
                             if (this.settings.associationMessageSuccess) {
@@ -592,7 +592,7 @@ Craft.ForceSObjectRow = Craft.ForceSObjectsActions.extend(
 
         dissociationData: function () {
             var data = $.extend({}, this.settings.data, this.settings.associationData);
-            data['sObjectId'] = this.id;
+            data['objectId'] = this.id;
             return data;
         },
 
@@ -646,10 +646,10 @@ Craft.ForceSObjectRow = Craft.ForceSObjectsActions.extend(
 
             data: {},
             associationData: {},
-            associateAction: 'force/cp/sobjects/associate',
+            associateAction: 'force/cp/objects/associate',
 
             dissociateData: {},
-            dissociateAction: 'force/cp/sobjects/dissociate',
+            dissociateAction: 'force/cp/objects/dissociate',
 
             associationMessageError: "Failed to associate Salesforce Object.",
             associationMessageSuccess: "Successfully associated Salesforce Object.",

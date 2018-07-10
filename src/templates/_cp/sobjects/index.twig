@@ -7,17 +7,17 @@
         <th scope="col">{{ "Handle"|t('force') }}</th>
         </thead>
         <tbody>
-        {% if sObjects|length %}
-            {% for sObject in sObjects %}
-                <tr data-id="{{ sObject.id }}" data-name="{{ sObject.name }}">
+        {% if objects|length %}
+            {% for object in objects %}
+                <tr data-id="{{ object.id }}" data-name="{{ object.name }}">
                     <th scope="row"
                         data-title="{{ 'Name'|t('force') }}">
-                        <a href="{{ url(baseCpPath~'/'~sObject.id) }}">
-                            {{ sObject.name }}
+                        <a href="{{ url(baseCpPath~'/'~object.id) }}">
+                            {{ object.name }}
                         </a>
                     </th>
                     <td data-title="{{ 'Handle'|t('force') }}">
-                        <code>{{ sObject.handle }}</code>
+                        <code>{{ object.handle }}</code>
                     </td>
                 </tr>
             {% endfor %}

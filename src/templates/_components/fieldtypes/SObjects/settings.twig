@@ -2,10 +2,10 @@
 
 {{ forms.textField({
     label: "Salesforce Object"|t('force'),
-    id: 'sObject',
-    name: 'sObject',
-    value: field.sObject,
-    errors: field.getErrors('sObject'),
+    id: 'object',
+    name: 'object',
+    value: field.object,
+    errors: field.getErrors('object'),
     required: true
 }) }}
 
@@ -52,7 +52,7 @@
         {% block viewUrlField %}
             {{ forms.textField({
                 label: "Salesforce Object View Url"|t('force'),
-                instructions: "The following variables are available: {{ instanceUrl }}, {{ sObject }}, {{ id }}"|t('force'),
+                instructions: "The following variables are available: {{ instanceUrl }}, {{ object }}, {{ id }}"|t('force'),
                 id: 'viewUrl',
                 name: 'viewUrl',
                 class: 'code',
@@ -64,7 +64,7 @@
         {% block listUrlField %}
             {{ forms.textField({
                 label: "Salesforce Object Listing Url"|t('force'),
-                instructions: "The following variables are available: {{ instanceUrl }}, {{ sObject }}"|t('force'),
+                instructions: "The following variables are available: {{ instanceUrl }}, {{ object }}"|t('force'),
                 id: 'listUrl',
                 name: 'listUrl',
                 class: 'code',

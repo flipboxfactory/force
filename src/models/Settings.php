@@ -22,7 +22,7 @@ class Settings extends Model
     /**
      * @var string
      */
-    public $sObjectAssociationTablePostfix = '';
+    public $objectAssociationTablePostfix = '';
 
     /**
      * @var string

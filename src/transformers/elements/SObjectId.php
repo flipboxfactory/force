@@ -39,12 +39,12 @@ class SObjectId extends AbstractTransformer
      */
     protected function transformerElementToId(ElementInterface $element)
     {
-        $sObjectId = Force::getInstance()->getObjectAssociations()->getQuery([
-            'select' => ['sObjectId'],
+        $objectId = Force::getInstance()->getObjectAssociations()->getQuery([
+            'select' => ['objectId'],
             'elementId' => $element->getId()
         ])->scalar();
 
-        if (!is_string($sObjectId)) {
+        if (!is_string($objectId)) {
             Force::warning(sprintf(
                 "SObject Id association was not found for element '%s'",
                 $element->getId()
@@ -55,10 +55,10 @@ class SObjectId extends AbstractTransformer
 
         Force::info(sprintf(
             "SObject Id '%s' was found for element '%s'",
-            $sObjectId,
+            $objectId,
             $element->getId()
         ));
 
-        return $sObjectId;
+        return $objectId;
     }
 }

@@ -10,8 +10,8 @@ namespace flipbox\force\cp\controllers;
 
 use Craft;
 use craft\helpers\ArrayHelper;
-use flipbox\force\actions\sobjects\Associate;
-use flipbox\force\actions\sobjects\Dissociate;
+use flipbox\force\actions\objects\Associate;
+use flipbox\force\actions\objects\Dissociate;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -54,7 +54,7 @@ class SobjectsController extends AbstractController
     }
 
     /**
-     * @param string|null $sObjectId
+     * @param string|null $objectId
      * @param string|null $field
      * @param string|null $element
      * @return \flipbox\force\records\ObjectAssociation|null
@@ -62,13 +62,13 @@ class SobjectsController extends AbstractController
      * @throws \yii\web\BadRequestHttpException
      */
     public function actionAssociate(
-        string $sObjectId = null,
+        string $objectId = null,
         string $field = null,
         string $element = null
     ) {
 
-        if ($sObjectId === null) {
-            $sObjectId = Craft::$app->getRequest()->getRequiredParam('sObjectId');
+        if ($objectId === null) {
+            $objectId = Craft::$app->getRequest()->getRequiredParam('objectId');
         }
 
         if ($field === null) {
@@ -88,12 +88,12 @@ class SobjectsController extends AbstractController
         ]))->runWithParams([
             'field' => $field,
             'element' => $element,
-            'sObjectId' => $sObjectId
+            'objectId' => $objectId
         ]);
     }
 
     /**
-     * @param string|null $sObjectId
+     * @param string|null $objectId
      * @param string|null $field
      * @param string|null $element
      * @return \flipbox\force\records\ObjectAssociation|null
@@ -101,13 +101,13 @@ class SobjectsController extends AbstractController
      * @throws \yii\web\BadRequestHttpException
      */
     public function actionDissociate(
-        string $sObjectId = null,
+        string $objectId = null,
         string $field = null,
         string $element = null
     ) {
 
-        if ($sObjectId === null) {
-            $sObjectId = Craft::$app->getRequest()->getRequiredParam('sObjectId');
+        if ($objectId === null) {
+            $objectId = Craft::$app->getRequest()->getRequiredParam('objectId');
         }
 
         if ($field === null) {
@@ -127,7 +127,7 @@ class SobjectsController extends AbstractController
         ]))->runWithParams([
             'field' => $field,
             'element' => $element,
-            'sObjectId' => $sObjectId
+            'objectId' => $objectId
         ]);
     }
 }

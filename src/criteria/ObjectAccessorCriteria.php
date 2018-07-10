@@ -57,7 +57,7 @@ class ObjectAccessorCriteria extends BaseObject implements ObjectAccessorCriteri
     public function read(array $config = [], $source = null)
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getSObject()->read($this, $source);
+        return Force::getInstance()->getResources()->getObject()->read($this, $source);
     }
 
     /**
@@ -69,7 +69,7 @@ class ObjectAccessorCriteria extends BaseObject implements ObjectAccessorCriteri
     public function describe(array $config = [], $source = null)
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getSObject()->describe($this, $source);
+        return Force::getInstance()->getResources()->getObject()->describe($this, $source);
     }
 
     /**

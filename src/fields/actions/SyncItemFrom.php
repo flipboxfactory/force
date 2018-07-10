@@ -38,7 +38,7 @@ class SyncItemFrom extends AbstractObjectItemAction
      */
     public function performAction(Objects $field, ElementInterface $element, ObjectAssociation $record): bool
     {
-        if (!Force::getInstance()->getResources()->getSObject()->syncDown($element, $field)) {
+        if (!Force::getInstance()->getResources()->getObject()->syncDown($element, $field)) {
             $this->setMessage("Failed to sync from Salesforce Object");
             return false;
         }

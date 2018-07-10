@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\actions\sobjects;
+namespace flipbox\force\actions\objects;
 
 use flipbox\force\Force;
 use flipbox\force\records\ObjectAssociation;
@@ -16,16 +16,32 @@ use yii\base\Model;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class Dissociate extends AbstractAssociationAction
+class Associate extends AbstractAssociationAction
 {
+    /**
+     * Validate that the Salesforce Object exists prior to associating
+     *
+     * @var bool
+     */
+    public $validate = true;
+
     /**
      * @inheritdoc
      * @param ObjectAssociation $model
+     * @throws \flipbox\ember\exceptions\RecordNotFoundException
+     * @throws \yii\base\InvalidConfigException
+     * @throws \Exception
      */
     protected function performAction(Model $model): bool
     {
         if (true === $this->ensureAssociation($model)) {
-            return Force::getInstance()->getObjectAssociations()->dissociate(
+            if ($this->validate === true &&
+                !Force::getInstance()->getObjectAssociations()->validateObject($model)
+            ) {
+                return false;
+            }
+
+            return Force::getInstance()->getObjectAssociations()->associate(
                 $model
             );
         }

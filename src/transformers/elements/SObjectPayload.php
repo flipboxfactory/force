@@ -22,21 +22,21 @@ class SObjectPayload extends AbstractTransformer
      * @param $data
      * @param Scope $scope
      * @param string|null $identifier
-     * @param string|null $sObject
+     * @param string|null $object
      * @return mixed
      */
     public function __invoke(
         $data,
         Scope $scope,
         string $identifier = null,
-        string $sObject = null
+        string $object = null
     ) {
-        if (empty($sObject)) {
+        if (empty($object)) {
             throw new InvalidArgumentException("Salesforce Object must be defined.");
         }
 
         if ($data instanceof ElementInterface) {
-            return $this->transformElement($data, $sObject);
+            return $this->transformElement($data, $object);
         }
 
         return $data;
@@ -44,13 +44,13 @@ class SObjectPayload extends AbstractTransformer
 
     /**
      * @param ElementInterface $element
-     * @param string $sObject
+     * @param string $object
      * @return array|null
      */
-    protected function transformElement(ElementInterface $element, string $sObject)
+    protected function transformElement(ElementInterface $element, string $object)
     {
         $transformer = Force::getInstance()->getTransformers()->find(
-            TransformerHelper::eventName(['sobject', $sObject, 'payload']),
+            TransformerHelper::eventName(['object', $object, 'payload']),
             get_class($element)
         );
 
@@ -61,7 +61,7 @@ class SObjectPayload extends AbstractTransformer
                 [],
                 [
                     'data' => $element,
-                    'sObject' => $sObject
+                    'object' => $object
                 ]
             );
         }

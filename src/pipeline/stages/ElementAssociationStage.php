@@ -70,15 +70,15 @@ class ElementAssociationStage extends BaseObject implements StageInterface
             return null;
         }
 
-        if (null === ($sObjectId = $this->getSobjectIdFromPayload($payload))) {
+        if (null === ($objectId = $this->getSobjectIdFromPayload($payload))) {
             Force::error(sprintf(
-                "Unable to identify sObjectId from payload: %s",
+                "Unable to identify objectId from payload: %s",
                 (string)Json::encode($payload)
             ));
             return null;
         }
 
-        if (false === $this->associate($sObjectId, $source)) {
+        if (false === $this->associate($objectId, $source)) {
             throw new InvalidArgumentException(sprintf(
                 "Unable to perform save: %s",
                 (string)Json::encode($source->getErrors())
@@ -87,7 +87,7 @@ class ElementAssociationStage extends BaseObject implements StageInterface
 
         Force::info(sprintf(
             "Successfully associated SObject '%s' to element '%s'",
-            (string)$sObjectId,
+            (string)$objectId,
             $source->getId()
         ));
 
@@ -96,12 +96,12 @@ class ElementAssociationStage extends BaseObject implements StageInterface
     }
 
     /**
-     * @param string $sobjectId
+     * @param string $objectId
      * @param ElementInterface $element
      * @return bool
      * @throws \Throwable
      */
-    protected function associate(string $sobjectId, ElementInterface $element): bool
+    protected function associate(string $objectId, ElementInterface $element): bool
     {
         /** @var Element $element */
         $fieldHandle = $this->field->handle;
@@ -112,10 +112,10 @@ class ElementAssociationStage extends BaseObject implements StageInterface
             return false;
         };
 
-        if (null === ($criteria = $fieldValue->sObjectId($sobjectId)->one())) {
+        if (null === ($criteria = $fieldValue->objectId($objectId)->one())) {
             $criteria = new ObjectAccessorCriteria([
                 'object' => $this->field->object,
-                'id' => $sobjectId
+                'id' => $objectId
             ]);
         }
 

@@ -10,8 +10,8 @@ namespace flipbox\force\actions\widgets;
 
 use Craft;
 use craft\base\ElementInterface;
+use flipbox\force\actions\traits\FieldResolverTrait;
 use flipbox\force\cp\actions\sync\AbstractSyncFrom;
-use flipbox\force\criteria\ObjectAccessorCriteria;
 use flipbox\force\db\ObjectAssociationQuery;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
@@ -23,6 +23,8 @@ use yii\web\HttpException;
  */
 class SyncFrom extends AbstractSyncFrom
 {
+    use FieldResolverTrait;
+
     /**
      * @param string $id
      * @param string $field
@@ -33,10 +35,7 @@ class SyncFrom extends AbstractSyncFrom
      */
     public function run(string $id, string $field, string $elementType)
     {
-        /** @var Objects $field */
-        if (null === ($field = Craft::$app->getFields()->getFieldbyId($field))) {
-            throw new HttpException(400, 'Object not supported');
-        }
+        $field = $this->resolveField($field);
 
         /** @var ElementInterface $element */
         $element = $this->resolveElement($field, $id, $elementType);
@@ -46,16 +45,7 @@ class SyncFrom extends AbstractSyncFrom
             throw new HttpException(400, 'Invalid value');
         }
 
-        if (null === ($criteria = $query->sObjectId($id)->one())) {
-            $criteria = new ObjectAccessorCriteria(
-                [
-                    'object' => $field->object,
-                    'id' => $id
-                ]
-            );
-        }
-
-        return $this->runInternal($criteria, $element, $field);
+        return $this->runInternal($element, $field);
     }
 
     /**
@@ -72,7 +62,7 @@ class SyncFrom extends AbstractSyncFrom
         $elementId = Force::getInstance()->getObjectAssociations()->getQuery([
             'select' => ['elementId'],
             'fieldId' => $field->id,
-            'sObjectId' => $id
+            'objectId' => $id
         ])->scalar();
 
         $element = null;

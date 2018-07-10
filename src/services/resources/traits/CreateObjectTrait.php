@@ -76,8 +76,6 @@ trait CreateObjectTrait
 
     /**
      * @param ObjectMutatorCriteriaInterface $criteria
-     * @param ConnectionInterface|string|null $connection
-     * @param TransformerCollectionInterface|array|null $transformer
      * @return PipelineBuilderInterface
      * @throws \yii\base\InvalidConfigException
      */

@@ -24,7 +24,7 @@ class ErrorHelper
     {
         // Get the field label between the single quotes
         if (preg_match_all('~\'(.*?)\'~', $errorMessage, $m)) {
-            return ArrayHelper::getFirstValue($m[1]);
+            return ArrayHelper::firstValue($m[1]);
         }
 
         return null;

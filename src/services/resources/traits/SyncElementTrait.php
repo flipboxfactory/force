@@ -10,16 +10,20 @@ namespace flipbox\force\services\resources\traits;
 
 use craft\base\Element;
 use craft\base\ElementInterface;
+use craft\helpers\Json;
 use flipbox\force\connections\ConnectionInterface;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use flipbox\force\helpers\ConnectionHelper;
-use flipbox\force\pipeline\Resource;
 use flipbox\force\pipeline\stages\ElementAssociationStage;
 use flipbox\force\pipeline\stages\ElementSaveStage;
 use flipbox\force\traits\TransformElementIdTrait;
 use flipbox\force\traits\TransformElementPayloadTrait;
+use Flipbox\Pipeline\Pipelines\Pipeline;
+use Flipbox\Transform\Factory;
+use Psr\Http\Message\ResponseInterface;
 use Psr\SimpleCache\CacheInterface;
+use flipbox\force\transformers\error\Interpret;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -46,8 +50,8 @@ trait SyncElementTrait
 
     /**
      * @param string $object
-     * @param string $id
      * @param array $payload
+     * @param string $id
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @return callable
@@ -60,6 +64,8 @@ trait SyncElementTrait
         ConnectionInterface $connection = null,
         CacheInterface $cache = null
     ): callable;
+
+
 
     /**
      * @param ElementInterface $element
@@ -109,22 +115,48 @@ trait SyncElementTrait
     ): bool {
         /** @var Element $element */
 
-        (new Resource(
-            $this->rawHttpReadRelay(
-                $field->object,
-                $id,
-                ConnectionHelper::resolveConnection($connection),
-                $cache
-            ),
-            null,
-            Force::getInstance()->getPsrLogger()
-        ))->build()->pipe(
-            new ElementSaveStage($field)
-        )->pipe(
-            new ElementAssociationStage($field)
-        )(null, $element);
+        /** @var ResponseInterface $response */
+        $response = $this->rawHttpReadRelay(
+            $field->object,
+            $id,
+            ConnectionHelper::resolveConnection($connection),
+            $cache
+        )();
 
-        return !$element->hasErrors();
+        return $this->handleSyncDownResponse(
+            $response,
+            $element,
+            $field
+        );
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @param ElementInterface $element
+     * @param Objects $field
+     * @return bool
+     */
+    protected function handleSyncDownResponse(
+        ResponseInterface $response,
+        ElementInterface $element,
+        Objects $field
+    ): bool {
+        $logger = Force::getInstance()->getPsrLogger();
+
+        if ($response->getStatusCode() >= 200 && $response->getStatusCode() <= 299) {
+            $pipeline = new Pipeline([
+                'stages' => [
+                    new ElementSaveStage($field, ['logger' => $logger]),
+                    new ElementAssociationStage($field, ['logger' => $logger])
+                ]
+            ]);
+
+            return $pipeline->process($response, $element) instanceof ResponseInterface;
+        }
+
+        $this->handleResponseErrors($response, $element);
+
+        return false;
     }
 
     /**
@@ -172,20 +204,78 @@ trait SyncElementTrait
     ): bool {
         /** @var Element $element */
 
-        (new Resource(
-            $this->rawHttpUpsertRelay(
-                $field->object,
-                $id,
-                $payload,
-                $connection,
-                $cache
-            ),
-            null,
-            Force::getInstance()->getPsrLogger()
-        ))->build()->pipe(
-            new ElementAssociationStage($field)
-        )(null, $element);
+        /** @var ResponseInterface $response */
+        $response = $this->rawHttpUpsertRelay(
+            $field->object,
+            $id,
+            $payload,
+            $connection,
+            $cache
+        )();
 
-        return !$element->hasErrors();
+        return $this->handleSyncUpResponse(
+            $response,
+            $element,
+            $field,
+            $id
+        );
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @param ElementInterface $element
+     * @param Objects $field
+     * @param string|null $id
+     * @return bool
+     */
+    protected function handleSyncUpResponse(
+        ResponseInterface $response,
+        ElementInterface $element,
+        Objects $field,
+        string $id = null
+    ): bool {
+        $logger = Force::getInstance()->getPsrLogger();
+
+        if ($response->getStatusCode() >= 200 && $response->getStatusCode() <= 299) {
+            if(empty($id)) {
+                $pipeline = new Pipeline([
+                    'stages' => [
+                        new ElementAssociationStage($field, ['logger' => $logger])
+                    ]
+                ]);
+
+                return $pipeline->process($response, $element) instanceof ResponseInterface;
+            }
+
+            return true;
+        }
+
+        $this->handleResponseErrors($response, $element);
+
+        return false;
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @param ElementInterface $element
+     */
+    protected function handleResponseErrors(ResponseInterface $response, ElementInterface $element)
+    {
+        /** @var Element $element */
+
+        $data = Json::decodeIfJson(
+            $response->getBody()->getContents()
+        );
+
+        $errors = (array)Factory::item(
+            new Interpret(),
+            $data
+        );
+
+        $errors = array_filter($errors);
+
+        if (empty($errors)) {
+            $element->addErrors($errors);
+        }
     }
 }

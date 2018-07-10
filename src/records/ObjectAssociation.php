@@ -14,6 +14,7 @@ use flipbox\craft\sortable\associations\services\SortableAssociations;
 use flipbox\ember\helpers\ModelHelper;
 use flipbox\ember\records\traits\ElementAttribute;
 use flipbox\ember\records\traits\SiteAttribute;
+use flipbox\force\criteria\ObjectAccessorCriteria;
 use flipbox\force\db\ObjectAssociationQuery;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
@@ -103,12 +104,24 @@ class ObjectAssociation extends SortableAssociation
             return null;
         }
 
+        $base = [
+            'connection' => $field->getConnection(),
+            'cache' => $field->getCache()
+        ];
+
         $resource = Force::getInstance()->getResources()->getObject();
 
+        // Can't override these...
         $criteria['id'] = $this->{self::TARGET_ATTRIBUTE} ?: self::DEFAULT_ID;
+        $criteria['object'] = $field->object;
 
         return $resource->read(
-            $resource->getAccessorCriteria($criteria)
+            $resource->getAccessorCriteria(
+                array_merge(
+                    $base,
+                    $criteria
+                )
+            )
         );
     }
 

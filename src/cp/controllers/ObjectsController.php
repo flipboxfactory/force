@@ -12,12 +12,13 @@ use Craft;
 use craft\helpers\ArrayHelper;
 use flipbox\force\actions\objects\Associate;
 use flipbox\force\actions\objects\Dissociate;
+use flipbox\force\records\ObjectAssociation;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class SobjectsController extends AbstractController
+class ObjectsController extends AbstractController
 {
     /**
      * @return array
@@ -54,21 +55,27 @@ class SobjectsController extends AbstractController
     }
 
     /**
+     * @param string|null $newObjectId
      * @param string|null $objectId
      * @param string|null $field
      * @param string|null $element
-     * @return \flipbox\force\records\ObjectAssociation|null
+     * @return ObjectAssociation|null
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\BadRequestHttpException
      */
     public function actionAssociate(
+        string $newObjectId = null,
         string $objectId = null,
         string $field = null,
         string $element = null
     ) {
 
         if ($objectId === null) {
-            $objectId = Craft::$app->getRequest()->getRequiredParam('objectId');
+            $objectId = Craft::$app->getRequest()->getParam('objectId');
+        }
+
+        if ($newObjectId === null) {
+            $newObjectId = Craft::$app->getRequest()->getRequiredParam('newObjectId');
         }
 
         if ($field === null) {
@@ -88,7 +95,8 @@ class SobjectsController extends AbstractController
         ]))->runWithParams([
             'field' => $field,
             'element' => $element,
-            'objectId' => $objectId
+            'objectId' => $objectId,
+            'newObjectId' => $newObjectId
         ]);
     }
 
@@ -96,7 +104,7 @@ class SobjectsController extends AbstractController
      * @param string|null $objectId
      * @param string|null $field
      * @param string|null $element
-     * @return \flipbox\force\records\ObjectAssociation|null
+     * @return ObjectAssociation|null
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\BadRequestHttpException
      */

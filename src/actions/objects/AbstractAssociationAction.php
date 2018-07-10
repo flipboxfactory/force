@@ -8,16 +8,13 @@
 
 namespace flipbox\force\actions\objects;
 
-use Craft;
-use craft\base\FieldInterface;
 use flipbox\ember\actions\model\traits\Manage;
 use flipbox\ember\exceptions\RecordNotFoundException;
-use flipbox\force\fields\Objects;
-use flipbox\force\Force;
+use flipbox\force\actions\traits\ElementResolverTrait;
+use flipbox\force\actions\traits\FieldResolverTrait;
 use flipbox\force\records\ObjectAssociation;
 use yii\base\Action;
 use yii\base\Model;
-use yii\web\HttpException;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -25,59 +22,9 @@ use yii\web\HttpException;
  */
 abstract class AbstractAssociationAction extends Action
 {
-    use Manage;
-
-    /**
-     * @param string $field
-     * @param string $element
-     * @param string $objectId
-     * @param int|null $siteId
-     * @param int|null $sortOrder
-     * @return mixed
-     * @throws HttpException
-     */
-    public function run(
-        string $field,
-        string $element,
-        string $objectId,
-        int $siteId = null,
-        int $sortOrder = null
-    ) {
-        // Resolve Field
-        $objectField = $this->resolveField($field);
-
-        // Resolve Element
-        if (null === ($sourceElement = Craft::$app->getElements()->getElementById($element))) {
-            return $this->handleInvalidElementResponse($element);
-        }
-
-        // Resolve Site Id
-        if (null === $siteId) {
-            $siteId = Craft::$app->getSites()->currentSite->id;
-        }
-
-        return $this->runInternal(Force::getInstance()->getObjectAssociations()->create([
-            'objectId' => $objectId,
-            'elementId' => $sourceElement->getId(),
-            'fieldId' => $objectField->id,
-            'siteId' => $siteId,
-            'sortOrder' => $sortOrder
-        ]));
-    }
-
-    /**
-     * @param string $field
-     * @return Objects
-     * @throws HttpException
-     */
-    protected function resolveField(string $field): Objects
-    {
-        if (null === ($objectField = Force::getInstance()->getObjectsField()->findById($field))) {
-            return $this->handleInvalidFieldResponse($field);
-        }
-
-        return $objectField;
-    }
+    use Manage,
+        FieldResolverTrait,
+        ElementResolverTrait;
 
     /**
      * @param Model $model
@@ -88,38 +35,12 @@ abstract class AbstractAssociationAction extends Action
     {
         if (!$model instanceof ObjectAssociation) {
             throw new RecordNotFoundException(sprintf(
-                "SObject Association must be an instance of '%s', '%s' given.",
+                "HubSpot Resource Association must be an instance of '%s', '%s' given.",
                 ObjectAssociation::class,
                 get_class($model)
             ));
         }
 
         return true;
-    }
-
-    /**
-     * @param int $fieldId
-     * @throws HttpException
-     */
-    protected function handleInvalidFieldResponse(int $fieldId)
-    {
-        throw new HttpException(sprintf(
-            "The provided field '%s' must be an instance of '%s'",
-            (string)$fieldId,
-            (string)FieldInterface::class
-        ));
-    }
-
-    /**
-     * @param int $elementId
-     * @throws HttpException
-     */
-    protected function handleInvalidElementResponse(int $elementId)
-    {
-        throw new HttpException(sprintf(
-            "The provided source '%s' must be an instance of '%s'",
-            (string)$elementId,
-            (string)Objects::class
-        ));
     }
 }

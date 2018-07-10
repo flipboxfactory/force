@@ -10,7 +10,6 @@ namespace flipbox\force\cp\actions\fields;
 
 use Craft;
 use craft\base\ElementInterface;
-use craft\helpers\StringHelper;
 use flipbox\ember\actions\traits\Manage;
 use flipbox\ember\helpers\SiteHelper;
 use flipbox\force\actions\traits\ElementResolverTrait;

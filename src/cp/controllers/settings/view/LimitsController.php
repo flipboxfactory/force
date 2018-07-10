@@ -9,7 +9,6 @@
 namespace flipbox\force\cp\controllers\settings\view;
 
 use flipbox\force\criteria\InstanceCriteria;
-use flipbox\force\Force;
 use yii\web\Response;
 
 /**

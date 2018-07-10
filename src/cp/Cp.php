@@ -35,6 +35,7 @@ class Cp extends BaseModule
 
     /**
      * @inheritdoc
+     * @throws NotFoundHttpException
      */
     public function beforeAction($action)
     {
@@ -50,11 +51,13 @@ class Cp extends BaseModule
      *******************************************/
 
     /**
-     * @inheritdoc
+     * @noinspection PhpDocMissingThrowsInspection
      * @return services\QueryManager
      */
     public function getQueryManager()
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->get('queryManager');
     }
 }

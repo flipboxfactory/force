@@ -13,7 +13,7 @@ use flipbox\force\fields\actions\ObjectActionInterface;
 use flipbox\force\fields\actions\ObjectItemActionInterface;
 use yii\base\Event;
 
-class RegisterSObjectFieldActionsEvent extends Event
+class RegisterObjectFieldActionsEvent extends Event
 {
     /**
      * @var array|ObjectActionInterface[]|ObjectItemActionInterface[]

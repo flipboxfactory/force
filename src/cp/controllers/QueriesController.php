@@ -19,6 +19,7 @@ class QueriesController extends AbstractController
 {
     /**
      * @return mixed
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionRequest()
     {

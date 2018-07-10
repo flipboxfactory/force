@@ -11,7 +11,7 @@ namespace flipbox\force\db\traits;
 use craft\helpers\Db;
 use yii\db\Expression;
 
-trait SObjectAttribute
+trait ObjectAttribute
 {
     /**
      * @var string|string[]|null

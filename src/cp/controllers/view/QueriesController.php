@@ -62,10 +62,9 @@ class QueriesController extends AbstractController
     }
 
     /**
-     * View
-     *
      * @param null $identifier
      * @return Response
+     * @throws \flipbox\ember\exceptions\NotFoundException
      * @throws \yii\base\InvalidConfigException
      */
     public function actionView($identifier = null): Response

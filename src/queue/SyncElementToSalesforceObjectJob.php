@@ -17,10 +17,11 @@ class SyncElementToSalesforceObjectJob extends AbstractSyncElementJob
 {
     /**
      * @inheritdoc
+     * @throws \yii\base\InvalidConfigException
      */
     public function execute($queue)
     {
-        return Force::getInstance()->getElements()->syncUp(
+        return Force::getInstance()->getResources()->getObject()->syncUp(
             $this->getElement(),
             $this->getField()
         );

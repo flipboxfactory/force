@@ -32,6 +32,7 @@ class SobjectsController extends AbstractController
 
     /**
      * @return Response
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionIndex(): Response
     {
@@ -49,7 +50,7 @@ class SobjectsController extends AbstractController
         }
 
         $variables['describedSobject'] = $describedSobject;
-        $variables['objectOptions'] = $this->getSObjectOptions();
+        $variables['objectOptions'] = $this->getObjectOptions();
         $variables['tabs'] = $this->getTabs();
 
         return $this->renderTemplate(
@@ -59,11 +60,10 @@ class SobjectsController extends AbstractController
     }
 
     /**
-     * Gets a formatted array of available Salesforce Objects.
-     *
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
-    private function getSObjectOptions()
+    private function getObjectOptions()
     {
         $describe = Force::getInstance()->getResources()->getGeneral()->getCriteria([
             'transformer' => TransformerCollection::class

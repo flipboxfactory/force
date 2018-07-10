@@ -13,8 +13,8 @@ use craft\base\ElementInterface;
 use flipbox\force\criteria\QueryCriteria;
 use flipbox\force\fields\Query;
 use flipbox\force\Force;
-use flipbox\force\queries\DynamicQueryBuilder;
-use flipbox\force\queries\settings\DynamicQuerySettings;
+use flipbox\force\query\DynamicQueryBuilder;
+use flipbox\force\query\settings\DynamicQuerySettings;
 use yii\base\Component;
 use yii\base\Exception;
 

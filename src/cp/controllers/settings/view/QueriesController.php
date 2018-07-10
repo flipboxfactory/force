@@ -10,8 +10,8 @@ namespace flipbox\force\cp\controllers\settings\view;
 
 use Craft;
 use craft\helpers\UrlHelper;
-use flipbox\force\queries\DynamicQueryBuilder;
-use flipbox\force\queries\settings\DynamicQuerySettings;
+use flipbox\force\query\DynamicQueryBuilder;
+use flipbox\force\query\settings\DynamicQuerySettings;
 use flipbox\force\records\Query;
 use yii\web\HttpException;
 use yii\web\Response;
@@ -66,6 +66,7 @@ class QueriesController extends AbstractController
      * @param Query|null $query
      * @return Response
      * @throws HttpException
+     * @throws \flipbox\ember\exceptions\NotFoundException
      */
     public function actionUpsert($identifier = null, Query $query = null): Response
     {

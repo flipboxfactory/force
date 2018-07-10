@@ -8,6 +8,7 @@
 
 namespace flipbox\force\cp\controllers\settings\view;
 
+use flipbox\force\criteria\InstanceCriteria;
 use flipbox\force\Force;
 use yii\web\Response;
 
@@ -35,8 +36,8 @@ class LimitsController extends AbstractController
         $variables = [];
         $this->baseVariables($variables);
 
-        $criteria = Force::getInstance()->getResources()->getGeneral()->getCriteria();
-        $variables['limits'] = $criteria->getLimits();
+        $criteria = new InstanceCriteria();
+        $variables['limits'] = $criteria->limits();
 
         return $this->renderTemplate(
             static::TEMPLATE_INDEX,

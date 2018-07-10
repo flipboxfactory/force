@@ -29,7 +29,7 @@ use yii\base\BaseObject;
 class ElementAssociationStage extends BaseObject implements StageInterface
 {
     use AutoLoggerTrait,
-        traits\SObjectIdTrait;
+        traits\ObjectIdTrait;
 
     /**
      * @var Objects

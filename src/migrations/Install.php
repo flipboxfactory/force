@@ -26,7 +26,7 @@ class Install extends Migration
         $this->createIndexes();
         $this->addForeignKeys();
 
-        (new SObjectAssociations())
+        (new ObjectAssociations())
             ->safeUp();
 
         return true;
@@ -39,7 +39,7 @@ class Install extends Migration
     {
         $this->dropTableIfExists(QueryRecord::tableName());
 
-        (new SObjectAssociations())
+        (new ObjectAssociations())
             ->safeDown();
 
         return true;

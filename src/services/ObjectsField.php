@@ -18,7 +18,7 @@ use flipbox\craft\sortable\associations\db\SortableAssociationQueryInterface;
 use flipbox\craft\sortable\associations\records\SortableAssociationInterface;
 use flipbox\craft\sortable\associations\services\SortableFields;
 use flipbox\force\db\ObjectAssociationQuery;
-use flipbox\force\events\RegisterSObjectFieldActionsEvent;
+use flipbox\force\events\RegisterObjectFieldActionsEvent;
 use flipbox\force\fields\actions\ObjectActionInterface;
 use flipbox\force\fields\actions\ObjectItemActionInterface;
 use flipbox\force\fields\actions\SyncItemFrom;
@@ -128,6 +128,7 @@ class ObjectsField extends SortableFields
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     protected function normalizeQueryInputValue(
         FieldInterface $field,
@@ -296,7 +297,7 @@ class ObjectsField extends SortableFields
      */
     public function getRowActions(Objects $field, ElementInterface $element = null): array
     {
-        $event = new RegisterSObjectFieldActionsEvent([
+        $event = new RegisterObjectFieldActionsEvent([
             'actions' => [
                 SyncItemFrom::class,
                 SyncItemTo::class
@@ -327,7 +328,7 @@ class ObjectsField extends SortableFields
             $actions[] = SyncTo::class;
         }
 
-        $event = new RegisterSObjectFieldActionsEvent([
+        $event = new RegisterObjectFieldActionsEvent([
             'actions' => $actions,
             'element' => $element
         ]);
@@ -368,7 +369,7 @@ class ObjectsField extends SortableFields
      * @param ElementInterface|Element $element
      * @return false|null|string
      */
-    public function findSObjectId(Objects $field, ElementInterface $element)
+    public function findObjectId(Objects $field, ElementInterface $element)
     {
         return Force::getInstance()->getObjectAssociations()->getQuery()
             ->select('objectId')

@@ -9,10 +9,10 @@
 namespace flipbox\force\validators;
 
 use flipbox\ember\validators\ModelValidator;
-use flipbox\force\queries\DynamicQueryBuilder;
-use flipbox\force\queries\settings\DynamicQuerySettings;
-use flipbox\force\queries\settings\QuerySettingsInterface;
-use flipbox\force\queries\traits\QueryBuilderAttributeTrait;
+use flipbox\force\query\DynamicQueryBuilder;
+use flipbox\force\query\settings\DynamicQuerySettings;
+use flipbox\force\query\settings\QuerySettingsInterface;
+use flipbox\force\query\traits\QueryBuilderAttributeTrait;
 use yii\base\Exception;
 
 class QueryBuilderSettingsValidator extends ModelValidator

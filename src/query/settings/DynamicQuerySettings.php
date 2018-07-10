@@ -6,12 +6,12 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\queries\settings;
+namespace flipbox\force\query\settings;
 
 use Craft;
 use flipbox\ember\models\Model;
 use flipbox\force\Force;
-use flipbox\force\queries\DynamicQueryBuilder;
+use flipbox\force\query\DynamicQueryBuilder;
 use flipbox\force\query\QueryBuilderInterface;
 
 /**
@@ -47,6 +47,8 @@ class DynamicQuerySettings extends Model implements QuerySettingsInterface
 
     /**
      * @inheritdoc
+     * @throws \Twig_Error_Loader
+     * @throws \yii\base\Exception
      */
     public function inputHtml(): string
     {

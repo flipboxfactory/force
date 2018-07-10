@@ -2,34 +2,28 @@
 
 /**
  * @copyright  Copyright (c) Flipbox Digital Limited
- * @license    https://github.com/flipbox/salesforce/blob/master/LICENSE.md
- * @link       https://github.com/flipbox/salesforce
+ * @license    https://flipboxfactory.com/software/force/license
+ * @link       https://www.flipboxfactory.com/software/force/
  */
 
 namespace flipbox\force\query;
 
-use Flipbox\Skeleton\Helpers\ArrayHelper;
+use Craft;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class DynamicQueryBuilder extends RawQueryBuilder
+class DynamicQueryBuilder extends AbstractQueryBuilder
 {
-    /**
-     * The opening variable character
-     */
-    const VARIABLE_OPENING = '{';
+    use traits\DynamicVariablesAttribute;
 
     /**
-     * The closing variable character
+     * The soql query
+     *
+     * @var string
      */
-    const VARIABLE_CLOSING = '}';
-
-    /**
-     * @var array
-     */
-    public $variables = [];
+    public $soql;
 
     /**
      * @inheritdoc
@@ -40,55 +34,15 @@ class DynamicQueryBuilder extends RawQueryBuilder
     }
 
     /**
-     * @return array
-     */
-    protected function getVariables(): array
-    {
-        if (!array($this->variables)) {
-            $this->variables = ['variable' => $this->variables];
-        }
-
-        return $this->variables;
-    }
-
-    /**
      * @param string $soql
      * @return string
      */
     private function prepareSoql(string $soql): string
     {
-        if (false === (preg_match_all(
-                '/' . self::VARIABLE_OPENING . '(.*?)' . self::VARIABLE_CLOSING . '/',
-                $soql,
-                $matches
-            ))) {
-            return $soql;
-        }
-
-        $replace = $this->getReplacingAttributes($matches[1]);
-
-        return str_ireplace(array_keys($replace), array_values($replace), $soql);
-    }
-
-    /**
-     * @param array $variables
-     * @return array
-     */
-    private function getReplacingAttributes(array $variables = [])
-    {
-        $attributes = $this->getVariables();
-
-        $values = [];
-
-        foreach ($variables as $variable) {
-            $values[self::VARIABLE_OPENING . $variable . self::VARIABLE_CLOSING] = ArrayHelper::getValue(
-                $attributes,
-                $variable,
-                $variable
-            );
-        }
-
-        return $values;
+        return Craft::$app->getView()->renderString(
+            $soql,
+            $this->getVariables()
+        );
     }
 
     /**
@@ -99,6 +53,7 @@ class DynamicQueryBuilder extends RawQueryBuilder
         return array_merge(
             parent::toConfig(),
             [
+                'soql' => $this->soql,
                 'variables' => $this->getVariables()
             ]
         );

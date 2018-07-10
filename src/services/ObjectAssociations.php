@@ -19,7 +19,7 @@ use flipbox\force\criteria\ObjectAccessorCriteria;
 use flipbox\force\db\ObjectAssociationQuery;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
-use flipbox\force\migrations\SObjectAssociations as SObjectAssociationsMigration;
+use flipbox\force\migrations\ObjectAssociations as ObjectAssociationsMigration;
 use flipbox\force\records\ObjectAssociation;
 use Psr\Http\Message\ResponseInterface;
 
@@ -94,7 +94,7 @@ class ObjectAssociations extends SortableAssociations
     private function createTable(): bool
     {
         ob_start();
-        (new SObjectAssociationsMigration())->up();
+        (new ObjectAssociationsMigration())->up();
         ob_end_clean();
 
         return true;

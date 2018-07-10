@@ -20,7 +20,7 @@ use craft\web\UrlManager;
 use flipbox\craft\psr3\Logger;
 use flipbox\ember\helpers\UrlHelper;
 use flipbox\ember\modules\LoggerTrait;
-use flipbox\force\fields\Objects as SObjectIdsField;
+use flipbox\force\fields\Objects as ObjectsField;
 use flipbox\force\fields\Query as QueryField;
 use flipbox\force\models\Settings as SettingsModel;
 use flipbox\force\patron\Events;
@@ -82,7 +82,7 @@ class Force extends Plugin
             Fields::class,
             Fields::EVENT_REGISTER_FIELD_TYPES,
             function (RegisterComponentTypesEvent $event) {
-                $event->types[] = SObjectIdsField::class;
+                $event->types[] = ObjectsField::class;
                 $event->types[] = QueryField::class;
             }
         );
@@ -175,6 +175,7 @@ class Force extends Plugin
 
     /**
      * @inheritdoc
+     * @throws \yii\base\ExitException
      */
     public function getSettingsResponse()
     {
@@ -193,7 +194,7 @@ class Force extends Plugin
      * @noinspection PhpDocMissingThrowsInspection
      * @return services\Cache
      */
-    public function getCache()
+    public function getCache(): services\Cache
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         /** @noinspection PhpIncompatibleReturnTypeInspection */
@@ -204,7 +205,7 @@ class Force extends Plugin
      * @noinspection PhpDocMissingThrowsInspection
      * @return services\Connections
      */
-    public function getConnections()
+    public function getConnections(): services\Connections
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         /** @noinspection PhpIncompatibleReturnTypeInspection */
@@ -223,20 +224,24 @@ class Force extends Plugin
     }
 
     /**
-     * @inheritdoc
+     * @noinspection PhpDocMissingThrowsInspection@noinspection PhpDocMissingThrowsInspection
      * @return services\QueryField
      */
-    public function getQueryField()
+    public function getQueryField(): services\QueryField
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->get('queryField');
     }
 
     /**
-     * @inheritdoc
+     * @noinspection PhpDocMissingThrowsInspection
      * @return services\Queries
      */
-    public function getQueries()
+    public function getQueries(): services\Queries
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->get('queries');
     }
 
@@ -244,7 +249,7 @@ class Force extends Plugin
      * @noinspection PhpDocMissingThrowsInspection
      * @return services\ObjectAssociations
      */
-    public function getObjectAssociations()
+    public function getObjectAssociations(): services\ObjectAssociations
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         /** @noinspection PhpIncompatibleReturnTypeInspection */
@@ -255,7 +260,7 @@ class Force extends Plugin
      * @noinspection PhpDocMissingThrowsInspection
      * @return services\ObjectsField
      */
-    public function getObjectsField()
+    public function getObjectsField(): services\ObjectsField
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         /** @noinspection PhpIncompatibleReturnTypeInspection */
@@ -266,7 +271,7 @@ class Force extends Plugin
      * @noinspection PhpDocMissingThrowsInspection
      * @return services\Transformers
      */
-    public function getTransformers()
+    public function getTransformers(): services\Transformers
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         /** @noinspection PhpIncompatibleReturnTypeInspection */
@@ -281,7 +286,7 @@ class Force extends Plugin
      * @noinspection PhpDocMissingThrowsInspection
      * @return services\Resources
      */
-    public function getResources()
+    public function getResources(): services\Resources
     {
         /** @noinspection PhpUnhandledExceptionInspection */
         /** @noinspection PhpIncompatibleReturnTypeInspection */
@@ -294,10 +299,13 @@ class Force extends Plugin
      *******************************************/
 
     /**
-     * @return \flipbox\force\cp\Cp
+     * @noinspection PhpDocMissingThrowsInspection
+     * @return cp\Cp
      */
-    public function getCp()
+    public function getCp(): cp\Cp
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getModule('cp');
     }
 

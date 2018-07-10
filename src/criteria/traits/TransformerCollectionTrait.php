@@ -9,7 +9,6 @@
 namespace flipbox\force\criteria\traits;
 
 use flipbox\force\helpers\TransformerHelper;
-use flipbox\force\traits\TransformerResolverTrait;
 use flipbox\force\transformers\collections\DynamicTransformerCollection;
 use flipbox\force\transformers\collections\TransformerCollectionInterface;
 

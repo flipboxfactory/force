@@ -127,11 +127,11 @@ class DataController extends AbstractController
     private function getSobjectResourceOptions(): array
     {
         return [
-            CreateSObjectResource::class => 'SObject: Create Row',
-            GetSObjectResource::class => 'SObject: Read Row',
-            UpdateSObjectResource::class => 'SObject: Update Row',
-            DeleteSObjectResource::class => 'SObject: Delete Row',
-            UpsertSObjectResource::class => 'SObject: Upsert Row'
+            CreateSObjectResource::class => 'Salesforce Object: Create Row',
+            GetSObjectResource::class => 'Salesforce Object: Read Row',
+            UpdateSObjectResource::class => 'Salesforce Object: Update Row',
+            DeleteSObjectResource::class => 'Salesforce Object: Delete Row',
+            UpsertSObjectResource::class => 'Salesforce Object: Upsert Row'
         ];
     }
 

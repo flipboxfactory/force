@@ -38,7 +38,8 @@ class Force extends ServiceLocator
 
     /**
      * @param array $criteria
-     * @return \flipbox\force\criteria\QueryCriteria
+     * @return \flipbox\force\criteria\QueryCriteria|\flipbox\force\criteria\QueryCriteriaInterface
+     * @throws \flipbox\ember\exceptions\NotFoundException
      */
     public function getQuery(array $criteria = [])
     {
@@ -69,29 +70,35 @@ class Force extends ServiceLocator
     }
 
     /**
-     * @inheritdoc
+     * @noinspection PhpDocMissingThrowsInspection
      * @return Resources
      */
-    public function getResources()
+    public function getResources(): Resources
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->get('resources');
     }
 
     /**
-     * @inheritdoc
+     * @noinspection PhpDocMissingThrowsInspection
      * @return Connections
      */
-    public function getConnections()
+    public function getConnections(): Connections
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->get('connections');
     }
 
     /**
-     * @inheritdoc
+     * @noinspection PhpDocMissingThrowsInspection
      * @return Cache
      */
-    public function getCache()
+    public function getCache(): Cache
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->get('cache');
     }
 }

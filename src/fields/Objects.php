@@ -224,6 +224,8 @@ class Objects extends Field
 
     /**
      * @inheritdoc
+     * @throws \Twig_Error_Loader
+     * @throws \yii\base\Exception
      */
     public function getSettingsHtml()
     {
@@ -237,6 +239,7 @@ class Objects extends Field
 
     /**
      * @inheritdoc
+     * @throws \Exception
      */
     public function afterElementSave(ElementInterface $element, bool $isNew)
     {

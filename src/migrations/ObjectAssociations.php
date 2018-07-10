@@ -12,13 +12,13 @@ use craft\db\Migration;
 use craft\records\Element as ElementRecord;
 use craft\records\Field as FieldRecord;
 use craft\records\Site as SiteRecord;
-use flipbox\force\records\ObjectAssociation as SObjectAssociationRecord;
+use flipbox\force\records\ObjectAssociation as ObjectAssociationRecord;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class SObjectAssociations extends Migration
+class ObjectAssociations extends Migration
 {
     /**
      * @inheritdoc
@@ -37,7 +37,7 @@ class SObjectAssociations extends Migration
      */
     public function safeDown()
     {
-        $this->dropTableIfExists(SObjectAssociationRecord::tableName());
+        $this->dropTableIfExists(ObjectAssociationRecord::tableName());
         return true;
     }
 
@@ -48,7 +48,7 @@ class SObjectAssociations extends Migration
      */
     protected function createTables()
     {
-        $this->createTable(SObjectAssociationRecord::tableName(), [
+        $this->createTable(ObjectAssociationRecord::tableName(), [
             'objectId' => $this->string()->notNull(),
             'elementId' => $this->integer()->notNull(),
             'fieldId' => $this->integer()->notNull(),
@@ -69,7 +69,7 @@ class SObjectAssociations extends Migration
     {
         $this->addPrimaryKey(
             null,
-            SObjectAssociationRecord::tableName(),
+            ObjectAssociationRecord::tableName(),
             [
                 'elementId',
                 'objectId',
@@ -79,7 +79,7 @@ class SObjectAssociations extends Migration
         );
         $this->createIndex(
             null,
-            SObjectAssociationRecord::tableName(),
+            ObjectAssociationRecord::tableName(),
             'objectId',
             false
         );
@@ -94,7 +94,7 @@ class SObjectAssociations extends Migration
     {
         $this->addForeignKey(
             null,
-            SObjectAssociationRecord::tableName(),
+            ObjectAssociationRecord::tableName(),
             'elementId',
             ElementRecord::tableName(),
             'id',
@@ -103,7 +103,7 @@ class SObjectAssociations extends Migration
         );
         $this->addForeignKey(
             null,
-            SObjectAssociationRecord::tableName(),
+            ObjectAssociationRecord::tableName(),
             'siteId',
             SiteRecord::tableName(),
             'id',
@@ -112,7 +112,7 @@ class SObjectAssociations extends Migration
         );
         $this->addForeignKey(
             null,
-            SObjectAssociationRecord::tableName(),
+            ObjectAssociationRecord::tableName(),
             'fieldId',
             FieldRecord::tableName(),
             'id',

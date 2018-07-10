@@ -10,7 +10,7 @@ namespace flipbox\force\criteria;
 
 use flipbox\ember\helpers\ObjectHelper;
 use flipbox\force\Force;
-use flipbox\force\queries\traits\QueryBuilderAttributeTrait;
+use flipbox\force\query\traits\QueryBuilderAttributeTrait;
 use flipbox\force\services\resources\Query;
 use yii\base\BaseObject;
 

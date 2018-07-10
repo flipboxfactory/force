@@ -14,7 +14,7 @@ use craft\base\Field;
 use flipbox\ember\helpers\ModelHelper;
 use flipbox\force\criteria\QueryCriteria;
 use flipbox\force\Force;
-use flipbox\force\queries\traits\QueryBuilderAttributeTrait;
+use flipbox\force\query\traits\QueryBuilderAttributeTrait;
 use flipbox\force\validators\QueryBuilderSettingsValidator;
 
 /**
@@ -52,6 +52,8 @@ class Query extends Field
 
     /**
      * @inheritdoc
+     * @throws \Twig_Error_Loader
+     * @throws \yii\base\Exception
      */
     public function getSettingsHtml()
     {
@@ -59,8 +61,9 @@ class Query extends Field
     }
 
     /**
-     * @param QueryCriteria $value
      * @inheritdoc
+     * @throws \Twig_Error_Loader
+     * @throws \yii\base\Exception
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {

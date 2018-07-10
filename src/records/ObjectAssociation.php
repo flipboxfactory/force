@@ -53,6 +53,7 @@ class ObjectAssociation extends SortableAssociation
 
     /**
      * @inheritdoc
+     * @throws \Throwable
      */
     public function __construct(array $config = [])
     {

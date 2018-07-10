@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\queries\traits;
+namespace flipbox\force\query\traits;
 
 use craft\helpers\ArrayHelper;
 

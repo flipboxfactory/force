@@ -67,6 +67,8 @@ class SObjectWidget extends Widget
 
     /**
      * @inheritdoc
+     * @throws \Twig_Error_Loader
+     * @throws \yii\base\Exception
      */
     public function getSettingsHtml()
     {
@@ -82,6 +84,9 @@ class SObjectWidget extends Widget
 
     /**
      * @inheritdoc
+     * @throws \Twig_Error_Loader
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
      */
     public function getBodyHtml()
     {

@@ -23,12 +23,13 @@ use flipbox\force\records\ObjectAssociation;
 class ObjectAssociationQuery extends SortableAssociationQuery
 {
     use traits\FieldAttribute,
-        traits\SObjectAttribute,
+        traits\ObjectAttribute,
         ElementAttribute,
         SiteAttribute;
 
     /**
      * @inheritdoc
+     * @throws /\Throwable
      */
     public function __construct($modelClass, $config = [])
     {
@@ -50,10 +51,12 @@ class ObjectAssociationQuery extends SortableAssociationQuery
      */
     public function configure(array $config)
     {
-        return Craft::configure(
+        Craft::configure(
             $this,
             $config
         );
+
+        return $this;
     }
 
     /**

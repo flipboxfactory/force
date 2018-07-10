@@ -8,7 +8,7 @@
 
 namespace flipbox\force\pipeline\stages\traits;
 
-trait SObjectIdTrait
+trait ObjectIdTrait
 {
     /**
      * @param $payload

@@ -67,6 +67,7 @@ class DynamicModelError extends AbstractTransformer
             return;
         }
 
+        /** @noinspection PhpUndefinedMethodInspection */
         $object->addErrors($errors);
     }
 

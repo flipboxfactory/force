@@ -36,7 +36,7 @@ class Connections extends ServiceLocator
     const DEFAULT_CONNECTION = 'DEFAULT';
 
     /**
-     * @throws \yii\base\InvalidConfigException
+     * @inheritdoc
      */
     public function init()
     {

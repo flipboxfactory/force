@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\queries\settings;
+namespace flipbox\force\query\settings;
 
 use flipbox\force\query\QueryBuilderInterface;
 

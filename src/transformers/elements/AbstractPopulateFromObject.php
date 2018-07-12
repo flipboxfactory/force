@@ -40,7 +40,8 @@ abstract class AbstractPopulateFromObject extends AbstractTransformer
     ) {
         if ($field === null) {
             throw new InvalidArgumentException(
-                sprintf("Field must be an instance of '%s'",
+                sprintf(
+                    "Field must be an instance of '%s'",
                     Objects::class
                 )
             );
@@ -48,7 +49,8 @@ abstract class AbstractPopulateFromObject extends AbstractTransformer
 
         if ($source === null) {
             throw new InvalidArgumentException(
-                sprintf("Source must be an instance of '%s'",
+                sprintf(
+                    "Source must be an instance of '%s'",
                     ElementInterface::class
                 )
             );

@@ -58,10 +58,10 @@ class DynamicSearchBuilder extends RawSearchBuilder
     private function prepareSearch(string $soql): string
     {
         if (false === (preg_match_all(
-                '/' . self::VARIABLE_OPENING . '(.*?)' . self::VARIABLE_CLOSING . '/',
-                $soql,
-                $matches
-            ))) {
+            '/' . self::VARIABLE_OPENING . '(.*?)' . self::VARIABLE_CLOSING . '/',
+            $soql,
+            $matches
+        ))) {
             return $soql;
         }
 

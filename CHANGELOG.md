@@ -1,6 +1,14 @@
 Changelog
 =========
-## 1.0.0-beta.8- 2018-05-04
+## 1.0.0-beta.9 - 2018-07-12
+### Changed
+- Major refactoring
+- 'sobject', 'SObject', 'sObject' references are not 'object' and 'Object'
+
+### Removed
+- Salesforce package dependency
+
+## 1.0.0-beta.8 - 2018-05-04
 ### Changed
 - Altered/Removed transformers
 

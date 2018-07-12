@@ -1,7 +1,7 @@
 /**
  * Widget Sync
  */
-Craft.ForceSObjectSyncWidget = Garnish.Base.extend(
+Craft.ForceObjectSyncWidget = Garnish.Base.extend(
     {
         $container: null,
         $submit: null,
@@ -10,7 +10,7 @@ Craft.ForceSObjectSyncWidget = Garnish.Base.extend(
         init: function (container, settings) {
             this.$container = $(container);
 
-            this.setSettings(settings, Craft.ForceSObjectSyncWidget.defaults);
+            this.setSettings(settings, Craft.ForceObjectSyncWidget.defaults);
 
             this.$submit = this.$container.find('.submit');
             this.$spinner = $('<div class="spinner hidden"/>').insertAfter(this.$submit);

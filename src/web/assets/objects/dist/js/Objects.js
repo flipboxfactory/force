@@ -264,14 +264,14 @@ Craft.ForceObjectsField = Craft.ForceObjectsActions.extend(
 
             this.$spinner = $('<div class="spinner hidden"/>').appendTo(this.$container);
 
-            this.initSObjectSort();
+            this.initObjectSort();
             this.initActions();
             this.resetObjects();
 
             this._initialized = true;
         },
 
-        initSObjectSort: function () {
+        initObjectSort: function () {
             if (this.settings.sortable) {
                 this.objectSort = new Garnish.DragSort({
                     container: this.$objectsContainer,
@@ -368,7 +368,7 @@ Craft.ForceObjectsField = Craft.ForceObjectsActions.extend(
                             Craft.appendHeadHtml(response.headHtml);
                             Craft.appendFootHtml(response.footHtml);
 
-                            this.appendSObject($object);
+                            this.appendObject($object);
                             this.addObjects($object);
 
                             return $object;
@@ -379,7 +379,7 @@ Craft.ForceObjectsField = Craft.ForceObjectsActions.extend(
             );
         },
 
-        appendSObject: function ($object) {
+        appendObject: function ($object) {
             $object.appendTo(this.$objectsContainer);
         },
 
@@ -518,7 +518,7 @@ Craft.ForceObjectItem = Craft.ForceObjectsActions.extend(
                 return;
             }
 
-            this.updateSObjectId(this.id);
+            this.updateObjectId(this.id);
             this.toggleEdit();
         },
 
@@ -534,7 +534,7 @@ Craft.ForceObjectItem = Craft.ForceObjectsActions.extend(
             }
         },
 
-        updateSObjectId: function (value) {
+        updateObjectId: function (value) {
             this.$objectInput.val(value);
             this.$objectLabel.html(value);
 
@@ -572,7 +572,7 @@ Craft.ForceObjectItem = Craft.ForceObjectsActions.extend(
                             this.toggleEdit();
 
                             if (response.hasOwnProperty("objectId")) {
-                                this.updateSObjectId(response.objectId);
+                                this.updateObjectId(response.objectId);
                             }
 
                             if (this.settings.associationMessageSuccess) {

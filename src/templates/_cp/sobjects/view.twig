@@ -8,12 +8,12 @@
 {% block content %}
 <div id="fields">
     {% from _self import fields %}
-    {{ fields(describedSobject.fields) }}
+    {{ fields(describedObject.fields) }}
 </div>
 
 <div id="relations" class="hidden">
     {% from _self import childRelationships %}
-    {{ childRelationships(describedSobject.childRelationships) }}
+    {{ childRelationships(describedObject.childRelationships) }}
 </div>
 {% endblock %}
 
@@ -36,14 +36,14 @@
         <thead>
         <th>Name</th>
         <th>Field</th>
-        <th>SObject</th>
+        <th>Salesforce Object</th>
         </thead>
         <tbody>
         {% for childRelationship in childRelationships %}
             <tr>
                 <td>{{ childRelationship.relationshipName }}</td>
                 <td>{{ childRelationship.field }}</td>
-                <td>{{ childRelationship.childSObject }}</td>
+                <td>{{ childRelationship.childObject }}</td>
             </tr>
         {% endfor %}
         </tbody>

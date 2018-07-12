@@ -92,7 +92,7 @@ class Force extends Plugin
             Dashboard::class,
             Dashboard::EVENT_REGISTER_WIDGET_TYPES,
             function (RegisterComponentTypesEvent $event) {
-                $event->types[] = widgets\SObjectWidget::class;
+                $event->types[] = widgets\ObjectWidget::class;
             }
         );
 

@@ -116,7 +116,7 @@ class DataController extends AbstractController
     private function getResourceOptions(): array
     {
         return array_merge(
-            $this->getSobjectResourceOptions(),
+            $this->getObjectResourceOptions(),
             $this->getQueryResourceOptions()
         );
     }
@@ -124,7 +124,7 @@ class DataController extends AbstractController
     /**
      * @return array
      */
-    private function getSobjectResourceOptions(): array
+    private function getObjectResourceOptions(): array
     {
         return [
             CreateSObjectResource::class => 'Salesforce Object: Create Row',
@@ -153,8 +153,8 @@ class DataController extends AbstractController
         return [
             TransformerCollectionInterface::SUCCESS_KEY => 'Success',
             TransformerCollectionInterface::ERROR_KEY => 'Error',
-            'payload' => 'SObject Payload',
-            'id' => 'SObject Id'
+            'payload' => 'Salesforce Object Payload',
+            'id' => 'Salesforce Object Id'
         ];
     }
 

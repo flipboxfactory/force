@@ -15,7 +15,7 @@ use craft\db\Query;
 use flipbox\force\fields\Objects;
 use flipbox\force\web\assets\widgets\SyncWidget;
 
-class SObjectWidget extends Widget
+class ObjectWidget extends Widget
 {
     /**
      * @var string
@@ -73,7 +73,7 @@ class SObjectWidget extends Widget
     public function getSettingsHtml()
     {
         return Craft::$app->getView()->renderTemplate(
-            'force/_components/widgets/SObjectWidget/settings',
+            'force/_components/widgets/ObjectWidget/settings',
             [
                 'widget' => $this,
                 'fieldOptions' => $this->getFieldOptions(),
@@ -93,7 +93,7 @@ class SObjectWidget extends Widget
         Craft::$app->getView()->registerAssetBundle(SyncWidget::class);
 
         return Craft::$app->getView()->renderTemplate(
-            'force/_components/widgets/SObjectWidget/body',
+            'force/_components/widgets/ObjectWidget/body',
             [
                 'widget' => $this
             ]

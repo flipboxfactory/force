@@ -19,7 +19,7 @@ use yii\web\Response;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class SobjectsController extends AbstractController
+class ObjectsController extends AbstractController
 {
     /**
      * The template base path
@@ -41,16 +41,16 @@ class SobjectsController extends AbstractController
         $this->baseVariables($variables);
 
         $object = Craft::$app->getRequest()->getParam('object');
-        $describedSobject = null;
+        $describedObject = null;
 
         if ($object !== null) {
-            $describedSobject = (new ObjectAccessorCriteria([
+            $describedObject = (new ObjectAccessorCriteria([
                 'object' => $object,
                 'transformer' => TransformerCollection::class
             ]))->describe();
         }
 
-        $variables['describedSobject'] = $describedSobject;
+        $variables['describedObject'] = $describedObject;
         $variables['objectOptions'] = $this->getObjectOptions();
         $variables['tabs'] = $this->getTabs();
 

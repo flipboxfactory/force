@@ -26,7 +26,7 @@ use flipbox\force\fields\actions\SyncTo;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use flipbox\force\records\ObjectAssociation;
-use flipbox\force\web\assets\objects\Objects as SObjectsAsset;
+use flipbox\force\web\assets\objects\Objects as ObjectsAsset;
 use yii\base\Exception;
 
 /**
@@ -168,7 +168,7 @@ class ObjectsField extends SortableFields
         ElementInterface $element = null,
         bool $static
     ) {
-        Craft::$app->getView()->registerAssetBundle(SObjectsAsset::class);
+        Craft::$app->getView()->registerAssetBundle(ObjectsAsset::class);
 
         return Craft::$app->getView()->renderTemplate(
             $field::INPUT_TEMPLATE_PATH,

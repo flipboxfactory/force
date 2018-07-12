@@ -10,6 +10,7 @@ namespace flipbox\force\cp\controllers\settings\view;
 
 use Craft;
 use flipbox\ember\helpers\ArrayHelper;
+use flipbox\force\criteria\ObjectAccessorCriteria;
 use flipbox\force\Force;
 use flipbox\force\transformers\collections\TransformerCollection;
 use yii\web\Response;
@@ -43,10 +44,10 @@ class SobjectsController extends AbstractController
         $describedSobject = null;
 
         if ($object !== null) {
-            $describedSobject = Force::getInstance()->getResources()->getObject()->getCriteria([
+            $describedSobject = (new ObjectAccessorCriteria([
                 'object' => $object,
                 'transformer' => TransformerCollection::class
-            ])->describe();
+            ]))->describe();
         }
 
         $variables['describedSobject'] = $describedSobject;

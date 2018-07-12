@@ -36,6 +36,7 @@ trait ProviderTrait
 
     /**
      * @return Salesforce
+     * @throws \flipbox\ember\exceptions\NotFoundException
      * @throws \yii\base\InvalidConfigException
      */
     public function getProvider(): Salesforce
@@ -50,6 +51,7 @@ trait ProviderTrait
     /**
      * @param $provider
      * @return Salesforce
+     * @throws \flipbox\ember\exceptions\NotFoundException
      * @throws \yii\base\InvalidConfigException
      */
     protected function resolveProvider($provider): Salesforce

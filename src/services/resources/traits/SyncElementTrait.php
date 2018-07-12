@@ -16,14 +16,15 @@ use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use flipbox\force\helpers\ConnectionHelper;
 use flipbox\force\pipeline\stages\ElementAssociationStage;
+use flipbox\force\pipeline\stages\ElementPopulateStage;
 use flipbox\force\pipeline\stages\ElementSaveStage;
 use flipbox\force\traits\TransformElementIdTrait;
 use flipbox\force\traits\TransformElementPayloadTrait;
+use flipbox\force\transformers\error\Interpret;
 use Flipbox\Pipeline\Pipelines\Pipeline;
 use Flipbox\Transform\Factory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\SimpleCache\CacheInterface;
-use flipbox\force\transformers\error\Interpret;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -51,7 +52,7 @@ trait SyncElementTrait
     /**
      * @param string $object
      * @param array $payload
-     * @param string $id
+     * @param string|null $id
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @return callable
@@ -59,12 +60,11 @@ trait SyncElementTrait
      */
     public abstract function rawHttpUpsertRelay(
         string $object,
-        string $id,
         array $payload,
+        string $id = null,
         ConnectionInterface $connection = null,
         CacheInterface $cache = null
     ): callable;
-
 
 
     /**
@@ -146,8 +146,8 @@ trait SyncElementTrait
         if ($response->getStatusCode() >= 200 && $response->getStatusCode() <= 299) {
             $pipeline = new Pipeline([
                 'stages' => [
-                    new ElementSaveStage($field, ['logger' => $logger]),
-                    new ElementAssociationStage($field, ['logger' => $logger])
+                    new ElementPopulateStage($field, ['logger' => $logger]),
+                    new ElementSaveStage($field, ['logger' => $logger])
                 ]
             ]);
 
@@ -207,8 +207,8 @@ trait SyncElementTrait
         /** @var ResponseInterface $response */
         $response = $this->rawHttpUpsertRelay(
             $field->object,
-            $id,
             $payload,
+            $id,
             $connection,
             $cache
         )();
@@ -237,7 +237,7 @@ trait SyncElementTrait
         $logger = Force::getInstance()->getPsrLogger();
 
         if ($response->getStatusCode() >= 200 && $response->getStatusCode() <= 299) {
-            if(empty($id)) {
+            if (empty($id)) {
                 $pipeline = new Pipeline([
                     'stages' => [
                         new ElementAssociationStage($field, ['logger' => $logger])

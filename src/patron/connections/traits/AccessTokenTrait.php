@@ -38,6 +38,7 @@ trait AccessTokenTrait
 
     /**
      * @return AccessToken
+     * @throws \flipbox\ember\exceptions\NotFoundException
      */
     public function getAccessToken(): AccessToken
     {

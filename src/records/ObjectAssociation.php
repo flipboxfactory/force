@@ -14,7 +14,6 @@ use flipbox\craft\sortable\associations\services\SortableAssociations;
 use flipbox\ember\helpers\ModelHelper;
 use flipbox\ember\records\traits\ElementAttribute;
 use flipbox\ember\records\traits\SiteAttribute;
-use flipbox\force\criteria\ObjectAccessorCriteria;
 use flipbox\force\db\ObjectAssociationQuery;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;

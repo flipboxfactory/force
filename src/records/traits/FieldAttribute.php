@@ -54,7 +54,7 @@ trait FieldAttribute
     /**
      * @return FieldInterface|null
      */
-    private function resolveFieldFromRelation()
+    protected function resolveFieldFromRelation()
     {
         if (false === $this->isRelationPopulated('fieldRecord')) {
             return null;

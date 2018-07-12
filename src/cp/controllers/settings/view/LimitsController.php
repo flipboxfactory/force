@@ -29,6 +29,7 @@ class LimitsController extends AbstractController
 
     /**
      * @return Response
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionIndex(): Response
     {

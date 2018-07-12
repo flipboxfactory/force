@@ -45,8 +45,8 @@ trait UpsertObjectTrait
     ) {
         return $this->rawUpsert(
             $criteria->getObject(),
-            $criteria->getId(),
             $criteria->getPayload(),
+            $criteria->getId(),
             $criteria->getConnection(),
             $criteria->getCache(),
             $criteria->getTransformer(),
@@ -56,8 +56,8 @@ trait UpsertObjectTrait
 
     /**
      * @param string $object
-     * @param string $id
      * @param array $payload
+     * @param string|null $id
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @param TransformerCollectionInterface|array|null $transformer
@@ -67,8 +67,8 @@ trait UpsertObjectTrait
      */
     public function rawUpsert(
         string $object,
-        string $id,
         array $payload,
+        string $id = null,
         ConnectionInterface $connection = null,
         CacheInterface $cache = null,
         TransformerCollectionInterface $transformer = null,
@@ -76,8 +76,8 @@ trait UpsertObjectTrait
     ) {
         return $this->rawUpsertPipeline(
             $object,
-            $id,
             $payload,
+            $id,
             $connection,
             $cache,
             $transformer
@@ -94,8 +94,8 @@ trait UpsertObjectTrait
     ): PipelineBuilderInterface {
         return $this->rawUpsertPipeline(
             $criteria->getObject(),
-            $criteria->getId(),
             $criteria->getPayload(),
+            $criteria->getId(),
             $criteria->getConnection(),
             $criteria->getCache(),
             $criteria->getTransformer()
@@ -114,8 +114,8 @@ trait UpsertObjectTrait
      */
     public function rawUpsertPipeline(
         string $object,
-        string $id,
         array $payload,
+        string $id = null,
         ConnectionInterface $connection = null,
         CacheInterface $cache = null,
         TransformerCollectionInterface $transformer = null
@@ -130,8 +130,8 @@ trait UpsertObjectTrait
         return (new Resource(
             $this->rawHttpUpsertRelay(
                 $object,
-                $id,
                 $payload,
+                $id,
                 ConnectionHelper::resolveConnection($connection),
                 $cache
             ),
@@ -150,8 +150,8 @@ trait UpsertObjectTrait
     ): callable {
         return $this->rawHttpUpsertRelay(
             $criteria->getObject(),
-            $criteria->getId(),
             $criteria->getPayload(),
+            $criteria->getId(),
             $criteria->getConnection(),
             $criteria->getCache()
         );
@@ -159,8 +159,8 @@ trait UpsertObjectTrait
 
     /**
      * @param string $object
-     * @param string $id
      * @param array $payload
+     * @param string|null $id
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @return callable
@@ -168,8 +168,8 @@ trait UpsertObjectTrait
      */
     public function rawHttpUpsertRelay(
         string $object,
-        string $id,
         array $payload,
+        string $id = null,
         ConnectionInterface $connection = null,
         CacheInterface $cache = null
     ): callable {
@@ -199,8 +199,8 @@ trait UpsertObjectTrait
     ): ResponseInterface {
         return $this->rawHttpUpsert(
             $criteria->getObject(),
-            $criteria->getId(),
             $criteria->getPayload(),
+            $criteria->getId(),
             $criteria->getConnection(),
             $criteria->getCache()
         );
@@ -217,15 +217,15 @@ trait UpsertObjectTrait
      */
     public function rawHttpUpsert(
         string $object,
-        string $id,
         array $payload,
+        string $id = null,
         ConnectionInterface $connection = null,
         CacheInterface $cache = null
     ): ResponseInterface {
         return $this->rawHttpUpsertRelay(
             $object,
-            $id,
             $payload,
+            $id,
             $connection,
             $cache
         )();

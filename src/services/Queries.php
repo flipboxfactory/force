@@ -12,7 +12,6 @@ use craft\helpers\Json;
 use flipbox\ember\helpers\ArrayHelper;
 use flipbox\ember\services\traits\objects\AccessorByString;
 use flipbox\ember\services\traits\records\ActiveRecord;
-use flipbox\force\criteria\c;
 use flipbox\force\criteria\QueryCriteria;
 use flipbox\force\criteria\QueryCriteriaInterface;
 use flipbox\force\records\Query as QueryRecord;

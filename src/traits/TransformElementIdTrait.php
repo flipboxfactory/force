@@ -32,7 +32,9 @@ trait TransformElementIdTrait
         return Factory::simpleItem(
             new ObjectId($field),
             $element,
-            []
+            [
+                'source' => $element
+            ]
         );
     }
 }

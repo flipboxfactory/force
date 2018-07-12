@@ -111,7 +111,7 @@ trait FieldMutator
     /**
      * @return FieldInterface|null
      */
-    private function resolveFieldFromId()
+    protected function resolveFieldFromId()
     {
         if (null === $this->fieldId) {
             return null;

@@ -8,8 +8,6 @@
 
 namespace flipbox\force\transformers;
 
-use craft\base\ElementInterface;
-use flipbox\force\Force;
 use flipbox\force\transformers\error\Interpret;
 use Flipbox\Transform\Factory;
 use Flipbox\Transform\Scope;
@@ -25,16 +23,12 @@ class DynamicModelError extends AbstractTransformer
      * @param $data
      * @param Scope $scope
      * @param string|null $identifier
-     * @param ElementInterface|null $source
-     * @param string|null $object
      * @return mixed
      */
     public function __invoke(
         $data,
         Scope $scope,
-        string $identifier = null,
-        ElementInterface $source = null,
-        string $object = null
+        string $identifier = null
     ) {
         if (!is_array($data)) {
             $data = [$data];
@@ -42,33 +36,10 @@ class DynamicModelError extends AbstractTransformer
 
         $errors = $this->transformErrors($data);
 
-        if (null !== $source) {
-            $this->populateSource($source, $errors);
-        }
-
         $model = new DynamicModel();
         $model->addErrors($errors);
 
         return $model;
-    }
-
-    /**
-     * @param $object
-     * @param array $errors
-     */
-    protected function populateSource($object, array $errors)
-    {
-        if (!is_object($object) || !method_exists($object, 'addErrors')) {
-            Force::warning(
-                "Unable to populate object errors.",
-                __METHOD__
-            );
-
-            return;
-        }
-
-        /** @noinspection PhpUndefinedMethodInspection */
-        $object->addErrors($errors);
     }
 
     /**

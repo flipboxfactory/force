@@ -25,6 +25,7 @@ trait AccessTokenAuthorizationTrait
 
     /**
      * @inheritdoc
+     * @throws \flipbox\ember\exceptions\NotFoundException
      */
     public function prepareAuthorizationRequest(
         RequestInterface $request
@@ -37,6 +38,7 @@ trait AccessTokenAuthorizationTrait
      *
      * @param RequestInterface $request
      * @return RequestInterface
+     * @throws \flipbox\ember\exceptions\NotFoundException
      */
     protected function addAuthorizationHeader(RequestInterface $request): RequestInterface
     {
@@ -48,6 +50,7 @@ trait AccessTokenAuthorizationTrait
 
     /**
      * @inheritdoc
+     * @throws \flipbox\ember\exceptions\NotFoundException
      */
     public function handleAuthorizationResponse(
         ResponseInterface $response,
@@ -88,6 +91,7 @@ trait AccessTokenAuthorizationTrait
      * @param ResponseInterface $response
      * @param callable|null $next
      * @return mixed
+     * @throws \flipbox\ember\exceptions\NotFoundException
      */
     protected function refreshAndRetry(RequestInterface $request, ResponseInterface $response, callable $next = null)
     {
@@ -112,6 +116,7 @@ trait AccessTokenAuthorizationTrait
      * @param AccessToken $accessToken
      * @param AccessToken $refreshToken
      * @return bool
+     * @throws \flipbox\ember\exceptions\NotFoundException
      */
     protected function saveRefreshToken(AccessToken $accessToken, AccessToken $refreshToken): bool
     {

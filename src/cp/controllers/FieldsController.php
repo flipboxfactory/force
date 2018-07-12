@@ -13,7 +13,6 @@ use flipbox\ember\helpers\ArrayHelper;
 use flipbox\force\cp\actions\fields\CreateItem;
 use flipbox\force\cp\actions\fields\PerformAction;
 use flipbox\force\cp\actions\fields\PerformItemAction;
-use flipbox\force\cp\actions\fields\SyncTo;
 use yii\web\BadRequestHttpException;
 
 /**

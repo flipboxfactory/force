@@ -16,7 +16,7 @@ use yii\base\Event;
 class RegisterObjectFieldActionsEvent extends Event
 {
     /**
-     * @var array|ObjectActionInterface[]|ObjectItemActionInterface[]
+     * @var ObjectActionInterface[]|ObjectItemActionInterface[]
      */
     public $actions = [];
 

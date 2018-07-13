@@ -12,18 +12,15 @@ use flipbox\force\collections\Collection;
 use flipbox\force\helpers\TransformerHelper;
 use Flipbox\Skeleton\Helpers\ObjectHelper;
 use Flipbox\Transform\Factory;
-use Flipbox\Transform\Transformers\AbstractTransformer;
-use Flipbox\Transform\Transformers\Traits\ArrayToObject;
 use Flipbox\Transform\Transformers\TransformerInterface;
+use yii\base\BaseObject;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class QueryCollection extends AbstractTransformer
+class QueryCollection extends BaseObject
 {
-    use ArrayToObject;
-
     /**
      * @var callable|TransformerInterface|null
      */
@@ -34,7 +31,7 @@ class QueryCollection extends AbstractTransformer
      * @return Collection
      * @throws \Flipbox\Skeleton\Exceptions\InvalidConfigurationException
      */
-    public function transform(array $data): Collection
+    public function __invoke(array $data): Collection
     {
         $collection = new Collection();
 

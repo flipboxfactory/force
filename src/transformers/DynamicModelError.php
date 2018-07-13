@@ -10,30 +10,19 @@ namespace flipbox\force\transformers;
 
 use flipbox\force\transformers\error\Interpret;
 use Flipbox\Transform\Factory;
-use Flipbox\Transform\Scope;
-use Flipbox\Transform\Transformers\AbstractTransformer;
 use yii\base\DynamicModel;
 
 /**
  * This transformer will take an API response and create/populate a User element.
  */
-class DynamicModelError extends AbstractTransformer
+class DynamicModelError
 {
     /**
-     * @param $data
-     * @param Scope $scope
-     * @param string|null $identifier
+     * @param array $data
      * @return mixed
      */
-    public function __invoke(
-        $data,
-        Scope $scope,
-        string $identifier = null
-    ) {
-        if (!is_array($data)) {
-            $data = [$data];
-        }
-
+    public function __invoke(array $data)
+    {
         $errors = $this->transformErrors($data);
 
         $model = new DynamicModel();

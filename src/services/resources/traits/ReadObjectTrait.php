@@ -71,6 +71,11 @@ trait ReadObjectTrait
         TransformerCollectionInterface $transformer = null,
         $source = null
     ) {
+
+        if (!is_array($source)) {
+            $source = ['source' => $source];
+        }
+
         return $this->rawReadPipeline(
             $object,
             $id,

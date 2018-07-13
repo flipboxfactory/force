@@ -58,13 +58,13 @@ class HttpPipeline extends Pipeline
     /**
      * @inheritdoc
      */
-    public function process($payload = null, $source = null)
+    public function process($payload, $extra = [])
     {
         $stages = array_merge(
             array_filter([$this->relay, $this->transformer]),
             $this->getStages()
         );
 
-        return $this->getProcessor()->process($stages, $payload, $source);
+        return $this->getProcessor()->process($stages, $payload, $extra);
     }
 }

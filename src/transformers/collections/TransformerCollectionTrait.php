@@ -55,7 +55,7 @@ trait TransformerCollectionTrait
 
     /**
      * @param string $key
-     * @return callable|\Flipbox\Transform\Transformers\TransformerInterface|null
+     * @return callable|null
      * @throws \Flipbox\Skeleton\Exceptions\InvalidConfigurationException
      */
     public function getTransformer(string $key)

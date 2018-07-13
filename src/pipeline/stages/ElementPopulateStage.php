@@ -103,8 +103,7 @@ class ElementPopulateStage extends BaseObject implements StageInterface
             Json::decodeIfJson(
                 $response->getBody()->getContents()
             ),
-            [],
-            ['source' => $element, 'field' => $this->field]
+            ['element' => $element, 'field' => $this->field]
         );
     }
 }

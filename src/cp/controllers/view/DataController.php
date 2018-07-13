@@ -62,7 +62,7 @@ class DataController extends AbstractController
     }
 
     /**
-     * @return callable|\Flipbox\Transform\Transformers\TransformerInterface|null
+     * @return callable|null
      */
     private function getTransformer()
     {

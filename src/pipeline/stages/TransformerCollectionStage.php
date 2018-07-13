@@ -63,7 +63,6 @@ class TransformerCollectionStage implements StageInterface
         return Factory::Item(
             $transformer,
             $this->processPayload($payload),
-            [],
             ['source' => $source]
         );
     }

@@ -9,7 +9,6 @@
 namespace flipbox\force\transformers\error;
 
 use Flipbox\Skeleton\Helpers\ArrayHelper;
-use Flipbox\Transform\Scope;
 use Flipbox\Transform\Traits\MapperTrait;
 use Flipbox\Transform\Transformers\AbstractTransformer;
 
@@ -24,7 +23,7 @@ class Interpret extends AbstractTransformer
     /**
      * @inheritdoc
      */
-    public function __invoke($data, Scope $scope, string $identifier = null, $source = null)
+    public function __invoke($data, $source = null)
     {
         if ($data === null) {
             return null;

@@ -81,19 +81,19 @@ class Resource extends AbstractObject implements PipelineBuilderInterface
      * @param null $source
      * @return mixed
      */
-    public function execute($source = null)
+    public function execute(array $extra = [])
     {
         // Resources do not pass a payload ... but they can pass a source, so that why this may look funny
-        return call_user_func_array($this->build(), [null, $source]);
+        return call_user_func_array($this->build(), [null, $extra]);
     }
 
     /**
-     * @param mixed|null $source
+     * @param array $extra
      * @return mixed
      */
-    public function __invoke($source = null)
+    public function __invoke(array $extra = [])
     {
-        return $this->execute($source);
+        return $this->execute($extra);
     }
 
     /**

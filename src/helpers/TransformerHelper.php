@@ -12,17 +12,16 @@ use flipbox\force\Force;
 use flipbox\force\transformers\collections\TransformerCollection;
 use flipbox\force\transformers\collections\TransformerCollectionInterface;
 use Flipbox\Skeleton\Helpers\ObjectHelper;
-use Flipbox\Transform\Transformers\TransformerInterface;
+use Flipbox\Transform\Helpers\TransformerHelper as BaseTransformerHelper;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class TransformerHelper extends \Flipbox\Transform\Helpers\TransformerHelper
+class TransformerHelper extends BaseTransformerHelper
 {
     /**
-     * @param array|TransformerInterface|callable|null $transformer
-     * @return TransformerInterface|callable|null
+     * @inheritdoc
      * @throws \Flipbox\Skeleton\Exceptions\InvalidConfigurationException
      */
     public static function resolve($transformer = null)

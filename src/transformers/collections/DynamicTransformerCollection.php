@@ -101,7 +101,7 @@ class DynamicTransformerCollection extends TransformerCollection
 
     /**
      * @param string $key
-     * @return callable|\Flipbox\Transform\Transformers\TransformerInterface|null
+     * @return callable|null
      */
     protected function dynamicTransformer(string $key)
     {
@@ -119,7 +119,7 @@ class DynamicTransformerCollection extends TransformerCollection
 
     /**s
      * @param string $eventName
-     * @return callable|\Flipbox\Transform\Transformers\TransformerInterface|null
+     * @return callable|null
      */
     protected function resolveTransformer(string $eventName)
     {

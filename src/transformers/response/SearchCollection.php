@@ -12,18 +12,15 @@ use flipbox\force\collections\Collection;
 use flipbox\force\helpers\TransformerHelper;
 use Flipbox\Skeleton\Helpers\ObjectHelper;
 use Flipbox\Transform\Factory;
-use Flipbox\Transform\Transformers\AbstractTransformer;
-use Flipbox\Transform\Transformers\Traits\ArrayToObject;
+use Flipbox\Transform\Transformers\ArrayTransformer;
 use Flipbox\Transform\Transformers\TransformerInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class SearchCollection extends AbstractTransformer
+class SearchCollection extends ArrayTransformer
 {
-    use ArrayToObject;
-
     /**
      * @var callable|TransformerInterface|null
      */

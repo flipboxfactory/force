@@ -22,16 +22,11 @@ class TransformerHelper extends BaseTransformerHelper
 {
     /**
      * @inheritdoc
-     * @throws \Flipbox\Skeleton\Exceptions\InvalidConfigurationException
      */
     public static function resolve($transformer = null)
     {
         if (empty($transformer)) {
             return null;
-        }
-
-        if (is_string($transformer) || is_array($transformer)) {
-            return static::resolve(ObjectHelper::create($transformer));
         }
 
         return parent::resolve($transformer);

@@ -23,28 +23,17 @@ class Interpret extends AbstractTransformer
     /**
      * @inheritdoc
      */
-    public function __invoke($data, $source = null)
+    public function __invoke(array $data)
     {
         if ($data === null) {
-            return null;
+            return [
+                'error' => 'An unknown error occurred.'
+            ];
         }
 
-        return $this->transform(
-            $this->mapFrom(
-                $this->normalizeErrors($data)
-            ),
-            $source
+        return $this->mapFrom(
+            $this->normalizeErrors($data)
         );
-    }
-
-    /**
-     * @param array $errors
-     * @param $source
-     * @return array
-     */
-    public function transform(array $errors, $source = null)
-    {
-        return $errors;
     }
 
     /**

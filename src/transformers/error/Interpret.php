@@ -10,13 +10,12 @@ namespace flipbox\force\transformers\error;
 
 use Flipbox\Skeleton\Helpers\ArrayHelper;
 use Flipbox\Transform\Traits\MapperTrait;
-use Flipbox\Transform\Transformers\AbstractTransformer;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class Interpret extends AbstractTransformer
+class Interpret
 {
     use MapperTrait;
 

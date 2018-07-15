@@ -35,20 +35,20 @@ trait BasicObjectTrait
 
     /**
      * @param ObjectAccessorCriteriaInterface $criteria
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
     public function basic(
         ObjectAccessorCriteriaInterface $criteria,
-        $source = null
+        array $extra = []
     ) {
         return $this->rawBasic(
             $criteria->getObject(),
             $criteria->getConnection(),
             $criteria->getCache(),
             $criteria->getTransformer(),
-            $source
+            $extra
         );
     }
 
@@ -57,7 +57,7 @@ trait BasicObjectTrait
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @param TransformerCollectionInterface|array|null $transformer
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
@@ -66,14 +66,14 @@ trait BasicObjectTrait
         ConnectionInterface $connection = null,
         CacheInterface $cache = null,
         TransformerCollectionInterface $transformer = null,
-        $source = null
+        array $extra = []
     ) {
         return $this->rawBasicPipeline(
             $object,
             $connection,
             $cache,
             $transformer
-        )($source);
+        )($extra);
     }
 
     /**

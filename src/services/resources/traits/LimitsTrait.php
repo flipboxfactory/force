@@ -47,7 +47,7 @@ trait LimitsTrait
             $criteria->getConnection(),
             $criteria->getCache(),
             $criteria->getTransformer(),
-            $source
+            $extra
         );
     }
 

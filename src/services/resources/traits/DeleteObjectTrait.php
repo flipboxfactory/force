@@ -35,13 +35,13 @@ trait DeleteObjectTrait
 
     /**
      * @param ObjectMutatorCriteriaInterface $criteria
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
     public function delete(
         ObjectMutatorCriteriaInterface $criteria,
-        $source = null
+        array $extra = []
     ) {
         return $this->rawDelete(
             $criteria->getObject(),
@@ -49,7 +49,7 @@ trait DeleteObjectTrait
             $criteria->getConnection(),
             $criteria->getCache(),
             $criteria->getTransformer(),
-            $source
+            $extra
         );
     }
 
@@ -59,7 +59,7 @@ trait DeleteObjectTrait
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @param TransformerCollectionInterface|array|null $transformer
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
@@ -69,7 +69,7 @@ trait DeleteObjectTrait
         ConnectionInterface $connection = null,
         CacheInterface $cache = null,
         TransformerCollectionInterface $transformer = null,
-        $source = null
+        array $extra = []
     ) {
         return $this->rawDeletePipeline(
             $object,
@@ -77,7 +77,7 @@ trait DeleteObjectTrait
             $connection,
             $cache,
             $transformer
-        )($source);
+        )($extra);
     }
 
     /**

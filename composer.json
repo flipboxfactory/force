@@ -13,13 +13,14 @@
   ],
   "require": {
     "craftcms/cms": "^3.0.14",
-    "flipboxfactory/craft-ember": "^1.0.2",
-    "flipboxfactory/craft-psr16": "^1.0.0",
-    "flipboxfactory/craft-psr3": "^1.0.0",
-    "flipboxfactory/flux": "~1.0.0-rc.5",
+    "flipboxfactory/patron": "^1.0.0-rc.4",
     "stevenmaguire/oauth2-salesforce": "^2.0",
-    "flipboxfactory/craft-sortable-associations": "^1.0",
     "flipboxdigital/relay-salesforce": "~2.0",
+    "flipboxfactory/craft-ember": "^1.0.6",
+    "flipboxfactory/craft-psr16": "^1.0",
+    "flipboxfactory/craft-psr3": "^1.0",
+    "flipboxfactory/flux": "~1.0.0-rc.5",
+    "flipboxfactory/craft-sortable-associations": "^1.0",
     "flipboxdigital/pipeline": "^1.1"
   },
   "require-dev": {

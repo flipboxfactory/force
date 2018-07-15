@@ -35,13 +35,13 @@ trait LimitsTrait
 
     /**
      * @param InstanceCriteriaInterface $criteria
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
     public function limits(
         InstanceCriteriaInterface $criteria,
-        $source = null
+        array $extra = []
     ) {
         return $this->rawLimits(
             $criteria->getConnection(),
@@ -55,7 +55,7 @@ trait LimitsTrait
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @param TransformerCollectionInterface|array|null $transformer
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
@@ -63,13 +63,13 @@ trait LimitsTrait
         ConnectionInterface $connection = null,
         CacheInterface $cache = null,
         TransformerCollectionInterface $transformer = null,
-        $source = null
+        array $extra = []
     ) {
         return $this->rawLimitsPipeline(
             $connection,
             $cache,
             $transformer
-        )($source);
+        )($extra);
     }
 
     /**

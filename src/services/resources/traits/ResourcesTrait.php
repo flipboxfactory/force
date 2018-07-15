@@ -35,19 +35,19 @@ trait ResourcesTrait
 
     /**
      * @param InstanceCriteriaInterface $criteria
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
     public function resources(
         InstanceCriteriaInterface $criteria,
-        $source = null
+        array $extra = []
     ) {
         return $this->rawResources(
             $criteria->getConnection(),
             $criteria->getCache(),
             $criteria->getTransformer(),
-            $source
+            $extra
         );
     }
 
@@ -55,7 +55,7 @@ trait ResourcesTrait
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @param TransformerCollectionInterface|array|null $transformer
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
@@ -63,13 +63,13 @@ trait ResourcesTrait
         ConnectionInterface $connection = null,
         CacheInterface $cache = null,
         TransformerCollectionInterface $transformer = null,
-        $source = null
+        array $extra = []
     ) {
         return $this->rawResourcesPipeline(
             $connection,
             $cache,
             $transformer
-        )($source);
+        )($extra);
     }
 
     /**

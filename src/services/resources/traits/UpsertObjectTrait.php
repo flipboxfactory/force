@@ -35,13 +35,13 @@ trait UpsertObjectTrait
 
     /**
      * @param ObjectMutatorCriteriaInterface $criteria
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
     public function upsert(
         ObjectMutatorCriteriaInterface $criteria,
-        $source = null
+        array $extra = []
     ) {
         return $this->rawUpsert(
             $criteria->getObject(),
@@ -50,7 +50,7 @@ trait UpsertObjectTrait
             $criteria->getConnection(),
             $criteria->getCache(),
             $criteria->getTransformer(),
-            $source
+            $extra
         );
     }
 
@@ -61,7 +61,7 @@ trait UpsertObjectTrait
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @param TransformerCollectionInterface|array|null $transformer
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
@@ -72,7 +72,7 @@ trait UpsertObjectTrait
         ConnectionInterface $connection = null,
         CacheInterface $cache = null,
         TransformerCollectionInterface $transformer = null,
-        $source = null
+        array $extra = []
     ) {
         return $this->rawUpsertPipeline(
             $object,
@@ -81,7 +81,7 @@ trait UpsertObjectTrait
             $connection,
             $cache,
             $transformer
-        )($source);
+        )($extra);
     }
 
     /**

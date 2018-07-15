@@ -35,13 +35,13 @@ trait ReadObjectTrait
 
     /**
      * @param ObjectAccessorCriteriaInterface $criteria
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
     public function read(
         ObjectAccessorCriteriaInterface $criteria,
-        $source = null
+        array $extra = []
     ) {
         return $this->rawRead(
             $criteria->getObject(),
@@ -49,7 +49,7 @@ trait ReadObjectTrait
             $criteria->getConnection(),
             $criteria->getCache(),
             $criteria->getTransformer(),
-            $source
+            $extra
         );
     }
 
@@ -59,7 +59,7 @@ trait ReadObjectTrait
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @param TransformerCollectionInterface|array|null $transformer
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
@@ -69,20 +69,15 @@ trait ReadObjectTrait
         ConnectionInterface $connection = null,
         CacheInterface $cache = null,
         TransformerCollectionInterface $transformer = null,
-        $source = null
+        array $extra = []
     ) {
-
-        if (!is_array($source)) {
-            $source = ['source' => $source];
-        }
-
         return $this->rawReadPipeline(
             $object,
             $id,
             $connection,
             $cache,
             $transformer
-        )($source);
+        )($extra);
     }
 
     /**

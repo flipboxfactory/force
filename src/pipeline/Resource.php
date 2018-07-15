@@ -78,7 +78,7 @@ class Resource extends AbstractObject implements PipelineBuilderInterface
     }
 
     /**
-     * @param null $source
+     * @param array $extra
      * @return mixed
      */
     public function execute(array $extra = [])

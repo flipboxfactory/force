@@ -35,19 +35,19 @@ trait DescribeTrait
 
     /**
      * @param InstanceCriteriaInterface $criteria
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
     public function describe(
         InstanceCriteriaInterface $criteria,
-        $source = null
+        array $extra = []
     ) {
         return $this->rawDescribe(
             $criteria->getConnection(),
             $criteria->getCache(),
             $criteria->getTransformer(),
-            $source
+            $extra
         );
     }
 
@@ -55,7 +55,7 @@ trait DescribeTrait
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @param TransformerCollectionInterface|array|null $transformer
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
@@ -63,13 +63,13 @@ trait DescribeTrait
         ConnectionInterface $connection = null,
         CacheInterface $cache = null,
         TransformerCollectionInterface $transformer = null,
-        $source = null
+        array $extra = []
     ) {
         return $this->rawDescribePipeline(
             $connection,
             $cache,
             $transformer
-        )($source);
+        )($extra);
     }
 
     /**

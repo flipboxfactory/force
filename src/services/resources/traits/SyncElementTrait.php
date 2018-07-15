@@ -151,7 +151,7 @@ trait SyncElementTrait
                 ]
             ]);
 
-            return $pipeline->process($response, $element) instanceof ResponseInterface;
+            return $pipeline->process($response, ['element' => $element]) instanceof ResponseInterface;
         }
 
         $this->handleResponseErrors($response, $element);
@@ -244,7 +244,7 @@ trait SyncElementTrait
                     ]
                 ]);
 
-                return $pipeline->process($response, $element) instanceof ResponseInterface;
+                return $pipeline->process($response, ['element' => $element]) instanceof ResponseInterface;
             }
 
             return true;

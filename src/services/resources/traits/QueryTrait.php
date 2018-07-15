@@ -35,20 +35,20 @@ trait QueryTrait
 
     /**
      * @param QueryCriteriaInterface $criteria
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
     public function query(
         QueryCriteriaInterface $criteria,
-        $source = null
+        array $extra = []
     ) {
         return $this->rawQuery(
             $criteria->getQuery()->build(),
             $criteria->getConnection(),
             $criteria->getCache(),
             $criteria->getTransformer(),
-            $source
+            $extra
         );
     }
 
@@ -57,7 +57,7 @@ trait QueryTrait
      * @param ConnectionInterface|string|null $connection
      * @param CacheInterface|string|null $cache
      * @param TransformerCollectionInterface|array|null $transformer
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
@@ -66,14 +66,14 @@ trait QueryTrait
         ConnectionInterface $connection = null,
         CacheInterface $cache = null,
         TransformerCollectionInterface $transformer = null,
-        $source = null
+        array $extra = []
     ) {
         return $this->rawQueryPipeline(
             $query,
             $connection,
             $cache,
             $transformer
-        )($source);
+        )($extra);
     }
 
     /**

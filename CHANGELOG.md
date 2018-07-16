@@ -1,5 +1,9 @@
 Changelog
 =========
+## 1.0.0-beta.10 - 2018-07-16
+### Fixed
+- Corrected widget class name
+
 ## 1.0.0-beta.9 - 2018-07-12
 ### Changed
 - Major refactoring

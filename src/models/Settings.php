@@ -22,7 +22,17 @@ class Settings extends Model
     /**
      * @var string
      */
-    public $objectAssociationTablePostfix = '';
+    public $environmentTablePostfix = '';
+
+    /**
+     * @var int|null|false
+     */
+    public $associationsCacheDuration = false;
+
+    /**
+     * @var null|Dependency
+     */
+    public $associationsCacheDependency = null;
 
     /**
      * @var string

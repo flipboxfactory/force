@@ -1,5 +1,12 @@
 Changelog
 =========
+## Unreleased
+### Fixed
+- Issue where objects were not getting associated on new element creation
+
+### Added
+- Patron OAuth2 icon
+
 ## 1.0.0-beta.10 - 2018-07-16
 ### Fixed
 - Corrected widget class name

@@ -8,12 +8,12 @@
 
 namespace flipbox\force\db;
 
-use Craft;
 use craft\db\QueryAbortedException;
 use craft\helpers\Db;
 use flipbox\craft\sortable\associations\db\SortableAssociationQuery;
 use flipbox\craft\sortable\associations\db\traits\SiteAttribute;
 use flipbox\ember\db\traits\ElementAttribute;
+use flipbox\ember\helpers\QueryHelper;
 use flipbox\force\Force;
 use flipbox\force\records\ObjectAssociation;
 

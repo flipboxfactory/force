@@ -53,6 +53,11 @@ class ObjectAssociation extends SortableAssociation
 
     /**
      * @inheritdoc
+     */
+    protected $getterPriorityAttributes = ['fieldId', 'elementId', 'siteId'];
+    
+    /**
+     * @inheritdoc
      * @throws \Throwable
      */
     public function __construct(array $config = [])
@@ -66,7 +71,15 @@ class ObjectAssociation extends SortableAssociation
      */
     public static function tableAlias()
     {
-        return parent::tableAlias() . Force::getInstance()->getSettings()->objectAssociationTablePostfix;
+        return parent::tableAlias() . Force::getInstance()->getSettings()->environmentTablePostfix;
+    }
+
+    /**
+     * @return SortableAssociations
+     */
+    protected function associationService(): SortableAssociations
+    {
+        return Force::getInstance()->getObjectAssociations();
     }
 
     /**
@@ -78,14 +91,6 @@ class ObjectAssociation extends SortableAssociation
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         /** @noinspection PhpUnhandledExceptionInspection */
         return Craft::createObject(ObjectAssociationQuery::class, [get_called_class()]);
-    }
-
-    /**
-     * @return SortableAssociations
-     */
-    protected function associationService(): SortableAssociations
-    {
-        return Force::getInstance()->getObjectAssociations();
     }
 
     /**
@@ -133,18 +138,27 @@ class ObjectAssociation extends SortableAssociation
             parent::rules(),
             $this->siteRules(),
             $this->elementRules(),
+            $this->fieldRules(),
             [
                 [
                     [
-                        'fieldId'
+                        self::TARGET_ATTRIBUTE,
                     ],
-                    'number',
-                    'integerOnly' => true
+                    'required'
+                ],
+                [
+                    self::TARGET_ATTRIBUTE,
+                    'unique',
+                    'targetAttribute' => [
+                        'elementId',
+                        'fieldId',
+                        'siteId',
+                        self::TARGET_ATTRIBUTE
+                    ]
                 ],
                 [
                     [
-                        'fieldId',
-                        'objectId'
+                        self::TARGET_ATTRIBUTE
                     ],
                     'safe',
                     'on' => [

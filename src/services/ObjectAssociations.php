@@ -59,6 +59,21 @@ class ObjectAssociations extends SortableAssociations
 
     /**
      * @inheritdoc
+     * @throws \Throwable
+     */
+    public function init()
+    {
+        $settings = Force::getInstance()->getSettings();
+        $this->cacheDuration = $settings->associationsCacheDuration;
+        $this->cacheDependency = $settings->associationsCacheDependency;
+
+        parent::init();
+
+        $this->ensureTableExists();
+    }
+
+    /**
+     * @inheritdoc
      */
     protected static function tableAlias(): string
     {

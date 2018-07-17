@@ -1,6 +1,6 @@
 Changelog
 =========
-## Unreleased
+## 1.0.0-beta.11 - 2018-07-17
 ### Fixed
 - Issue where objects were not getting associated on new element creation
 

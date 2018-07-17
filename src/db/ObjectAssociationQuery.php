@@ -51,7 +51,7 @@ class ObjectAssociationQuery extends SortableAssociationQuery
      */
     public function configure(array $config)
     {
-        Craft::configure(
+        QueryHelper::configure(
             $this,
             $config
         );

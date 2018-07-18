@@ -1,5 +1,9 @@
 Changelog
 =========
+## 1.0.0-beta.12 - 2018-07-18
+### Changed
+- Moved redundant integration classes into separate package.
+
 ## 1.0.0-beta.11 - 2018-07-17
 ### Fixed
 - Issue where objects were not getting associated on new element creation

@@ -105,35 +105,4 @@ class ObjectAssociations extends IntegrationAssociations
 
         return true;
     }
-
-    /**
-     * @inheritdoc
-     * @param IntegrationAssociation $record
-     */
-    public function validateObject(
-        IntegrationAssociation $record
-    ): bool {
-
-        if (null === ($fieldId = $record->fieldId)) {
-            return false;
-        }
-
-        if (null === ($field = Force::getInstance()->getObjectsField()->findById($fieldId))) {
-            return false;
-        }
-
-        $criteria = new ObjectAccessorCriteria(
-            [
-                'object' => $field->object,
-                'id' => $record->objectId
-            ]
-        );
-
-        /** @var ResponseInterface $response */
-        $response = Force::getInstance()->getResources()->getObject()->httpRead(
-            $criteria
-        );
-
-        return $response->getStatusCode() >= 200 && $response->getStatusCode() <= 299;
-    }
 }

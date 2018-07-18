@@ -10,12 +10,14 @@ namespace flipbox\force\fields\actions;
 
 use Craft;
 use craft\base\ElementInterface;
+use flipbox\craft\integration\fields\actions\AbstractIntegrationAction;
+use flipbox\craft\integration\fields\Integrations;
 use flipbox\force\db\ObjectAssociationQuery;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use yii\web\HttpException;
 
-class SyncTo extends AbstractObjectAction
+class SyncTo extends AbstractIntegrationAction
 {
     /**
      * @inheritdoc
@@ -37,14 +39,16 @@ class SyncTo extends AbstractObjectAction
     }
 
     /**
-     * @param Objects $field
+     * @param Integrations $field
      * @param ElementInterface $element
      * @return bool
      * @throws HttpException
      * @throws \yii\base\InvalidConfigException
      */
-    public function performAction(Objects $field, ElementInterface $element): bool
+    public function performAction(Integrations $field, ElementInterface $element): bool
     {
+        // Todo ENSURE CORRECT FIELD TYPE
+
         /** @var ObjectAssociationQuery $query */
         if (null === ($query = $element->getFieldValue($field->handle))) {
             throw new HttpException(400, 'Field is not associated to element');
@@ -54,7 +58,7 @@ class SyncTo extends AbstractObjectAction
             $element,
             $field
         )) {
-            $this->setMessage("Failed to sync from HubSpot Object");
+            $this->setMessage("Failed to sync from Salesforce Object");
             return false;
         }
 

@@ -10,11 +10,14 @@ namespace flipbox\force\fields\actions;
 
 use Craft;
 use craft\base\ElementInterface;
+use flipbox\craft\integration\fields\actions\AbstractIntegrationItemAction;
+use flipbox\craft\integration\fields\Integrations;
+use flipbox\craft\integration\records\IntegrationAssociation;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use flipbox\force\records\ObjectAssociation;
 
-class SyncItemTo extends AbstractObjectItemAction
+class SyncItemTo extends AbstractIntegrationItemAction
 {
     /**
      * @inheritdoc
@@ -36,14 +39,16 @@ class SyncItemTo extends AbstractObjectItemAction
      * @inheritdoc
      * @throws \yii\base\InvalidConfigException
      */
-    public function performAction(Objects $field, ElementInterface $element, ObjectAssociation $record): bool
+    public function performAction(Integrations $field, ElementInterface $element, IntegrationAssociation $record): bool
     {
+        // Todo ENSURE CORRECT FIELD TYPE
+
         if (!Force::getInstance()->getResources()->getObject()->syncUp($element, $field)) {
-            $this->setMessage("Failed to sync to HubSpot Object");
+            $this->setMessage("Failed to sync to Salesforce Object");
             return false;
         }
 
-        $this->setMessage("Sync to HubSpot executed successfully");
+        $this->setMessage("Sync to Salesforce executed successfully");
         return true;
     }
 }

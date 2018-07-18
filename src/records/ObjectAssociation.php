@@ -9,6 +9,7 @@
 namespace flipbox\force\records;
 
 use Craft;
+use flipbox\craft\integration\records\IntegrationAssociation;
 use flipbox\craft\sortable\associations\records\SortableAssociation;
 use flipbox\craft\sortable\associations\services\SortableAssociations;
 use flipbox\ember\helpers\ModelHelper;
@@ -25,37 +26,13 @@ use flipbox\force\Force;
  * @property int $fieldId
  * @property string $objectId
  */
-class ObjectAssociation extends SortableAssociation
+class ObjectAssociation extends IntegrationAssociation
 {
-    use SiteAttribute,
-        ElementAttribute,
-        traits\FieldAttribute;
-
     /**
      * @inheritdoc
      */
     const TABLE_ALIAS = 'salesforce_object_associations';
 
-    /**
-     * @inheritdoc
-     */
-    const TARGET_ATTRIBUTE = 'objectId';
-
-    /**
-     * @inheritdoc
-     */
-    const SOURCE_ATTRIBUTE = 'elementId';
-
-    /**
-     * The default Object Id (if none exists)
-     */
-    const DEFAULT_ID = 'UNKNOWN_ID';
-
-    /**
-     * @inheritdoc
-     */
-    protected $getterPriorityAttributes = ['fieldId', 'elementId', 'siteId'];
-    
     /**
      * @inheritdoc
      * @throws \Throwable
@@ -126,46 +103,6 @@ class ObjectAssociation extends SortableAssociation
                     $criteria
                 )
             )
-        );
-    }
-
-    /**
-     * @return array
-     */
-    public function rules(): array
-    {
-        return array_merge(
-            parent::rules(),
-            $this->siteRules(),
-            $this->elementRules(),
-            $this->fieldRules(),
-            [
-                [
-                    [
-                        self::TARGET_ATTRIBUTE,
-                    ],
-                    'required'
-                ],
-                [
-                    self::TARGET_ATTRIBUTE,
-                    'unique',
-                    'targetAttribute' => [
-                        'elementId',
-                        'fieldId',
-                        'siteId',
-                        self::TARGET_ATTRIBUTE
-                    ]
-                ],
-                [
-                    [
-                        self::TARGET_ATTRIBUTE
-                    ],
-                    'safe',
-                    'on' => [
-                        ModelHelper::SCENARIO_DEFAULT
-                    ]
-                ]
-            ]
         );
     }
 }

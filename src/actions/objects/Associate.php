@@ -8,100 +8,35 @@
 
 namespace flipbox\force\actions\objects;
 
-use flipbox\ember\helpers\SiteHelper;
+use flipbox\craft\integration\actions\objects\Associate as AssociateIntegration;
+use flipbox\craft\integration\records\IntegrationAssociation;
+use flipbox\craft\integration\services\IntegrationAssociations;
 use flipbox\force\Force;
-use flipbox\force\records\ObjectAssociation;
+use flipbox\force\services\ObjectAssociations;
 use Psr\Http\Message\ResponseInterface;
-use yii\base\Model;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class Associate extends AbstractAssociationAction
+class Associate extends AssociateIntegration
 {
     /**
-     * Validate that the HubSpot Object exists prior to associating
-     *
-     * @var bool
-     */
-    public $validate = true;
-
-    /**
-     * @param string $field
-     * @param string $element
-     * @param string $newObjectId
-     * @param string|null $objectId
-     * @param int|null $siteId
-     * @param int|null $sortOrder
-     * @return Model
-     * @throws \flipbox\ember\exceptions\NotFoundException
-     * @throws \yii\web\HttpException
-     */
-    public function run(
-        string $field,
-        string $element,
-        string $newObjectId,
-        string $objectId = null,
-        int $siteId = null,
-        int $sortOrder = null
-    ) {
-        // Resolve Field
-        $field = $this->resolveField($field);
-
-        // Resolve Element
-        $element = $this->resolveElement($element);
-
-        // Find existing?
-        if (!empty($objectId)) {
-            $association = Force::getInstance()->getObjectAssociations()->getByCondition([
-                'objectId' => $objectId,
-                'elementId' => $element->getId(),
-                'fieldId' => $field->id,
-                'siteId' => SiteHelper::ensureSiteId($siteId ?: $element->siteId),
-            ]);
-        } else {
-            $association = Force::getInstance()->getObjectAssociations()->create([
-                'elementId' => $element->getId(),
-                'fieldId' => $field->id,
-                'siteId' => SiteHelper::ensureSiteId($siteId ?: $element->siteId),
-            ]);
-        }
-
-        $association->objectId = $newObjectId;
-        $association->sortOrder = $sortOrder;
-
-        return $this->runInternal($association);
-    }
-
-    /**
      * @inheritdoc
-     * @param ObjectAssociation $model
-     * @throws \flipbox\ember\exceptions\RecordNotFoundException
-     * @throws \Exception
+     * @return ObjectAssociations
      */
-    protected function performAction(Model $model): bool
+    protected function associationService(): IntegrationAssociations
     {
-        if (true === $this->ensureAssociation($model)) {
-            if ($this->validate === true && !$this->validate($model)) {
-                return false;
-            }
-
-            return Force::getInstance()->getObjectAssociations()->associate(
-                $model
-            );
-        }
-
-        return false;
+        return Force::getInstance()->getObjectAssociations();
     }
 
     /**
-     * @param ObjectAssociation $record
+     * @param IntegrationAssociation $record
      * @return bool
      * @throws \Exception
      */
     protected function validate(
-        ObjectAssociation $record
+        IntegrationAssociation $record
     ): bool {
 
         if (null === ($fieldId = $record->fieldId)) {

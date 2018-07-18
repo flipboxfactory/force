@@ -11,12 +11,14 @@ namespace flipbox\force;
 use Craft;
 use craft\base\Plugin;
 use craft\events\RegisterComponentTypesEvent;
+use craft\events\RegisterTemplateRootsEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\services\Dashboard;
 use craft\services\Fields;
 use craft\services\Plugins;
 use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
+use craft\web\View;
 use flipbox\craft\psr3\Logger;
 use flipbox\ember\helpers\UrlHelper;
 use flipbox\ember\modules\LoggerTrait;
@@ -104,6 +106,16 @@ class Force extends Plugin
                 /** @var CraftVariable $variable */
                 $variable = $event->sender;
                 $variable->set('force', ForceVariable::class);
+            }
+        );
+
+        // Integration template directory
+        Event::on(
+            View::class,
+            View::EVENT_REGISTER_CP_TEMPLATE_ROOTS,
+            function (RegisterTemplateRootsEvent $e) {
+                $e->roots['flipbox/integration'] = Craft::$app->getPath()->getVendorPath() .
+                    '/flipboxfactory/craft-integration/src/templates';
             }
         );
 

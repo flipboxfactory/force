@@ -1,0 +1,91 @@
+{% extends "force/_cp/settings/_layout" %}
+{% import "_includes/forms" as forms %}
+
+{% block actionButton %}
+    <div class="btngroup submit right">
+        <input type="submit" class="btn submit" value="{{ 'Save'|t('app') }}">
+        <div class="btn submit menubtn"></div>
+        <div class="menu">
+            <ul role="listbox">
+                <li>
+                    <a class="formsubmit"
+                       data-redirect="{{ continueEditingUrl|hash }}">
+                        {{ "Save and continue editing"|t('app') }}
+                        {{ forms.optionShortcutLabel('S') }}
+                    </a>
+                </li>
+                <li>
+                    <a class="formsubmit"
+                       data-redirect="{{ baseCpPath~'/new'|hash }}">
+                        {{ "Save and add another"|t('app') }}
+                    </a>
+                </li>
+            </ul>
+            {% if connection.id %}
+                <hr/>
+                <ul role="listbox">
+                    <li>
+                        <a class="formsubmit error"
+                           data-action="{{ baseActionPath }}/delete"
+                           data-confirm="{{ 'Are you sure you want to delete this connection?'|t('force') }}"
+                           data-redirect="{{ baseCpPath|hash }}"
+                           role="option"
+                           tabindex="-1">{{ "Delete"|t('app') }}</a>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <input type="hidden" name="action"
+           value="{{ baseActionPath }}/{% if connection.id %}update{% else %}create{% endif %}">
+    {% if connection.id %}<input type="hidden" name="connection" value="{{ connection.id }}">{% endif %}
+    {{ redirectInput(baseCpPath) }}
+
+    <div id="connection">
+
+        {{ forms.textField({
+            label: "Handle"|t('force'),
+            instructions: "How you’ll refer to this connection in the templates."|t('force'),
+            id: 'handle',
+            class: 'code',
+            name: 'handle',
+            value: connection.handle,
+            errors: connection.getErrors('handle'),
+            required: true
+        }) }}
+
+        {% set typeOptions = [] %}
+        {% for class, type in types %}
+            {% set typeOptions = typeOptions|merge([{
+                label: type.displayName,
+                value: class
+            }]) %}
+        {% endfor %}
+
+        {{ forms.selectField({
+            label: "Type"|t('app'),
+            instructions: "They type of connection"|t('force'),
+            id: 'class',
+            name: 'class',
+            options: typeOptions,
+            value: connection.class,
+            errors: adapter.getErrors('class') ?? null,
+            toggle: true
+        }) }}
+
+        <hr />
+
+        {% for class, type in types %}
+            {% set isCurrent = (connection.class is empty and loop.first) or class == connection.class %}
+
+            <div{% if not isCurrent %} class="hidden"{% endif %}>
+                {% namespace 'settings['~class~']' %}
+                    {{ type.getSettingsHtml(connection)|raw }}
+                {% endnamespace %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

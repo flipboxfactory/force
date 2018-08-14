@@ -351,6 +351,11 @@ class Force extends Plugin
                 'force/settings' => 'force/cp/settings/view/general/index',
                 'force/settings/limits' => 'force/cp/settings/view/limits/index',
 
+                // SETTINGS: CONNECTIONS
+                'force/settings/connections' => 'force/cp/settings/view/connections/index',
+                'force/settings/connections/new' => 'force/cp/settings/view/connections/upsert',
+                'force/settings/connections/<identifier:\d+>' => 'force/cp/settings/view/connections/upsert',
+
                 // SETTINGS: QUERIES
                 'force/settings/queries' => 'force/cp/settings/view/queries/index',
                 'force/settings/queries/new' => 'force/cp/settings/view/queries/upsert',

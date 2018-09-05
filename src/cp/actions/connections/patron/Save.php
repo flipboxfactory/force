@@ -30,27 +30,8 @@ class Save extends Action
 
     /**
      * @inheritdoc
-     * @return Provider
      */
-    protected function newProvider(array $config = []): Provider
-    {
-        return Patron::getInstance()->manageProviders()->create($config);
-    }
-
-    /**
-     * @inheritdoc
-     * @return Provider
-     */
-    protected function newConnection(array $config = []): Connection
-    {
-        return Force::getInstance()->getCp()->getConnectionManager()->create($config);
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function statusCodeSuccess(): int
+    protected function statusCodeSuccess(): int
     {
         return 201;
     }
@@ -66,12 +47,46 @@ class Save extends Action
     }
 
     /**
+     * @param null $connection
+     * @return Connection
+     * @throws \flipbox\ember\exceptions\NotFoundException
+     */
+    protected function resolveConnection($connection = null): Connection
+    {
+        if($connection instanceof Connection) {
+            return $connection;
+        }
+
+        if(is_numeric($connection) || is_string($connection)) {
+            return Force::getInstance()->getCp()->getConnectionManager()->get($connection);
+        }
+
+        return Force::getInstance()->getCp()->getConnectionManager()->create($connection ?: []);
+    }
+
+    /**
+     * @param Connection $connection
+     * @return Provider
+     * @throws \flipbox\ember\exceptions\NotFoundException
+     */
+    protected function resolveProvider(Connection $connection): Provider
+    {
+        // Get provider from settings
+        $provider = $connection->settings['provider'] ?? null;
+
+        if(null !== $provider) {
+            return Patron::getInstance()->manageProviders()->get($provider);
+        }
+
+        return Patron::getInstance()->manageProviders()->create();
+    }
+
+    /**
      * @param $data
      * @return mixed
      */
     protected function handleSuccessResponse($data)
     {
-        // Success status code
         Craft::$app->getResponse()->setStatusCode($this->statusCodeSuccess());
         return $data;
     }
@@ -86,49 +101,46 @@ class Save extends Action
         return $data;
     }
 
-
     /**
-     * @inheritdoc
+     * @param null $connection
+     * @return mixed
+     * @throws \Exception
      */
-    public function run()
+    public function run($connection = null)
     {
         return $this->runInternal(
-            $this->newProvider(),
-            $this->newConnection()
+            $this->resolveConnection($connection)
         );
     }
 
     /**
-     * @inheritdoc
-     * @param ActiveRecord $record
+     * @param Connection $connection
+     * @return mixed
+     * @throws \Exception
      */
-    public function runInternal(Provider $provider, Connection $connection)
+    public function runInternal(Connection $connection)
     {
+        $provider = $this->resolveProvider($connection);
+
         // Populate
         $this->populateProvider($provider);
         $this->populateConnection($connection);
 
 //        // Check access
-//        if (($access = $this->checkAccess($provider, $connection)) !== true) {
+//        if (($access = $this->checkAccess($connection)) !== true) {
 //            return $access;
 //        }
 
         if (!$this->performAction($provider, $connection)) {
-
-            var_dump($connection->getErrors());
-            exit;
-
             return $this->handleFailResponse($connection);
         }
-
-
-
 
         return $this->handleSuccessResponse($connection);
     }
 
     /**
-     * @return array
+     * @param Connection $connection
+     * @return Connection
      */
     public function populateConnection(Connection $connection)
     {
@@ -155,21 +167,20 @@ class Save extends Action
      */
     public function populateProvider(Provider $provider)
     {
-        $attributes = [
-            'handle',
+        $settings = [
             'clientId',
             'clientSecret',
             'scopes',
             'enabled',
-            'environments'
+            'environments',
+            'settings',
         ];
 
         $request = Craft::$app->getRequest();
 
-        $values = array_merge(
-            $this->attributeValuesFromBody($attributes),
-            $request->getBodyParam('settings')[$request->getBodyParam('class')] ?? []
-        );
+        $class = $request->getBodyParam('class');
+
+        $values = $this->attributeValuesFromBody($settings, 'settings.'.$class.'.');
         $values['class'] = Salesforce::class;
 
         /** @var Provider $provider */
@@ -178,31 +189,20 @@ class Save extends Action
             $values
         );
 
+        // Don't change handle
+        if ($provider->handle === null) {
+            $provider->handle = $request->getBodyParam('handle');
+        }
+
         return $provider;
     }
 
     /**
-     * @param BaseObject $object
-     * @return BaseObject
-     */
-    protected function populate(BaseObject $object): BaseObject
-    {
-        // Valid attribute values
-        $attributes = $this->attributeValuesFromBody();
-
-        /** @var BaseObject $object */
-        $object = Craft::configure(
-            $object,
-            $attributes
-        );
-
-        return $object;
-    }
-
-    /**
+     * @param array $attributes
+     * @param string|null $prepend
      * @return array
      */
-    protected function attributeValuesFromBody(array $attributes): array
+    protected function attributeValuesFromBody(array $attributes, string $prepend = null): array
     {
         $request = Craft::$app->getRequest();
 
@@ -211,7 +211,7 @@ class Save extends Action
             if (is_numeric($bodyParam)) {
                 $bodyParam = $attribute;
             }
-            if (($value = $request->getBodyParam($bodyParam)) !== null) {
+            if (($value = $request->getBodyParam($prepend . $bodyParam)) !== null) {
                 $values[$attribute] = $value;
             }
         }
@@ -240,7 +240,7 @@ class Save extends Action
             }
 
             $settings = $connection->settings;
-            $settings['provider'] = $provider->handle;;
+            $settings['provider'] = $provider->id;
 
             $connection->settings = $settings;
 

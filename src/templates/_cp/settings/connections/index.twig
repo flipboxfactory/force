@@ -16,11 +16,11 @@
         <tbody>
         {% if connections|length %}
             {% for connection in connections %}
-                <tr data-id="{{ query.id }}" data-name="{{ connection.handle }}">
+                <tr data-id="{{ connection.id }}" data-name="{{ connection.handle }}">
                     <th scope="row"
-                        data-title="{{ 'Name'|t('force') }}">
+                        data-title="{{ 'Type'|t('force') }}">
                         <a href="{{ url(baseCpPath~'/'~connection.id) }}">
-                            {{ connection.handle }}
+                            {{ connection.class }}
                         </a>
                     </th>
                     <td data-title="{{ 'Handle'|t('force') }}">

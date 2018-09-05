@@ -56,6 +56,12 @@ class SalesforceSettings extends Base
                     [
                         'domain'
                     ],
+                    'url'
+                ],
+                [
+                    [
+                        'domain'
+                    ],
                     'safe',
                     'on' => [
                         ModelHelper::SCENARIO_DEFAULT

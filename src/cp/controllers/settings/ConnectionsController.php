@@ -67,7 +67,6 @@ class ConnectionsController extends AbstractController
      */
     public function actionCreate()
     {
-
         $class = Craft::$app->getRequest()->getRequiredBodyParam('class');
 
         $provider = $this->module->getConnectionManager()->getType(
@@ -78,12 +77,42 @@ class ConnectionsController extends AbstractController
         $action = Craft::createObject([
             'class' => $provider::actionClass()
         ], [
-            'save',
+            'create',
+            $this
+        ]);
+
+        return $action->runWithParams([]);
+    }
+
+    /**
+     * @param null $connection
+     * @return mixed
+     * @throws \flipbox\ember\exceptions\NotFoundException
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\BadRequestHttpException
+     */
+    public function actionUpdate($connection = null)
+    {
+        $class = Craft::$app->getRequest()->getRequiredBodyParam('class');
+
+        if (null === $connection) {
+            $connection = Craft::$app->getRequest()->getBodyParam('connection');
+        }
+
+        $provider = $this->module->getConnectionManager()->getType(
+            $class
+        );
+
+        /** @var \yii\base\Action $action */
+        $action = Craft::createObject([
+            'class' => $provider::actionClass()
+        ], [
+            'update',
             $this
         ]);
 
         return $action->runWithParams([
-            'provider' => $provider
+            'connection' => $connection
         ]);
     }
 }

@@ -63,50 +63,50 @@ class ObjectMutatorCriteria extends BaseObject implements ObjectMutatorCriteriaI
 
     /**
      * @param array $config
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-    public function create(array $config = [], $source = null)
+    public function create(array $config = [], array $extra = [])
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getObject()->create($this, $source);
+        return Force::getInstance()->getResources()->getObject()->create($this, $extra);
     }
 
     /**
      * @param array $config
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-    public function update(array $config = [], $source = null)
+    public function update(array $config = [], array $extra = [])
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getObject()->update($this, $source);
+        return Force::getInstance()->getResources()->getObject()->update($this, $extra);
     }
 
     /**
      * @param array $config
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-    public function upsert(array $config = [], $source = null)
+    public function upsert(array $config = [], array $extra = [])
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getObject()->upsert($this, $source);
+        return Force::getInstance()->getResources()->getObject()->upsert($this, $extra);
     }
 
     /**
      * @param array $config
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-    public function delete(array $config = [], $source = null)
+    public function delete(array $config = [], array $extra = [])
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getObject()->delete($this, $source);
+        return Force::getInstance()->getResources()->getObject()->delete($this, $extra);
     }
 
     /**

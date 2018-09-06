@@ -36,14 +36,14 @@ class QueryCriteria extends BaseObject implements QueryCriteriaInterface
 
     /**
      * @param array $config
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-    public function fetch(array $config = [], $source = null)
+    public function fetch(array $config = [], array $extra = [])
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getQuery()->query($this, $source);
+        return Force::getInstance()->getResources()->getQuery()->query($this, $extra);
     }
 
     /**

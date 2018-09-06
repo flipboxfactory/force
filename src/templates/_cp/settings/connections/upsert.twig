@@ -79,9 +79,9 @@
         <hr />
 
         {% for class, type in types %}
-            {% set isCurrent = (connection.class is empty and loop.first) or class == connection.class %}
+            {% set isCurrent = class == connection.class %}
 
-            <div{% if not isCurrent %} class="hidden"{% endif %}>
+            <div{% if not isCurrent and types|length > 1 %} class="hidden"{% endif %}>
                 {% namespace 'settings['~class~']' %}
                     {% if not isCurrent %}
                         {{ type.getSettingsHtml()|raw }}

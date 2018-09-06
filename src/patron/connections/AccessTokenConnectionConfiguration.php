@@ -9,7 +9,8 @@
 namespace flipbox\force\patron\connections;
 
 use Craft;
-use flipbox\force\connections\DefaultConfiguration;
+use flipbox\craft\integration\connections\DefaultConfiguration;
+use flipbox\craft\integration\records\IntegrationConnection;
 use flipbox\force\Force;
 use flipbox\force\records\Connection;
 use flipbox\patron\Patron as PatronPlugin;
@@ -38,6 +39,14 @@ class AccessTokenConnectionConfiguration extends DefaultConfiguration
     }
 
     /**
+     * @return IntegrationConnection|Connection
+     */
+    public function getConnection(): Connection
+    {
+        return $this->connection;
+    }
+
+    /**
      * @return bool
      * @throws \flipbox\ember\exceptions\NotFoundException
      */
@@ -54,10 +63,14 @@ class AccessTokenConnectionConfiguration extends DefaultConfiguration
             return false;
         }
 
-        $settings = $this->connection->settings;
-        $settings['provider'] = $provider->id;
-
-        $this->connection->settings = $settings;
+        // Set settings
+        $this->connection->settings = array_merge(
+            $this->connection->settings,
+            [
+                'provider' => $provider->id
+            ],
+            $this->attributeValuesFromBody(['version'])
+        );
 
         return parent::process();
     }
@@ -73,12 +86,13 @@ class AccessTokenConnectionConfiguration extends DefaultConfiguration
 
             // Get provider from settings
             if (null !== ($provider = $this->connection->settings['provider'] ?? null)) {
-                if (null === ($provider = $manageProviders->get($provider))) {
-                    $provider = $manageProviders->create();
-                }
+                $provider = $manageProviders->get($provider);
             }
 
-            // Always
+            if (!$provider instanceof Provider) {
+                $provider = $manageProviders->create();
+            }
+
             $provider->class = Salesforce::class;
 
             $this->provider = $provider;
@@ -102,22 +116,15 @@ class AccessTokenConnectionConfiguration extends DefaultConfiguration
             'settings',
         ];
 
-        $request = Craft::$app->getRequest();
-
-        $class = $request->getBodyParam('class');
-
-        $values = $this->attributeValuesFromBody($settings, 'settings.' . $class . '.');
-
-
         /** @var Provider $provider */
         $provider = Craft::configure(
             $provider,
-            $values
+            $this->attributeValuesFromBody($settings)
         );
 
         // Don't change handle
         if ($provider->handle === null) {
-            $provider->handle = $request->getBodyParam('handle');
+            $provider->handle = Craft::$app->getRequest()->getBodyParam('handle');
         }
 
         return $provider;
@@ -128,9 +135,11 @@ class AccessTokenConnectionConfiguration extends DefaultConfiguration
      * @param string|null $prepend
      * @return array
      */
-    protected function attributeValuesFromBody(array $attributes, string $prepend = null): array
+    protected function attributeValuesFromBody(array $attributes, string $prepend = 'settings.'): array
     {
         $request = Craft::$app->getRequest();
+
+        $prepend .= $this->connection->class . '.' ;
 
         $values = [];
         foreach ($attributes as $bodyParam => $attribute) {
@@ -154,9 +163,10 @@ class AccessTokenConnectionConfiguration extends DefaultConfiguration
     public function getSettingsHtml(): string
     {
         return Craft::$app->view->renderTemplate(
-            'force/_cp/settings/connections/types/Patron',
+            'force/_patron/connections/configuration',
             [
-                'provider' => $this->getProvider()
+                'provider' => $this->getProvider(),
+                'configuration' => $this
             ]
         );
     }

@@ -11,6 +11,7 @@ namespace flipbox\force\cp\actions\connections;
 use flipbox\force\Force;
 use yii\db\ActiveRecord;
 use flipbox\craft\integration\actions\connections\Create as BaseCreate;
+
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0

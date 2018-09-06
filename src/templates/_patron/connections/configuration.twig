@@ -11,6 +11,17 @@
 }) }}
 
 {{ forms.textField({
+    label: "Version"|t('force'),
+    instructions: "The API version to use (ex: 'v41.0')"|t('force'),
+    id: 'version',
+    class: 'code',
+    name: 'version',
+    value: configuration.connection.settings.version ?? null,
+    errors: configuration.connection.getErrors('version'),
+    required: true
+}) }}
+
+{{ forms.textField({
     label: "Client Id"|t('patron'),
     instructions: "The client/consumer Id assigned to you from the provider."|t('patron'),
     id: 'clientId',

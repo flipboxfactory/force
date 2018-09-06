@@ -24,38 +24,38 @@ class InstanceCriteria extends BaseObject implements InstanceCriteriaInterface
 
     /**
      * @param array $config
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-    public function describe(array $config = [], $source = null)
+    public function describe(array $config = [], array $extra = [])
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getGeneral()->describe($this, $source);
+        return Force::getInstance()->getResources()->getGeneral()->describe($this, $extra);
     }
 
     /**
      * @param array $config
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-    public function limits(array $config = [], $source = null)
+    public function limits(array $config = [], array $extra = [])
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getGeneral()->limits($this, $source);
+        return Force::getInstance()->getResources()->getGeneral()->limits($this, $extra);
     }
 
     /**
      * @param array $config
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-    public function resources(array $config = [], $source = null)
+    public function resources(array $config = [], array $extra = [])
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getGeneral()->resources($this, $source);
+        return Force::getInstance()->getResources()->getGeneral()->resources($this, $extra);
     }
 
     /**

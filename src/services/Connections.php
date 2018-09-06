@@ -8,9 +8,15 @@
 
 namespace flipbox\force\services;
 
+use craft\helpers\Json;
+use flipbox\ember\helpers\ArrayHelper;
+use flipbox\ember\helpers\ObjectHelper;
+use flipbox\ember\services\traits\objects\AccessorByString;
+use flipbox\ember\services\traits\records\ActiveRecord;
 use flipbox\force\connections\ConnectionInterface;
 use flipbox\force\events\RegisterConnectionsEvent;
 use flipbox\force\Force;
+use flipbox\force\records\Connection;
 use yii\base\InvalidConfigException;
 use yii\di\ServiceLocator;
 
@@ -36,6 +42,22 @@ class Connections extends ServiceLocator
     const DEFAULT_CONNECTION = 'DEFAULT';
 
     /**
+     * @return string
+     */
+    public static function objectClassInstance()
+    {
+        return ConnectionInterface::class;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function recordClass(): string
+    {
+        return Connection::class;
+    }
+
+    /**
      * @inheritdoc
      */
     public function init()
@@ -43,7 +65,7 @@ class Connections extends ServiceLocator
         parent::init();
 
         $event = new RegisterConnectionsEvent([
-            'connections' => []
+            'connections' => $this->dbConnections()
         ]);
 
         $this->trigger(self::EVENT_REGISTER_CONNECTIONS, $event);
@@ -51,6 +73,32 @@ class Connections extends ServiceLocator
         $this->setComponents(
             $event->connections
         );
+    }
+
+    /**
+     * @return ConnectionInterface[]
+     */
+    private function dbConnections(): array
+    {
+        $configs = Force::getInstance()->getConnectionManager()->getQuery([
+            'asArray' => true,
+            'indexBy' => 'handle'
+        ])->all();
+
+        $connections = [];
+
+        foreach($configs as $key => $config) {
+            try {
+                $connections[$key] = ObjectHelper::create(
+                    $this->prepareConfigSettings($config),
+                    ConnectionInterface::class
+                );
+            } catch (\Exception $e) {
+
+            }
+        }
+
+        return $connections;
     }
 
     /**
@@ -90,5 +138,25 @@ class Connections extends ServiceLocator
         }
 
         return $components;
+    }
+
+    /**
+     * @param array $config
+     * @return array
+     */
+    private function prepareConfigSettings(array $config = []): array
+    {
+        // Handle settings
+        $settings = ArrayHelper::remove($config, 'settings');
+
+        if (is_string($settings)) {
+            $settings = Json::decodeIfJson($settings);
+        }
+
+        if (!is_array($settings) || empty($settings)) {
+            return $config;
+        }
+
+        return array_merge($config, $settings);
     }
 }

@@ -71,7 +71,7 @@ class ObjectsController extends AbstractController
         ])->describe();
         $describeOptions = [];
 
-        foreach (ArrayHelper::getValue($describe, 'objects', []) as $object) {
+        foreach (ArrayHelper::getValue($describe, 'sobjects', []) as $object) {
             $describeOptions[] = [
                 'label' => $object['label'],
                 'value' => $object['name']

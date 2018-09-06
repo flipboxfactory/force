@@ -50,26 +50,26 @@ class ObjectAccessorCriteria extends BaseObject implements ObjectAccessorCriteri
 
     /**
      * @param array $config
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-    public function read(array $config = [], $source = null)
+    public function read(array $config = [], array $extra = [])
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getObject()->read($this, $source);
+        return Force::getInstance()->getResources()->getObject()->read($this, $extra);
     }
 
     /**
      * @param array $config
-     * @param null $source
+     * @param array $extra
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-    public function describe(array $config = [], $source = null)
+    public function describe(array $config = [], array $extra = [])
     {
         $this->prepare($config);
-        return Force::getInstance()->getResources()->getObject()->describe($this, $source);
+        return Force::getInstance()->getResources()->getObject()->describe($this, $extra);
     }
 
     /**

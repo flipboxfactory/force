@@ -10,7 +10,8 @@ namespace flipbox\force\cp\controllers\settings;
 
 use Craft;
 use craft\helpers\ArrayHelper;
-use flipbox\force\cp\actions\connections\Save;
+use flipbox\force\cp\actions\connections\Create;
+use flipbox\force\cp\actions\connections\Update;
 use flipbox\force\cp\controllers\AbstractController;
 use flipbox\force\cp\Cp;
 
@@ -69,7 +70,7 @@ class ConnectionsController extends AbstractController
     {
         /** @var \yii\base\Action $action */
         $action = Craft::createObject([
-            'class' => Save::class
+            'class' => Create::class
         ], [
             'update',
             $this
@@ -91,7 +92,7 @@ class ConnectionsController extends AbstractController
 
         /** @var \yii\base\Action $action */
         $action = Craft::createObject([
-            'class' => Save::class
+            'class' => Update::class
         ], [
             'update',
             $this

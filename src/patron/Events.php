@@ -2,7 +2,7 @@
 
 namespace flipbox\force\patron;
 
-use flipbox\force\events\RegisterConnectionConfigurationsEvent;
+use flipbox\craft\integration\events\RegisterConnectionConfigurationsEvent;
 use flipbox\force\patron\connections\AccessTokenConnection;
 use flipbox\force\patron\connections\AccessTokenConnectionConfiguration;
 use flipbox\force\patron\providers\SalesforceSettings;

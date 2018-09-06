@@ -8,32 +8,17 @@
 
 namespace flipbox\force\records;
 
-use craft\helpers\Json;
-use flipbox\ember\helpers\ModelHelper;
-use flipbox\ember\records\ActiveRecordWithId;
-use flipbox\ember\traits\HandleRules;
-use flipbox\force\connections\ConnectionConfigurationInterface;
-use flipbox\force\connections\DefaultConfiguration;
+use flipbox\craft\integration\records\IntegrationConnection;
+use flipbox\craft\integration\services\IntegrationConnectionManager;
 use flipbox\force\Force;
 use flipbox\force\validators\ConnectionValidator;
-use yii\validators\UniqueValidator;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
- *
- * @property string $class
- * @property array $settings
  */
-class Connection extends ActiveRecordWithId
+class Connection extends IntegrationConnection
 {
-    use HandleRules;
-
-    /**
-     * @var ConnectionConfigurationInterface
-     */
-    private $type;
-
     /**
      * The table name
      */
@@ -46,72 +31,22 @@ class Connection extends ActiveRecordWithId
     {
         return array_merge(
             parent::rules(),
-            $this->handleRules(),
             [
                 [
                     [
                         'class'
                     ],
-                    'required'
-                ],
-                [
-                    [
-                        'handle'
-                    ],
-                    UniqueValidator::class
-                ],
-                [
-                    [
-                        'class'
-                    ],
                     ConnectionValidator::class
-                ],
-                [
-                    [
-                        'class',
-                        'settings'
-                    ],
-                    'safe',
-                    'on' => [
-                        ModelHelper::SCENARIO_DEFAULT
-                    ]
                 ]
             ]
         );
     }
 
     /**
-     * @param static $record
-     * @param $row
+     * @return IntegrationConnectionManager
      */
-    public static function populateRecord($record, $row)
+    protected function getConnectionManager(): IntegrationConnectionManager
     {
-        parent::populateRecord($record, $row);
-
-        $settings = $record->settings;
-
-        if (is_string($settings)) {
-            $settings = Json::decodeIfJson($settings);
-        }
-
-        $record->setOldAttribute('settings', $settings);
-        $record->setAttribute('settings', $settings);
-    }
-
-    /**
-     * @return ConnectionConfigurationInterface
-     */
-    public function getConfiguration(): ConnectionConfigurationInterface
-    {
-        if ($this->type === null) {
-
-            if (null === ($type = Force::getInstance()->getConnectionManager()->findConfiguration($this))) {
-                $type = new DefaultConfiguration($this);
-            }
-
-            $this->type = $type;
-        }
-
-        return $this->type;
+        return Force::getInstance()->getConnectionManager();
     }
 }

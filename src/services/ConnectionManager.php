@@ -8,12 +8,8 @@
 
 namespace flipbox\force\services;
 
-use flipbox\ember\exceptions\ObjectNotFoundException;
-use flipbox\ember\services\traits\records\AccessorByString;
-use flipbox\force\connections\ConnectionConfigurationInterface;
-use flipbox\force\events\RegisterConnectionConfigurationsEvent;
+use flipbox\craft\integration\services\IntegrationConnectionManager;
 use flipbox\force\records\Connection;
-use yii\base\Component;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -33,76 +29,13 @@ use yii\base\Component;
  * @method Connection [] findAllByCriteria($criteria = [])
  * @method Connection [] getAllByCriteria($criteria = [])
  */
-class ConnectionManager extends Component
+class ConnectionManager extends IntegrationConnectionManager
 {
-    use AccessorByString;
-
-    /**
-     * @event RegisterConnectionsEvent The event that is triggered when registering connections.
-     */
-    const EVENT_REGISTER_CONFIGURATIONS = 'registerConfigurations';
-
     /**
      * @inheritdoc
      */
     public static function recordClass(): string
     {
         return Connection ::class;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function stringProperty(): string
-    {
-        return 'handle';
-    }
-
-    /**
-     * @param Connection $connection
-     * @return ConnectionConfigurationInterface[]
-     */
-    public function getConfigurations(Connection $connection): array
-    {
-        $event = new RegisterConnectionConfigurationsEvent;
-
-        $this->trigger(self::EVENT_REGISTER_CONFIGURATIONS, $event);
-
-        $configurations = [];
-        foreach ($event->configurations as $class => $configuration) {
-            $configurations[$class] = new $configuration($connection);
-        }
-
-        return $configurations;
-    }
-
-    /**
-     * @param Connection $connection
-     * @return ConnectionConfigurationInterface|null
-     */
-    public function findConfiguration(Connection $connection)
-    {
-        $class = $connection->class ?: null;
-
-        if ($class === null) {
-            return null;
-        }
-
-        $types = $this->getConfigurations($connection);
-        return $types[$class] ?? null;
-    }
-
-    /**
-     * @param Connection $connection
-     * @return ConnectionConfigurationInterface
-     * @throws ObjectNotFoundException
-     */
-    public function getConfiguration(Connection $connection): ConnectionConfigurationInterface
-    {
-        if (null === ($type = $this->findConfiguration($connection))) {
-            throw new ObjectNotFoundException("Unable to find connection type");
-        }
-
-        return $type;
     }
 }

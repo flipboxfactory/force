@@ -83,7 +83,11 @@
 
             <div{% if not isCurrent %} class="hidden"{% endif %}>
                 {% namespace 'settings['~class~']' %}
-                    {{ type.getSettingsHtml(connection)|raw }}
+                    {% if not isCurrent %}
+                        {{ type.getSettingsHtml()|raw }}
+                    {% else %}
+                        {{ connection.configuration.getSettingsHtml()|raw }}
+                    {% endif %}
                 {% endnamespace %}
             </div>
         {% endfor %}

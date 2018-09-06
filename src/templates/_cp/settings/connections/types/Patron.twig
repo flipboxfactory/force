@@ -2,6 +2,14 @@
 
 {% if provider.id %}<input type="hidden" name="provider" value="{{ provider.id }}">{% endif %}
 
+{{ forms.lightswitchField({
+    label: "Enabled"|t('app'),
+    id: 'enabled',
+    name: 'enabled',
+    on: provider.id ? provider.enabled : true,
+    errors: provider.getErrors('enabled')
+}) }}
+
 {{ forms.textField({
     label: "Client Id"|t('patron'),
     instructions: "The client/consumer Id assigned to you from the provider."|t('patron'),
@@ -25,3 +33,4 @@
 {% namespace 'settings' %}
     {{ provider.getSettingsHtml() }}
 {% endnamespace %}
+

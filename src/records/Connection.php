@@ -10,11 +10,10 @@ namespace flipbox\force\records;
 
 use craft\helpers\Json;
 use flipbox\ember\helpers\ModelHelper;
-use flipbox\ember\helpers\ObjectHelper;
 use flipbox\ember\records\ActiveRecordWithId;
 use flipbox\ember\traits\HandleRules;
-use flipbox\force\connections\ConnectionInterface;
-use flipbox\force\criteria\QueryCriteria;
+use flipbox\force\connections\ConnectionConfigurationInterface;
+use flipbox\force\connections\DefaultConfiguration;
 use flipbox\force\Force;
 use flipbox\force\validators\ConnectionValidator;
 use yii\validators\UniqueValidator;
@@ -29,6 +28,11 @@ use yii\validators\UniqueValidator;
 class Connection extends ActiveRecordWithId
 {
     use HandleRules;
+
+    /**
+     * @var ConnectionConfigurationInterface
+     */
+    private $type;
 
     /**
      * The table name
@@ -92,5 +96,22 @@ class Connection extends ActiveRecordWithId
 
         $record->setOldAttribute('settings', $settings);
         $record->setAttribute('settings', $settings);
+    }
+
+    /**
+     * @return ConnectionConfigurationInterface
+     */
+    public function getConfiguration(): ConnectionConfigurationInterface
+    {
+        if ($this->type === null) {
+
+            if (null === ($type = Force::getInstance()->getConnectionManager()->findConfiguration($this))) {
+                $type = new DefaultConfiguration($this);
+            }
+
+            $this->type = $type;
+        }
+
+        return $this->type;
     }
 }

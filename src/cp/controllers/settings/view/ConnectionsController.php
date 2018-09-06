@@ -10,8 +10,7 @@ namespace flipbox\force\cp\controllers\settings\view;
 
 use Craft;
 use craft\helpers\UrlHelper;
-use flipbox\force\query\DynamicQueryBuilder;
-use flipbox\force\query\settings\DynamicQuerySettings;
+use flipbox\force\Force;
 use flipbox\force\records\Connection;
 use yii\web\HttpException;
 use yii\web\Response;
@@ -38,11 +37,11 @@ class ConnectionsController extends AbstractController
     const TEMPLATE_UPSERT = self::TEMPLATE_BASE . DIRECTORY_SEPARATOR . 'upsert';
 
     /**
-     * @return \flipbox\force\cp\services\ConnectionManager
+     * @return \flipbox\force\services\ConnectionManager
      */
     protected function connectionService()
     {
-        return $this->module->getConnectionManager();
+        return Force::getInstance()->getConnectionManager();
     }
 
     /**
@@ -54,7 +53,10 @@ class ConnectionsController extends AbstractController
         $this->baseVariables($variables);
 
         $variables['connections'] = $this->connectionService()->findAll();
-        $variables['types'] = $this->connectionService()->getTypes();
+
+        $variables['types'] = $this->connectionService()->getConfigurations(
+            $this->connectionService()->create()
+        );
 
         return $this->renderTemplate(
             static::TEMPLATE_INDEX,
@@ -80,7 +82,6 @@ class ConnectionsController extends AbstractController
             }
         }
 
-
         $variables = [];
         if ($connection->getIsNewRecord()) {
             $this->insertVariables($variables);
@@ -88,7 +89,7 @@ class ConnectionsController extends AbstractController
             $this->updateVariables($variables, $connection);
         }
 
-        $variables['types'] = $this->connectionService()->getTypes();
+        $variables['types'] = $this->connectionService()->getConfigurations($connection);
         $variables['connection'] = $connection;
         $variables['fullPageForm'] = true;
 

@@ -6,9 +6,10 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\connections;
+namespace flipbox\force\patron\connections;
 
 use Craft;
+use flipbox\force\connections\DefaultConfiguration;
 use flipbox\force\Force;
 use flipbox\force\records\Connection;
 use flipbox\patron\Patron as PatronPlugin;
@@ -21,8 +22,13 @@ use Stevenmaguire\OAuth2\Client\Provider\Salesforce;
  *
  * @property Force $module
  */
-class Patron implements ConnectionTypeInterface
+class AccessTokenConnectionConfiguration extends DefaultConfiguration
 {
+    /**
+     * @var Connection
+     */
+    private $provider;
+
     /**
      * @inheritdoc
      */
@@ -32,50 +38,53 @@ class Patron implements ConnectionTypeInterface
     }
 
     /**
-     * @param Connection $connection
      * @return bool
      * @throws \flipbox\ember\exceptions\NotFoundException
      */
-    public function process(Connection $connection): bool
+    public function process(): bool
     {
-        $provider = $this->resolveProvider($connection);
+        $provider = $this->getProvider();
 
         // Populate
         $this->populateProvider($provider);
 
         // Provider
-        if(!$provider->save()) {
-            $connection->addError('class', 'Unable to save provider settings');
+        if (!$provider->save()) {
+            $this->connection->addError('class', 'Unable to save provider settings');
             return false;
         }
 
-        $settings = $connection->settings;
+        $settings = $this->connection->settings;
         $settings['provider'] = $provider->id;
 
-        $connection->settings = $settings;
+        $this->connection->settings = $settings;
 
-        if(!$connection->save()) {
-            return false;
-        }
-
-        return true;
+        return parent::process();
     }
 
     /**
-     * @param Connection $connection
      * @return Provider
      * @throws \flipbox\ember\exceptions\NotFoundException
      */
-    protected function resolveProvider(Connection $connection): Provider
+    protected function getProvider(): Provider
     {
-        $manageProviders = PatronPlugin::getInstance()->manageProviders();
+        if ($this->provider === null) {
+            $manageProviders = PatronPlugin::getInstance()->manageProviders();
 
-        // Get provider from settings
-        if(null !== ($provider = $connection->settings['provider'] ?? null)) {
-            return $manageProviders->get($provider);
+            // Get provider from settings
+            if (null !== ($provider = $this->connection->settings['provider'] ?? null)) {
+                if (null === ($provider = $manageProviders->get($provider))) {
+                    $provider = $manageProviders->create();
+                }
+            }
+
+            // Always
+            $provider->class = Salesforce::class;
+
+            $this->provider = $provider;
         }
 
-        return $manageProviders->create();
+        return $this->provider;
     }
 
     /**
@@ -97,8 +106,8 @@ class Patron implements ConnectionTypeInterface
 
         $class = $request->getBodyParam('class');
 
-        $values = $this->attributeValuesFromBody($settings, 'settings.'.$class.'.');
-        $values['class'] = Salesforce::class;
+        $values = $this->attributeValuesFromBody($settings, 'settings.' . $class . '.');
+
 
         /** @var Provider $provider */
         $provider = Craft::configure(
@@ -142,26 +151,12 @@ class Patron implements ConnectionTypeInterface
      * @throws \Twig_Error_Loader
      * @throws \yii\base\Exception
      */
-    public function getSettingsHtml(Connection $connection): string
+    public function getSettingsHtml(): string
     {
-        $identifier = $connection->settings['provider'] ?? null;
-
-        $providerService = PatronPlugin::getInstance()->manageProviders();
-
-        if ($identifier !== null) {
-            $provider = $providerService->find($identifier);
-        }
-
-        if (empty($provider)) {
-            $provider = $providerService->create([
-                'class' => Salesforce::class
-            ]);
-        }
-
         return Craft::$app->view->renderTemplate(
             'force/_cp/settings/connections/types/Patron',
             [
-                'provider' => $provider
+                'provider' => $this->getProvider()
             ]
         );
     }

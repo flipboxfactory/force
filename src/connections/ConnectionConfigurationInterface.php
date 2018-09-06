@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\connections;
+namespace flipbox\force\connections;
 
 use flipbox\force\records\Connection;
 
@@ -14,8 +14,14 @@ use flipbox\force\records\Connection;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-interface ConnectionTypeInterface
+interface ConnectionConfigurationInterface
 {
+    /**
+     * ConnectionTypeInterface constructor.
+     * @param Connection $connection
+     */
+    public function __construct(Connection $connection);
+
     /**
      * @return string
      */
@@ -24,14 +30,12 @@ interface ConnectionTypeInterface
     /**
      * Process / Save a connection (and preform any additional actions necessary)
      *
-     * @param Connection $connection
      * @return bool
      */
-    public function process(Connection $connection): bool;
+    public function process(): bool;
 
     /**
-     * @param Connection $connection
      * @return string
      */
-    public function getSettingsHtml(Connection $connection): string;
+    public function getSettingsHtml(): string;
 }

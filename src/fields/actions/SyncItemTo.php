@@ -13,9 +13,7 @@ use craft\base\ElementInterface;
 use flipbox\craft\integration\fields\actions\AbstractIntegrationItemAction;
 use flipbox\craft\integration\fields\Integrations;
 use flipbox\craft\integration\records\IntegrationAssociation;
-use flipbox\force\fields\Objects;
 use flipbox\force\Force;
-use flipbox\force\records\ObjectAssociation;
 
 class SyncItemTo extends AbstractIntegrationItemAction
 {

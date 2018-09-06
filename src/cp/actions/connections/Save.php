@@ -10,7 +10,6 @@ namespace flipbox\force\cp\actions\connections;
 
 use Craft;
 use flipbox\ember\actions\traits\CheckAccess;
-use flipbox\force\cp\connections\ConnectionTypeInterface;
 use flipbox\force\Force;
 use flipbox\force\records\Connection;
 use flipbox\patron\actions\provider\traits\Populate as PopulateProvider;
@@ -44,38 +43,37 @@ class Save extends Action
     }
 
     /**
-     * @param string $type
      * @param null $connection
      * @return mixed
      * @throws \Exception
      * @throws \flipbox\ember\exceptions\ObjectNotFoundException
      */
-    public function run(string $type, $connection = null)
+    public function run($connection = null)
     {
-        $connectionManager = Force::getInstance()->getCp()->getConnectionManager();
+        $connectionManager = Force::getInstance()->getConnectionManager();
+
+        $connection = $this->populateConnection(
+            $connectionManager->get($connection)
+        );
 
         return $this->runInternal(
-            $connectionManager->getType($type),
-            $connectionManager->get($connection)
+            $connection
         );
     }
 
     /**
-     * @param ConnectionTypeInterface $type
      * @param Connection $connection
      * @return mixed
      * @throws \Exception
      */
-    protected function runInternal(ConnectionTypeInterface $type, Connection $connection)
+    protected function runInternal(Connection $connection)
     {
-        $this->populateConnection($connection);
-
         // Check access
         if (($access = $this->checkAccess($connection)) !== true) {
             return $access;
         }
 
-        if (!$this->performAction($type, $connection)) {
+        if (!$this->performAction($connection)) {
             return $this->handleFailResponse($connection);
         }
 
@@ -127,19 +125,18 @@ class Save extends Action
     }
 
     /**
-     * @param ConnectionTypeInterface $type
      * @param Connection $connection
      * @return bool
      * @throws \Exception
      * @throws \yii\db\Exception
      */
-    protected function performAction(ConnectionTypeInterface $type, Connection $connection): bool
+    protected function performAction(Connection $connection): bool
     {
         // Db transaction
         $transaction = Craft::$app->getDb()->beginTransaction();
 
         try {
-            if (!$type->process($connection)) {
+            if (!$connection->getConfiguration()->process()) {
                 $connection->addError('class', 'Unable to save provider settings');
                 $transaction->rollBack();
                 return false;

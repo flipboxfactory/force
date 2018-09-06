@@ -62,17 +62,11 @@ class ConnectionsController extends AbstractController
     }
 
     /**
-     * @param null $type
      * @return mixed
      * @throws \yii\base\InvalidConfigException
-     * @throws \yii\web\BadRequestHttpException
      */
-    public function actionCreate($type = null)
+    public function actionCreate()
     {
-        if (null === $type) {
-            $type = Craft::$app->getRequest()->getRequiredBodyParam('class');
-        }
-
         /** @var \yii\base\Action $action */
         $action = Craft::createObject([
             'class' => Save::class
@@ -81,24 +75,16 @@ class ConnectionsController extends AbstractController
             $this
         ]);
 
-        return $action->runWithParams([
-            'type' => $type
-        ]);
+        return $action->runWithParams([]);
     }
 
     /**
-     * @param null $type
      * @param null $connection
      * @return mixed
      * @throws \yii\base\InvalidConfigException
-     * @throws \yii\web\BadRequestHttpException
      */
-    public function actionUpdate($type = null, $connection = null)
+    public function actionUpdate($connection = null)
     {
-        if (null === $type) {
-            $type = Craft::$app->getRequest()->getRequiredBodyParam('class');
-        }
-
         if (null === $connection) {
             $connection = Craft::$app->getRequest()->getBodyParam('connection');
         }
@@ -112,7 +98,6 @@ class ConnectionsController extends AbstractController
         ]);
 
         return $action->runWithParams([
-            'type' => $type,
             'connection' => $connection
         ]);
     }

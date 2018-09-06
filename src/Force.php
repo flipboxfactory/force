@@ -58,6 +58,7 @@ class Force extends Plugin
         $this->setComponents([
             'cache' => services\Cache::class,
             'connections' => services\Connections::class,
+            'connectionManager' => services\ConnectionManager::class,
             'psr3Logger' => function () {
                 return Craft::createObject([
                     'class' => Logger::class,
@@ -222,6 +223,17 @@ class Force extends Plugin
         /** @noinspection PhpUnhandledExceptionInspection */
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->get('connections');
+    }
+
+    /**
+     * @noinspection PhpDocMissingThrowsInspection
+     * @return services\ConnectionManager
+     */
+    public function getConnectionManager(): services\ConnectionManager
+    {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->get('connectionManager');
     }
 
     /**

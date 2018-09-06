@@ -9,15 +9,12 @@
 namespace flipbox\force\services;
 
 use Craft;
-use flipbox\craft\integration\records\IntegrationAssociation;
 use flipbox\craft\integration\services\IntegrationAssociations;
 use flipbox\craft\integration\services\IntegrationField;
-use flipbox\force\criteria\ObjectAccessorCriteria;
 use flipbox\force\db\ObjectAssociationQuery;
 use flipbox\force\Force;
 use flipbox\force\migrations\ObjectAssociations as ObjectAssociationsMigration;
 use flipbox\force\records\ObjectAssociation;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

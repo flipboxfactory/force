@@ -2,7 +2,11 @@
 
 namespace flipbox\force\patron;
 
+use flipbox\force\events\RegisterConnectionConfigurationsEvent;
+use flipbox\force\patron\connections\AccessTokenConnection;
+use flipbox\force\patron\connections\AccessTokenConnectionConfiguration;
 use flipbox\force\patron\providers\SalesforceSettings;
+use flipbox\force\services\ConnectionManager;
 use flipbox\patron\cp\Cp;
 use flipbox\patron\events\RegisterProviderIcon;
 use flipbox\patron\events\RegisterProviders;
@@ -41,6 +45,15 @@ class Events
             RegisterProviderIcon::REGISTER_ICON,
             function (RegisterProviderIcon $event) {
                 $event->icon = '@vendor/flipboxfactory/force/src/icons/salesforce.svg';
+            }
+        );
+
+        // Configuration
+        Event::on(
+            ConnectionManager::class,
+            ConnectionManager::EVENT_REGISTER_CONFIGURATIONS,
+            function (RegisterConnectionConfigurationsEvent $event) {
+                $event->configurations[AccessTokenConnection::class] = AccessTokenConnectionConfiguration::class;
             }
         );
     }

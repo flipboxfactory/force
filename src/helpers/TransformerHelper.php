@@ -8,11 +8,11 @@
 
 namespace flipbox\force\helpers;
 
+use flipbox\flux\helpers\TransformerHelper as BaseTransformerHelper;
 use flipbox\force\Force;
 use flipbox\force\transformers\collections\TransformerCollection;
 use flipbox\force\transformers\collections\TransformerCollectionInterface;
 use Flipbox\Skeleton\Helpers\ObjectHelper;
-use flipbox\flux\helpers\TransformerHelper as BaseTransformerHelper;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

@@ -125,9 +125,9 @@ class DynamicTransformerCollection extends TransformerCollection
     {
         foreach ($this->resource as $class) {
             if (null !== ($transformer = Force::getInstance()->getTransformers()->find(
-                $eventName,
-                $class
-            ))) {
+                    $eventName,
+                    $class
+                ))) {
                 return $transformer;
             }
         }

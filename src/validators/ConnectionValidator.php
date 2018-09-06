@@ -10,7 +10,6 @@ namespace flipbox\force\validators;
 
 use Craft;
 use flipbox\force\connections\ConnectionInterface;
-use League\OAuth2\Client\Provider\AbstractProvider;
 use yii\validators\Validator;
 
 /**

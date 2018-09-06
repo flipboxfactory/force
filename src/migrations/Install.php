@@ -26,11 +26,11 @@ class Install extends Migration
         $this->createIndexes();
         $this->addForeignKeys();
 
-        if(false === (new ObjectAssociations())->safeUp()) {
+        if (false === (new ObjectAssociations())->safeUp()) {
             return false;
         };
 
-        if(false === (new m180813_121422_connections())->safeUp()) {
+        if (false === (new m180813_121422_connections())->safeUp()) {
             return false;
         };
 
@@ -44,11 +44,11 @@ class Install extends Migration
     {
         $this->dropTableIfExists(QueryRecord::tableName());
 
-        if(false === (new ObjectAssociations())->safeDown()) {
+        if (false === (new ObjectAssociations())->safeDown()) {
             return false;
         };
 
-        if(false === (new m180813_121422_connections())->safeDown()) {
+        if (false === (new m180813_121422_connections())->safeDown()) {
             return false;
         };
 

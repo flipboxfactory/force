@@ -10,9 +10,9 @@ namespace flipbox\force\cp\controllers\settings;
 
 use Craft;
 use craft\helpers\ArrayHelper;
-use flipbox\force\cp\Cp;
-use flipbox\force\Force;
+use flipbox\force\cp\actions\connections\Save;
 use flipbox\force\cp\controllers\AbstractController;
+use flipbox\force\cp\Cp;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -44,16 +44,16 @@ class ConnectionsController extends AbstractController
                 'flash' => [
                     'actions' => [
                         'create' => [
-                            201 => Craft::t('force', "Query successfully created."),
-                            400 => Craft::t('force', "Failed to create query.")
+                            201 => Craft::t('force', "Connection successfully created."),
+                            400 => Craft::t('force', "Failed to create connection.")
                         ],
                         'update' => [
-                            200 => Craft::t('force', "Query successfully updated."),
-                            400 => Craft::t('force', "Failed to update query.")
+                            200 => Craft::t('force', "Connection successfully updated."),
+                            400 => Craft::t('force', "Failed to update connection.")
                         ],
                         'delete' => [
-                            204 => Craft::t('force', "Query successfully deleted."),
-                            400 => Craft::t('force', "Failed to delete query.")
+                            204 => Craft::t('force', "Connection successfully deleted."),
+                            400 => Craft::t('force', "Failed to delete connection.")
                         ]
                     ]
                 ]
@@ -62,56 +62,57 @@ class ConnectionsController extends AbstractController
     }
 
     /**
+     * @param null $type
      * @return mixed
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function actionCreate()
-    {
-        $class = Craft::$app->getRequest()->getRequiredBodyParam('class');
-
-        $provider = $this->module->getConnectionManager()->getType(
-            $class
-        );
-
-        /** @var \yii\base\Action $action */
-        $action = Craft::createObject([
-            'class' => $provider::actionClass()
-        ], [
-            'create',
-            $this
-        ]);
-
-        return $action->runWithParams([]);
-    }
-
-    /**
-     * @param null $connection
-     * @return mixed
-     * @throws \flipbox\ember\exceptions\NotFoundException
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\BadRequestHttpException
      */
-    public function actionUpdate($connection = null)
+    public function actionCreate($type = null)
     {
-        $class = Craft::$app->getRequest()->getRequiredBodyParam('class');
-
-        if (null === $connection) {
-            $connection = Craft::$app->getRequest()->getBodyParam('connection');
+        if (null === $type) {
+            $type = Craft::$app->getRequest()->getRequiredBodyParam('class');
         }
-
-        $provider = $this->module->getConnectionManager()->getType(
-            $class
-        );
 
         /** @var \yii\base\Action $action */
         $action = Craft::createObject([
-            'class' => $provider::actionClass()
+            'class' => Save::class
         ], [
             'update',
             $this
         ]);
 
         return $action->runWithParams([
+            'type' => $type
+        ]);
+    }
+
+    /**
+     * @param null $type
+     * @param null $connection
+     * @return mixed
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\BadRequestHttpException
+     */
+    public function actionUpdate($type = null, $connection = null)
+    {
+        if (null === $type) {
+            $type = Craft::$app->getRequest()->getRequiredBodyParam('class');
+        }
+
+        if (null === $connection) {
+            $connection = Craft::$app->getRequest()->getBodyParam('connection');
+        }
+
+        /** @var \yii\base\Action $action */
+        $action = Craft::createObject([
+            'class' => Save::class
+        ], [
+            'update',
+            $this
+        ]);
+
+        return $action->runWithParams([
+            'type' => $type,
             'connection' => $connection
         ]);
     }

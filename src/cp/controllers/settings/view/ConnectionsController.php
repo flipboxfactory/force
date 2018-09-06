@@ -54,6 +54,7 @@ class ConnectionsController extends AbstractController
         $this->baseVariables($variables);
 
         $variables['connections'] = $this->connectionService()->findAll();
+        $variables['types'] = $this->connectionService()->getTypes();
 
         return $this->renderTemplate(
             static::TEMPLATE_INDEX,
@@ -63,13 +64,14 @@ class ConnectionsController extends AbstractController
 
     /**
      * @param null $identifier
-     * @param Connection|null $query
+     * @param Connection|null $connection
      * @return Response
      * @throws HttpException
      * @throws \flipbox\ember\exceptions\NotFoundException
      */
     public function actionUpsert($identifier = null, Connection $connection = null): Response
     {
+
         if (null === $connection) {
             if (null === $identifier) {
                 $connection = $this->connectionService()->create();
@@ -78,6 +80,7 @@ class ConnectionsController extends AbstractController
             }
         }
 
+
         $variables = [];
         if ($connection->getIsNewRecord()) {
             $this->insertVariables($variables);
@@ -85,7 +88,7 @@ class ConnectionsController extends AbstractController
             $this->updateVariables($variables, $connection);
         }
 
-        $variables['types'] = $this->connectionService()->getTypes();;
+        $variables['types'] = $this->connectionService()->getTypes();
         $variables['connection'] = $connection;
         $variables['fullPageForm'] = true;
 

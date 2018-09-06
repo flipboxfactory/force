@@ -10,7 +10,7 @@
 {% set content %}
     <table id="connections" class="data fullwidth collapsible">
         <thead>
-        <th scope="col">{{ "Name"|t('force') }}</th>
+        <th scope="col">{{ "Type"|t('force') }}</th>
         <th scope="col">{{ "Handle"|t('force') }}</th>
         </thead>
         <tbody>
@@ -20,7 +20,7 @@
                     <th scope="row"
                         data-title="{{ 'Type'|t('force') }}">
                         <a href="{{ url(baseCpPath~'/'~connection.id) }}">
-                            {{ connection.class }}
+                            {{ attribute(types, connection.class).displayName() ?? '' }}
                         </a>
                     </th>
                     <td data-title="{{ 'Handle'|t('force') }}">

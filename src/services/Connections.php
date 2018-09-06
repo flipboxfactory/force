@@ -21,7 +21,7 @@ use yii\di\ServiceLocator;
 class Connections extends ServiceLocator
 {
     /**
-     * @event RegisterConnectionsEvent The event that is triggered when registering user permissions.
+     * @event RegisterConnectionsEvent The event that is triggered when registering connections.
      */
     const EVENT_REGISTER_CONNECTIONS = 'registerConnections';
 

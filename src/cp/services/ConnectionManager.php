@@ -8,11 +8,12 @@
 
 namespace flipbox\force\cp\services;
 
+use flipbox\ember\exceptions\ObjectNotFoundException;
 use flipbox\ember\services\traits\records\AccessorByString;
+use flipbox\force\cp\connections\ConnectionTypeInterface;
 use flipbox\force\cp\connections\Patron as PatronSettings;
 use flipbox\force\patron\connections\AccessTokenConnection;
 use flipbox\force\records\Connection as ConnectionRecord;
-use flipbox\patron\Patron;
 use yii\base\Component;
 
 /**
@@ -54,7 +55,7 @@ class ConnectionManager extends Component
     }
 
     /**
-     * @return array
+     * @return ConnectionTypeInterface[]
      */
     public function getTypes(): array
     {
@@ -64,11 +65,26 @@ class ConnectionManager extends Component
     }
 
     /**
-     * @return \flipbox\force\cp\connections\Patron
+     * @param string $class
+     * @return ConnectionTypeInterface|null
      */
-    public function getType(string $class)
+    public function findType(string $class)
     {
         $types = $this->getTypes();
         return $types[$class] ?? null;
+    }
+
+    /**
+     * @param string $class
+     * @return ConnectionTypeInterface
+     * @throws ObjectNotFoundException
+     */
+    public function getType(string $class): ConnectionTypeInterface
+    {
+        if (null === ($types = $this->findType($class))) {
+            throw new ObjectNotFoundException("Unable to find connection type");
+        }
+
+        return $types;
     }
 }

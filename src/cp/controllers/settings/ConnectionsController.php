@@ -10,8 +10,9 @@ namespace flipbox\force\cp\controllers\settings;
 
 use Craft;
 use craft\helpers\ArrayHelper;
-use flipbox\force\cp\actions\connections\Create;
-use flipbox\force\cp\actions\connections\Update;
+use flipbox\force\actions\connections\Create;
+use flipbox\force\actions\connections\Delete;
+use flipbox\force\actions\connections\Update;
 use flipbox\force\cp\controllers\AbstractController;
 use flipbox\force\cp\Cp;
 
@@ -95,6 +96,30 @@ class ConnectionsController extends AbstractController
             'class' => Update::class
         ], [
             'update',
+            $this
+        ]);
+
+        return $action->runWithParams([
+            'connection' => $connection
+        ]);
+    }
+
+    /**
+     * @param null $connection
+     * @return mixed
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function actionDelete($connection = null)
+    {
+        if (null === $connection) {
+            $connection = Craft::$app->getRequest()->getBodyParam('connection');
+        }
+
+        /** @var Delete $action */
+        $action = Craft::createObject([
+            'class' => Delete::class
+        ], [
+            'delete',
             $this
         ]);
 

@@ -6,9 +6,8 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\actions\connections;
+namespace flipbox\force\actions\connections;
 
-use flipbox\force\Force;
 use flipbox\craft\integration\actions\connections\Update as BaseUpdate;
 
 /**
@@ -17,11 +16,5 @@ use flipbox\craft\integration\actions\connections\Update as BaseUpdate;
  */
 class Update extends BaseUpdate
 {
-    /**
-     * @inheritdoc
-     */
-    protected function find($identifier)
-    {
-        return Force::getInstance()->getConnectionManager()->find($identifier);
-    }
+    use traits\Lookup;
 }

@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 1.0.0-rc - 2018-09-07
 ### Added
 - Connection management via CP
 

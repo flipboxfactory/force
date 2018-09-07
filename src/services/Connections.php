@@ -92,6 +92,11 @@ class Connections extends ServiceLocator
                     ConnectionInterface::class
                 );
             } catch (\Exception $e) {
+                Force::warning(sprintf(
+                    "Unable to register connection '%s' due to '%s",
+                    $key,
+                    $e->getMessage()
+                ));
             }
         }
 

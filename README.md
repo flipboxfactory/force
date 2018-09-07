@@ -31,5 +31,5 @@ To install the plugin, follow these instructions.
 
 ## Setup
 
-Documentation coming soon...
+[Documentation](https://salesforce.flipboxfactory.com)
 

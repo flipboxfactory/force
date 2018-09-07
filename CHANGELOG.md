@@ -1,5 +1,8 @@
 Changelog
 =========
+## 1.0.0-rc.1 - 2018-09-07
+### Added
+- Docs link
 
 ## 1.0.0-rc - 2018-09-07
 ### Added

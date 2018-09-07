@@ -23,6 +23,6 @@ trait Lookup
      */
     protected function find($identifier)
     {
-        return Force::getInstance()->getCp()->getQueryManager()->find($identifier);
+        return Force::getInstance()->getQueryManager()->find($identifier);
     }
 }

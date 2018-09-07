@@ -8,9 +8,9 @@
 
 namespace flipbox\force\actions\connections;
 
+use flipbox\craft\integration\actions\connections\Create as BaseCreate;
 use flipbox\force\Force;
 use yii\db\ActiveRecord;
-use flipbox\craft\integration\actions\connections\Create as BaseCreate;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

@@ -6,9 +6,10 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\services;
+namespace flipbox\force\services;
 
 use flipbox\ember\services\traits\records\AccessorByString;
+use flipbox\force\Force;
 use flipbox\force\records\Query as QueryRecord;
 use yii\base\Component;
 
@@ -33,6 +34,19 @@ use yii\base\Component;
 class QueryManager extends Component
 {
     use AccessorByString;
+
+    /**
+     * @inheritdoc
+     * @throws \Throwable
+     */
+    public function init()
+    {
+        $settings = Force::getInstance()->getSettings();
+        $this->cacheDuration = $settings->queryCacheDuration;
+        $this->cacheDependency = $settings->queryCacheDependency;
+
+        parent::init();
+    }
 
     /**
      * @inheritdoc

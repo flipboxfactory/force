@@ -68,6 +68,7 @@ class Force extends Plugin
             },
             'queryField' => services\QueryField::class,
             'queries' => services\Queries::class,
+            'queryManager' => services\QueryManager::class,
             'resources' => services\Resources::class,
             'objectAssociations' => services\ObjectAssociations::class,
             'objectsField' => services\ObjectsField::class,
@@ -267,6 +268,17 @@ class Force extends Plugin
         /** @noinspection PhpUnhandledExceptionInspection */
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->get('queries');
+    }
+
+    /**
+     * @noinspection PhpDocMissingThrowsInspection
+     * @return services\QueryManager
+     */
+    public function getQueryManager(): services\QueryManager
+    {
+        /** @noinspection PhpUnhandledExceptionInspection */
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->get('queryManager');
     }
 
     /**

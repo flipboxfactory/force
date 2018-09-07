@@ -10,6 +10,7 @@ namespace flipbox\force\cp\controllers\view;
 
 use Craft;
 use craft\helpers\UrlHelper;
+use flipbox\force\Force;
 use flipbox\force\records\Query;
 use flipbox\force\web\assets\soql\SOQL;
 use yii\web\Response;
@@ -36,11 +37,11 @@ class QueriesController extends AbstractController
     const TEMPLATE_VIEW = self::TEMPLATE_BASE . DIRECTORY_SEPARATOR . 'view';
 
     /**
-     * @return \flipbox\force\cp\services\QueryManager
+     * @return \flipbox\force\services\QueryManager
      */
     protected function queryService()
     {
-        return $this->module->getQueryManager();
+        return Force::getInstance()->getQueryManager();
     }
 
     /**

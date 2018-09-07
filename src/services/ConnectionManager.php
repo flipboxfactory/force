@@ -9,6 +9,7 @@
 namespace flipbox\force\services;
 
 use flipbox\craft\integration\services\IntegrationConnectionManager;
+use flipbox\force\Force;
 use flipbox\force\records\Connection;
 
 /**
@@ -31,6 +32,19 @@ use flipbox\force\records\Connection;
  */
 class ConnectionManager extends IntegrationConnectionManager
 {
+    /**
+     * @inheritdoc
+     * @throws \Throwable
+     */
+    public function init()
+    {
+        $settings = Force::getInstance()->getSettings();
+        $this->cacheDuration = $settings->connectionsCacheDuration;
+        $this->cacheDependency = $settings->connectionsCacheDependency;
+
+        parent::init();
+    }
+
     /**
      * @inheritdoc
      */

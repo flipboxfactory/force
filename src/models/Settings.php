@@ -12,6 +12,7 @@ use craft\base\Model;
 use flipbox\ember\helpers\ModelHelper;
 use flipbox\force\services\Cache;
 use flipbox\force\services\Connections;
+use yii\caching\Dependency;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -33,6 +34,26 @@ class Settings extends Model
      * @var null|Dependency
      */
     public $associationsCacheDependency = null;
+
+    /**
+     * @var int|null|false
+     */
+    public $connectionsCacheDuration = false;
+
+    /**
+     * @var null|Dependency
+     */
+    public $connectionsCacheDependency = null;
+
+    /**
+     * @var int|null|false
+     */
+    public $queryCacheDuration = false;
+
+    /**
+     * @var null|Dependency
+     */
+    public $queryCacheDependency = null;
 
     /**
      * @var string

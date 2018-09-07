@@ -11,8 +11,6 @@ namespace flipbox\force\services;
 use craft\helpers\Json;
 use flipbox\ember\helpers\ArrayHelper;
 use flipbox\ember\helpers\ObjectHelper;
-use flipbox\ember\services\traits\objects\AccessorByString;
-use flipbox\ember\services\traits\records\ActiveRecord;
 use flipbox\force\connections\ConnectionInterface;
 use flipbox\force\events\RegisterConnectionsEvent;
 use flipbox\force\Force;
@@ -87,14 +85,13 @@ class Connections extends ServiceLocator
 
         $connections = [];
 
-        foreach($configs as $key => $config) {
+        foreach ($configs as $key => $config) {
             try {
                 $connections[$key] = ObjectHelper::create(
                     $this->prepareConfigSettings($config),
                     ConnectionInterface::class
                 );
             } catch (\Exception $e) {
-
             }
         }
 
@@ -105,7 +102,7 @@ class Connections extends ServiceLocator
      * @inheritdoc
      * @return ConnectionInterface
      */
-    public function get($id, $throwException = true)
+    public function get($id, $throwException = true): ConnectionInterface
     {
         if ($id === self::DEFAULT_CONNECTION) {
             $id = Force::getInstance()->getSettings()->getDefaultConnection();
@@ -129,7 +126,7 @@ class Connections extends ServiceLocator
      * @return ConnectionInterface[]
      * @throws InvalidConfigException
      */
-    public function getAll($throwException = true)
+    public function getAll($throwException = true): array
     {
         $components = [];
 

@@ -139,7 +139,7 @@ class AccessTokenConnectionConfiguration extends DefaultConfiguration
     {
         $request = Craft::$app->getRequest();
 
-        $prepend .= $this->connection->class . '.' ;
+        $prepend .= $this->connection->class . '.';
 
         $values = [];
         foreach ($attributes as $bodyParam => $attribute) {

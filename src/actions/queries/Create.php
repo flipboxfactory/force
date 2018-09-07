@@ -43,7 +43,7 @@ class Create extends ModelCreate
      */
     protected function newModel(array $config = []): Model
     {
-        return Force::getInstance()->getCp()->getQueryManager()->create($config);
+        return Force::getInstance()->getQueryManager()->create($config);
     }
 
     /**

@@ -10,6 +10,7 @@ namespace flipbox\force\cp\controllers\settings\view;
 
 use Craft;
 use craft\helpers\UrlHelper;
+use flipbox\force\Force;
 use flipbox\force\query\DynamicQueryBuilder;
 use flipbox\force\query\settings\DynamicQuerySettings;
 use flipbox\force\records\Query;
@@ -38,11 +39,11 @@ class QueriesController extends AbstractController
     const TEMPLATE_UPSERT = self::TEMPLATE_BASE . DIRECTORY_SEPARATOR . 'upsert';
 
     /**
-     * @return \flipbox\force\cp\services\QueryManager
+     * @return \flipbox\force\services\QueryManager
      */
     protected function queryService()
     {
-        return $this->module->getQueryManager();
+        return Force::getInstance()->getQueryManager();
     }
 
     /**

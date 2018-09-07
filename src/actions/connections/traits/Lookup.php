@@ -10,7 +10,6 @@ namespace flipbox\force\actions\connections\traits;
 
 use flipbox\force\Force;
 use flipbox\force\records\Connection;
-use flipbox\force\records\Query;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

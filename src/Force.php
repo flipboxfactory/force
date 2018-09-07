@@ -37,10 +37,14 @@ use yii\base\Event;
  *
  * @property services\Cache $cache
  * @property services\Connections $connections
- * @property Logger $psr3Logger
- * @property services\Resources $resources
+ * @property services\ConnectionManager $connectionManager
  * @property services\ObjectAssociations $objectAssociations
  * @property services\ObjectsField $objectsField
+ * @property Logger $psr3Logger
+ * @property services\QueryField $queryField
+ * @property services\Queries $queries
+ * @property services\QueryManager $queryManager
+ * @property services\Resources $resources
  * @property services\Transformers $transformers
  */
 class Force extends Plugin
@@ -59,6 +63,8 @@ class Force extends Plugin
             'cache' => services\Cache::class,
             'connections' => services\Connections::class,
             'connectionManager' => services\ConnectionManager::class,
+            'objectAssociations' => services\ObjectAssociations::class,
+            'objectsField' => services\ObjectsField::class,
             'psr3Logger' => function () {
                 return Craft::createObject([
                     'class' => Logger::class,
@@ -70,8 +76,6 @@ class Force extends Plugin
             'queries' => services\Queries::class,
             'queryManager' => services\QueryManager::class,
             'resources' => services\Resources::class,
-            'objectAssociations' => services\ObjectAssociations::class,
-            'objectsField' => services\ObjectsField::class,
             'transformers' => services\Transformers::class
         ]);
 

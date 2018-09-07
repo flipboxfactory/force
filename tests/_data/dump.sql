@@ -1251,6 +1251,46 @@ VALUES
 UNLOCK TABLES;
 
 
+
+# Dump of table salesforce_queries
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `salesforce_queries`;
+
+CREATE TABLE `salesforce_queries` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `handle` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `settings` varchar(255) DEFAULT NULL,
+  `dateCreated` datetime NOT NULL,
+  `dateUpdated` datetime NOT NULL,
+  `uid` char(36) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `salesforce_queries_handle_unq_idx` (`handle`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table salesforce_connections
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `salesforce_connections`;
+
+CREATE TABLE `salesforce_connections` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `handle` varchar(255) NOT NULL,
+  `class` varchar(255) NOT NULL,
+  `settings` text,
+  `enabled` tinyint(1) DEFAULT NULL,
+  `dateUpdated` datetime NOT NULL,
+  `dateCreated` datetime NOT NULL,
+  `uid` char(36) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `salesforce_connections_handle_unq_idx` (`handle`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 # Dump of table taggroups
 # ------------------------------------------------------------
 

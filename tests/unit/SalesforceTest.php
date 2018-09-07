@@ -6,8 +6,12 @@ use Codeception\Test\Unit;
 use flipbox\craft\psr3\Logger;
 use flipbox\force\Force as SalesforcePlugin;
 use flipbox\force\services\Cache;
+use flipbox\force\services\ConnectionManager;
 use flipbox\force\services\Connections;
 use flipbox\force\services\ObjectAssociations as ObjectAssociations;
+use flipbox\force\services\Queries;
+use flipbox\force\services\QueryField;
+use flipbox\force\services\QueryManager;
 use flipbox\force\services\Resources;
 use flipbox\force\services\ObjectsField as ObjectsField;
 use flipbox\force\services\Transformers;
@@ -63,35 +67,18 @@ class SalesforceTest extends Unit
     /**
      * Test the component is set correctly
      */
-    public function testPSR3Component()
+    public function testConnectionManagerComponent()
     {
         $this->assertInstanceOf(
-            Logger::class,
-            $this->module->getPsrLogger()
+            ConnectionManager::class,
+            $this->module->getConnectionManager()
         );
 
         $this->assertInstanceOf(
-            Logger::class,
-            $this->module->psr3Logger
+            ConnectionManager::class,
+            $this->module->connectionManager
         );
     }
-
-    // TODO - this is failing PHP7.2 tests ... not sure why
-//    /**
-//     * Test the component is set correctly
-//     */
-//    public function testResourcesComponent()
-//    {
-//        $this->assertInstanceOf(
-//            Resources::class,
-//            $this->module->getResources()
-//        );
-//
-//        $this->assertInstanceOf(
-//            Resources::class,
-//            $this->module->resources
-//        );
-//    }
 
     /**
      * Test the component is set correctly
@@ -112,7 +99,7 @@ class SalesforceTest extends Unit
     /**
      * Test the component is set correctly
      */
-    public function testObjectFieldsComponent()
+    public function testObjectsFieldComponent()
     {
         $this->assertInstanceOf(
             ObjectsField::class,
@@ -122,6 +109,86 @@ class SalesforceTest extends Unit
         $this->assertInstanceOf(
             ObjectsField::class,
             $this->module->objectsField
+        );
+    }
+
+    /**
+     * Test the component is set correctly
+     */
+    public function testPSR3Component()
+    {
+        $this->assertInstanceOf(
+            Logger::class,
+            $this->module->getPsrLogger()
+        );
+
+        $this->assertInstanceOf(
+            Logger::class,
+            $this->module->psr3Logger
+        );
+    }
+
+    /**
+     * Test the component is set correctly
+     */
+    public function testQueryFieldComponent()
+    {
+        $this->assertInstanceOf(
+            QueryField::class,
+            $this->module->getQueryField()
+        );
+
+        $this->assertInstanceOf(
+            QueryField::class,
+            $this->module->queryField
+        );
+    }
+
+    /**
+     * Test the component is set correctly
+     */
+    public function testQueriesComponent()
+    {
+        $this->assertInstanceOf(
+            Queries::class,
+            $this->module->getQueries()
+        );
+
+        $this->assertInstanceOf(
+            Queries::class,
+            $this->module->queries
+        );
+    }
+
+    /**
+     * Test the component is set correctly
+     */
+    public function testQueryManagerComponent()
+    {
+        $this->assertInstanceOf(
+            QueryManager::class,
+            $this->module->getQueryManager()
+        );
+
+        $this->assertInstanceOf(
+            QueryManager::class,
+            $this->module->queryManager
+        );
+    }
+
+    /**
+     * Test the component is set correctly
+     */
+    public function testResourcesComponent()
+    {
+        $this->assertInstanceOf(
+            Resources::class,
+            $this->module->getResources()
+        );
+
+        $this->assertInstanceOf(
+            Resources::class,
+            $this->module->resources
         );
     }
 

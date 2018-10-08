@@ -14,7 +14,6 @@ use craft\helpers\Json;
 use flipbox\force\connections\ConnectionInterface;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
-use flipbox\force\helpers\ConnectionHelper;
 use flipbox\force\pipeline\stages\ElementAssociationStage;
 use flipbox\force\pipeline\stages\ElementPopulateStage;
 use flipbox\force\pipeline\stages\ElementSaveStage;
@@ -70,16 +69,14 @@ trait SyncElementTrait
     /**
      * @param ElementInterface $element
      * @param Objects $field
-     * @param ConnectionInterface|null $connection
-     * @param CacheInterface|null $cache
+     * @param Pipeline|null $pipeline
      * @return bool
      * @throws \yii\base\InvalidConfigException
      */
     public function syncDown(
         ElementInterface $element,
         Objects $field,
-        ConnectionInterface $connection = null,
-        CacheInterface $cache = null
+        Pipeline $pipeline = null
     ): bool {
         /** @var Element $element */
 
@@ -92,8 +89,7 @@ trait SyncElementTrait
             $element,
             $field,
             $id,
-            $connection,
-            $cache
+            $pipeline
         );
     }
 
@@ -101,8 +97,7 @@ trait SyncElementTrait
      * @param ElementInterface $element
      * @param Objects $field
      * @param string $id
-     * @param ConnectionInterface|null $connection
-     * @param CacheInterface|null $cache
+     * @param Pipeline|null $pipeline
      * @return bool
      * @throws \yii\base\InvalidConfigException
      */
@@ -110,8 +105,7 @@ trait SyncElementTrait
         ElementInterface $element,
         Objects $field,
         string $id,
-        ConnectionInterface $connection = null,
-        CacheInterface $cache = null
+        Pipeline $pipeline = null
     ): bool {
         /** @var Element $element */
 
@@ -119,14 +113,15 @@ trait SyncElementTrait
         $response = $this->rawHttpReadRelay(
             $field->object,
             $id,
-            ConnectionHelper::resolveConnection($connection),
-            $cache
+            $field->getConnection(),
+            $field->getCache()
         )();
 
         return $this->handleSyncDownResponse(
             $response,
             $element,
-            $field
+            $field,
+            $pipeline
         );
     }
 
@@ -134,22 +129,18 @@ trait SyncElementTrait
      * @param ResponseInterface $response
      * @param ElementInterface $element
      * @param Objects $field
+     * @param Pipeline|null $pipeline
      * @return bool
      */
     protected function handleSyncDownResponse(
         ResponseInterface $response,
         ElementInterface $element,
-        Objects $field
+        Objects $field,
+        Pipeline $pipeline = null
     ): bool {
-        $logger = Force::getInstance()->getPsrLogger();
 
         if ($response->getStatusCode() >= 200 && $response->getStatusCode() <= 299) {
-            $pipeline = new Pipeline([
-                'stages' => [
-                    new ElementPopulateStage($field, ['logger' => $logger]),
-                    new ElementSaveStage($field, ['logger' => $logger])
-                ]
-            ]);
+            $pipeline = $pipeline ?: $this->defaultSyncDownPipeline($field);
 
             return $pipeline->process($response, ['element' => $element]) instanceof ResponseInterface;
         }
@@ -160,10 +151,25 @@ trait SyncElementTrait
     }
 
     /**
+     * @param Objects $field
+     * @return Pipeline
+     */
+    private function defaultSyncDownPipeline(Objects $field): Pipeline
+    {
+        $logger = Force::getInstance()->getPsrLogger();
+
+        return new Pipeline([
+            'stages' => [
+                new ElementPopulateStage($field, ['logger' => $logger]),
+                new ElementSaveStage($field, ['logger' => $logger])
+            ]
+        ]);
+    }
+
+    /**
      * @param ElementInterface $element
      * @param Objects $field
-     * @param ConnectionInterface|null $connection
-     * @param CacheInterface|null $cache
+     * @param Pipeline|null $pipeline
      * @return bool
      * @throws \yii\base\InvalidConfigException
      */
@@ -171,16 +177,14 @@ trait SyncElementTrait
     public function syncUp(
         ElementInterface $element,
         Objects $field,
-        ConnectionInterface $connection = null,
-        CacheInterface $cache = null
+        Pipeline $pipeline = null
     ): bool {
         return $this->rawSyncUp(
             $element,
             $field,
             $this->transformElementPayload($element, $field),
             $this->transformElementId($element, $field),
-            $connection,
-            $cache
+            $pipeline
         );
     }
 
@@ -189,8 +193,7 @@ trait SyncElementTrait
      * @param Objects $field
      * @param array $payload
      * @param string|null $id
-     * @param ConnectionInterface|null $connection
-     * @param CacheInterface|null $cache
+     * @param Pipeline|null $pipeline
      * @return bool
      * @throws \yii\base\InvalidConfigException
      */
@@ -199,8 +202,7 @@ trait SyncElementTrait
         Objects $field,
         array $payload,
         string $id = null,
-        ConnectionInterface $connection = null,
-        CacheInterface $cache = null
+        Pipeline $pipeline = null
     ): bool {
         /** @var Element $element */
 
@@ -209,15 +211,16 @@ trait SyncElementTrait
             $field->object,
             $payload,
             $id,
-            $connection,
-            $cache
+            $field->getConnection(),
+            $field->getCache()
         )();
 
         return $this->handleSyncUpResponse(
             $response,
             $element,
             $field,
-            $id
+            $id,
+            $pipeline
         );
     }
 
@@ -226,23 +229,20 @@ trait SyncElementTrait
      * @param ElementInterface $element
      * @param Objects $field
      * @param string|null $id
+     * @param Pipeline|null $pipeline
      * @return bool
      */
     protected function handleSyncUpResponse(
         ResponseInterface $response,
         ElementInterface $element,
         Objects $field,
-        string $id = null
+        string $id = null,
+        Pipeline $pipeline = null
     ): bool {
-        $logger = Force::getInstance()->getPsrLogger();
 
         if ($response->getStatusCode() >= 200 && $response->getStatusCode() <= 299) {
             if (empty($id)) {
-                $pipeline = new Pipeline([
-                    'stages' => [
-                        new ElementAssociationStage($field, ['logger' => $logger])
-                    ]
-                ]);
+                $pipeline = $pipeline ?: $this->defaultSyncUpPipeline($field);
 
                 return $pipeline->process($response, ['element' => $element]) instanceof ResponseInterface;
             }
@@ -253,6 +253,19 @@ trait SyncElementTrait
         $this->handleResponseErrors($response, $element);
 
         return false;
+    }
+
+    /**
+     * @param Objects $field
+     * @return Pipeline
+     */
+    private function defaultSyncUpPipeline(Objects $field): Pipeline
+    {
+        return new Pipeline([
+            'stages' => [
+                new ElementAssociationStage($field, ['logger' => Force::getInstance()->getPsrLogger()])
+            ]
+        ]);
     }
 
     /**

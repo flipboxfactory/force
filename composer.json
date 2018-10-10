@@ -16,6 +16,7 @@
     "flipboxfactory/patron": "^1.0.0-rc.4",
     "stevenmaguire/oauth2-salesforce": "^2.0",
     "flipboxdigital/relay-salesforce": "~2.0",
+    "flipboxfactory/craft-ember": "^1.0.8",
     "flipboxfactory/craft-integration": "^1.1",
     "flipboxfactory/craft-psr16": "^1.0",
     "flipboxfactory/craft-psr3": "^1.0",

@@ -169,6 +169,10 @@ class Force extends Plugin
                         'label' => Craft::t('force', 'Data'),
                         'url' => 'force/data',
                     ],
+                    'force.logs' => [
+                        'label' => Craft::t('force', 'Logs'),
+                        'url' => 'force/logs',
+                    ],
                     'force.settings' => [
                         'label' => Craft::t('force', 'Settings'),
                         'url' => 'force/settings',
@@ -366,6 +370,9 @@ class Force extends Plugin
 
                 // DATA
                 'force/data' => 'force/cp/view/data/index',
+
+                // DATA
+                'force/logs' => 'force/cp/view/logs/index',
 
                 // QUERIES
                 'force/queries' => 'force/cp/view/queries/index',

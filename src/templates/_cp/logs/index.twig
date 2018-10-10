@@ -1,0 +1,27 @@
+{% extends "force/_cp/_layout" %}
+{% import "_includes/forms" as forms %}
+
+{% set content %}
+    <table class="data fullwidth">
+        <thead>
+        <tr>
+            <th>&nbsp;</th>
+            <th>Time</th>
+            <th>Level</th>
+            <th>Message</th>
+            <th>UserId</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in data.models %}
+            <tr>
+                <td class="light">{{ loop.index }}</td>
+                <td>{{ row.time|date("m/d/Y h:i:s") }}</td>
+                <td>{{ row.level }}</td>
+                <td>{{ row.message|nl2br }} <small style="font-size: 80%">{{ row.vars|nl2br }}</small></td>
+                <td>{{ row.userId }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endset %}

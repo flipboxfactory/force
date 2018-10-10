@@ -50,6 +50,6 @@ class ConnectionManager extends IntegrationConnectionManager
      */
     public static function recordClass(): string
     {
-        return Connection ::class;
+        return Connection::class;
     }
 }

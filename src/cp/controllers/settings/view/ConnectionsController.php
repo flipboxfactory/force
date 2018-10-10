@@ -10,6 +10,8 @@ namespace flipbox\force\cp\controllers\settings\view;
 
 use Craft;
 use craft\helpers\UrlHelper;
+use flipbox\craft\assets\card\Card;
+use flipbox\craft\assets\circleicon\CircleIcon;
 use flipbox\force\Force;
 use flipbox\force\records\Connection;
 use yii\web\HttpException;
@@ -52,7 +54,16 @@ class ConnectionsController extends AbstractController
         $variables = [];
         $this->baseVariables($variables);
 
-        $variables['connections'] = $this->connectionService()->findAll();
+        Craft::$app->getView()->registerAssetBundle(Card::class);
+        Craft::$app->getView()->registerAssetBundle(CircleIcon::class);
+
+        $variables['iconPath'] = '@vendor/flipboxfactory/force/src/icons/salesforce.svg';
+
+        $variables['configurableConnections'] = Force::getInstance()->getConnectionManager()->findAllByCriteria([
+            'indexBy' => 'handle'
+        ]);
+        $variables['connections'] = Force::getInstance()->getConnections()->getAll();
+        $variables['activeConnection'] = Force::getInstance()->getConnections()->get();
 
         $variables['types'] = $this->connectionService()->getConfigurations(
             $this->connectionService()->create()

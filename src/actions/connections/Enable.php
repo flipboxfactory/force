@@ -8,13 +8,13 @@
 
 namespace flipbox\force\actions\connections;
 
-use flipbox\craft\integration\actions\connections\Delete as BaseDelete;
+use flipbox\craft\integration\actions\connections\Enable as BaseEnable;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class Delete extends BaseDelete
+class Enable extends BaseEnable
 {
     use traits\Lookup;
 }

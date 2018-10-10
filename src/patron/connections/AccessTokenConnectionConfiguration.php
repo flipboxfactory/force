@@ -50,7 +50,7 @@ class AccessTokenConnectionConfiguration extends DefaultConfiguration
      * @return bool
      * @throws \flipbox\ember\exceptions\NotFoundException
      */
-    public function process(): bool
+    public function save(): bool
     {
         $provider = $this->getProvider();
 
@@ -72,7 +72,24 @@ class AccessTokenConnectionConfiguration extends DefaultConfiguration
             $this->attributeValuesFromBody(['version'])
         );
 
-        return parent::process();
+        return parent::save();
+    }
+
+    /**
+     * @return bool
+     * @throws \flipbox\ember\exceptions\NotFoundException
+     */
+    public function delete(): bool
+    {
+        $provider = $this->getProvider();
+
+        // Provider
+        if (!$provider->delete()) {
+            $this->connection->addError('class', 'Unable to delete provider settings');
+            return false;
+        }
+
+        return parent::delete();
     }
 
     /**

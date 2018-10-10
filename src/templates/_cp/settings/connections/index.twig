@@ -8,33 +8,85 @@
 {% endblock %}
 
 {% set content %}
-    <table id="connections" class="data fullwidth collapsible">
-        <thead>
-        <th scope="col">{{ "Type"|t('force') }}</th>
-        <th scope="col">{{ "Handle"|t('force') }}</th>
-        </thead>
-        <tbody>
-        {% if connections|length %}
-            {% for connection in connections %}
-                <tr data-id="{{ connection.id }}" data-name="{{ connection.handle }}">
-                    <th scope="row"
-                        data-title="{{ 'Type'|t('force') }}">
-                        <a href="{{ url(baseCpPath~'/'~connection.id) }}">
-                            {{ attribute(types, connection.class).displayName() ?? '' }}
-                        </a>
-                    </th>
-                    <td data-title="{{ 'Handle'|t('force') }}">
-                        <code>{{ connection.handle }}</code>
-                    </td>
-                </tr>
-            {% endfor %}
-        {% else %}
-            <tr>
-                <td colspan="3">
-                    {{ "No queries exist yet."|t('force') }}
-                </td>
-            </tr>
-        {% endif %}
-        </tbody>
-    </table>
+    {% from "force/ember/circle-icon" import circleIcon %}
+    <span class="card-items">
+    {% for handle, connection in connections %}
+        {% set configurableConnection = configurableConnections[handle] ?? null %}
+        {% set isEditable = configurableConnection is not empty %}
+        {% set isEnabled = configurableConnection is empty or (isEditable and configurableConnection.enabled) %}
+        {% set isDefault = craft.force.settings.getDefaultConnection() == handle %}
+
+        {% set icon %}
+            {{ circleIcon(
+                iconPath,
+                className(connection),
+                isEnabled ? 'active' : 'suspended'
+            ) }}
+        {% endset %}
+        {% embed "force/ember/card" with {
+            id: isEditable ? configurableConnection.id : 0,
+            name: connection.getInstanceUrl()
+        } %}
+            {% block cardIcon %}
+                {{ icon }}
+            {% endblock %}
+            {% block cardTitleContent %}
+                {% if isEditable %}
+                    <a style="font-size: 80%" href="{{ url(baseCpPath~'/'~configurableConnection.id) }}">{{ connection.getInstanceUrl() }}</a>
+                {% else %}
+                    <span style="font-size: 80%" class="light">{{ connection.getInstanceUrl() }}</span>
+                {% endif %}
+
+            {% endblock %}
+        {% block cardSubTitleContent %}
+            {{ handle }} {% if isDefault %}<small style="font-size: 90%; color: #ff8100;">[DEFAULT]</small>{% endif %}
+        {% endblock %}
+        {% block cardActionFormContent %}
+            {% if isEditable %}
+                <div class="menubtn" data-icon="settings" title="Actions" tabindex="0"
+                     role="combobox"></div>
+                <div class="menu">
+                    <ul>
+                        {% if not isEnabled %}
+                            <li>
+                                <a class="formsubmit"
+                                   data-param="connection"
+                                   data-value="{{ configurableConnection.id }}"
+                                   data-action="{{ baseActionPath }}/enable"
+                                   data-redirect="{{ continueEditingUrl|hash }}">
+                                    {{ "Enable"|t('force') }}
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a class="formsubmit"
+                                   data-param="connection"
+                                   data-value="{{ configurableConnection.id }}"
+                                   data-action="{{ baseActionPath }}/disable"
+                                   data-redirect="{{ continueEditingUrl|hash }}">
+                                    {{ "Disable"|t('force') }}
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <hr>
+                    <ul>
+                        <li>
+                            <a class="formsubmit"
+                               data-param="connection"
+                               data-value="{{ configurableConnection.id }}"
+                               data-action="{{ baseActionPath }}/delete"
+                               data-redirect="{{ continueEditingUrl|hash }}" class="delete"
+                               title="{{ 'Delete'|t('force') }}" role="button">
+                                {{ "Delete"|t('force') }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
+        {% endblock %}
+        {% endembed %}
+
+    {% endfor %}
+    </div>
 {% endset %}

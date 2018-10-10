@@ -63,7 +63,7 @@ class Connections extends ServiceLocator
         parent::init();
 
         $event = new RegisterConnectionsEvent([
-            'connections' => $this->dbConnections()
+            'connections' => $this->getAllDbConnections()
         ]);
 
         $this->trigger(self::EVENT_REGISTER_CONNECTIONS, $event);
@@ -76,7 +76,7 @@ class Connections extends ServiceLocator
     /**
      * @return ConnectionInterface[]
      */
-    private function dbConnections(): array
+    public function getAllDbConnections(): array
     {
         $configs = Force::getInstance()->getConnectionManager()->getQuery([
             'asArray' => true,
@@ -107,8 +107,12 @@ class Connections extends ServiceLocator
      * @inheritdoc
      * @return ConnectionInterface
      */
-    public function get($id, $throwException = true): ConnectionInterface
+    public function get($id = null, $throwException = true): ConnectionInterface
     {
+        if ($id === null) {
+            $id = self::DEFAULT_CONNECTION;
+        }
+
         if ($id === self::DEFAULT_CONNECTION) {
             $id = Force::getInstance()->getSettings()->getDefaultConnection();
         }

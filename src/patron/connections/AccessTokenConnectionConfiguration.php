@@ -57,19 +57,28 @@ class AccessTokenConnectionConfiguration extends DefaultConfiguration
         // Populate
         $this->populateProvider($provider);
 
+        // Only disable the 'Salesforce' state, not Patron
+        $this->connection->enabled = $provider->enabled;
+        $provider->enabled = true;
+
+        // Base settings
+        $this->connection->settings = array_merge(
+            $this->connection->settings,
+            $this->attributeValuesFromBody(['version'])
+        );
+
         // Provider
         if (!$provider->save()) {
             $this->connection->addError('class', 'Unable to save provider settings');
             return false;
         }
 
-        // Set settings
+        // Add provider to settings
         $this->connection->settings = array_merge(
             $this->connection->settings,
             [
                 'provider' => $provider->id
-            ],
-            $this->attributeValuesFromBody(['version'])
+            ]
         );
 
         return parent::save();

@@ -37,6 +37,20 @@ class Connection extends IntegrationConnection
                         'class'
                     ],
                     ConnectionValidator::class
+                ],
+                [
+                    [
+                        'settings'
+                    ],
+                    'required',
+                    'message' => 'A value is required.'
+                ],
+                [
+                    [
+                        'settings'
+                    ],
+                    'each',
+                    'rule' => ['required', 'message' => 'A value is required.']
                 ]
             ]
         );

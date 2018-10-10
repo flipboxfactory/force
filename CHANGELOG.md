@@ -1,5 +1,10 @@
 Changelog
 =========
+
+## 1.0.0-rc.2 - 2018-10-09
+### Added
+- Log viewer in admin panel for debugging purposes
+
 ## 1.0.0-rc.1 - 2018-09-07
 ### Added
 - Docs link

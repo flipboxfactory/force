@@ -1,5 +1,8 @@
 Changelog
 =========
+## 1.0.0-rc.3 - 2018-10-09
+### Added
+- Element Populate transformer can accept a key
 
 ## 1.0.0-rc.2 - 2018-10-09
 ### Added

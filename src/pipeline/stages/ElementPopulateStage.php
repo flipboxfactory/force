@@ -36,6 +36,11 @@ class ElementPopulateStage extends BaseObject implements StageInterface
     private $field;
 
     /**
+     * @var string
+     */
+    public $key = 'populate';
+
+    /**
      * ElementAssociationStage constructor.
      * @param Objects $field
      * @param array $config
@@ -73,7 +78,7 @@ class ElementPopulateStage extends BaseObject implements StageInterface
      */
     protected function populateElement(ElementInterface $element, ResponseInterface $response)
     {
-        $event = TransformerHelper::eventName([$this->field->object, 'populate']);
+        $event = TransformerHelper::eventName([$this->field->object, $this->key]);
         $class = get_class($element);
 
         if (null === ($transformer = Force::getInstance()->getTransformers()->find($event, $class))) {

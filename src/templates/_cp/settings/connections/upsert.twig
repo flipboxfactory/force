@@ -93,3 +93,26 @@
         {% endfor %}
     </div>
 {% endblock %}
+
+{% block details %}
+    <div id="settings" class="meta">
+        {{ forms.lightswitchField({
+            label: "Enabled"|t('app'),
+            id: 'enabled',
+            name: 'enabled',
+            on: connection.id ? connection.enabled : true,
+            errors: connection.getErrors('enabled')
+        }) }}
+    </div>
+    <div class="meta read-only">
+        <div class="data">
+            <h5 class="heading">{{ "Created at"|t('app') }}</h5>
+            <div class="value">{{ connection.dateCreated|datetime('short') }}</div>
+        </div>
+        <div class="data">
+            <h5 class="heading">{{ "Updated at"|t('app') }}</h5>
+            <div class="value">{{ connection.dateUpdated|datetime('short') }}</div>
+        </div>
+    </div>
+
+{% endblock %}

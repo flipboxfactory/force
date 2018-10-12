@@ -2,13 +2,11 @@
 
 {% if provider.id %}<input type="hidden" name="provider" value="{{ provider.id }}">{% endif %}
 
-{{ forms.lightswitchField({
-    label: "Enabled"|t('app'),
-    id: 'enabled',
-    name: 'enabled',
-    on: provider.id ? provider.enabled : true,
-    errors: provider.getErrors('enabled')
-}) }}
+{% if not provider.enabled %}
+    <div class="warning">
+        <p>The Patron provider is not enabled and therefore not able to establish an active connection.</p>
+    </div>
+{% endif %}
 
 {{ forms.textField({
     label: "Version"|t('force'),

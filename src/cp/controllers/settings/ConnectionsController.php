@@ -63,11 +63,11 @@ class ConnectionsController extends AbstractController
                         ],
                         'enable' => [
                             200 => Craft::t('patron', "Connection successfully enabled."),
-                            401 => Craft::t('patron', "Failed to enabled connection.")
+                            400 => Craft::t('patron', "Failed to enabled connection.")
                         ],
                         'disable' => [
                             200 => Craft::t('patron', "Connection successfully disable."),
-                            401 => Craft::t('patron', "Failed to disable connection.")
+                            400 => Craft::t('patron', "Failed to disable connection.")
                         ]
                     ]
                 ]

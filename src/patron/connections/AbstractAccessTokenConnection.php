@@ -8,12 +8,15 @@
 
 namespace flipbox\force\patron\connections;
 
+use Craft;
 use flipbox\force\connections\ConnectionInterface;
 use Psr\Http\Message\RequestInterface;
 use yii\base\BaseObject;
 use Zend\Diactoros\Uri;
 
 /**
+ * An abstract Access Token class that can be used to build your own.
+ *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
@@ -32,6 +35,10 @@ abstract class AbstractAccessTokenConnection extends BaseObject implements Conne
      */
     public function getInstanceUrl(): string
     {
+        if (!$this->hasProvider()) {
+            return Craft::t('force', 'INVALID PROVIDER');
+        }
+
         return rtrim($this->getProvider()->getDomain(), '/');
     }
 

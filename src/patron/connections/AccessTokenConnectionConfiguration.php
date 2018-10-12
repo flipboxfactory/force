@@ -18,6 +18,8 @@ use flipbox\patron\records\Provider;
 use Stevenmaguire\OAuth2\Client\Provider\Salesforce;
 
 /**
+ * This class is a configurable wrapper to a Connection.  It's used in the CP.
+ *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  *
@@ -57,9 +59,8 @@ class AccessTokenConnectionConfiguration extends DefaultConfiguration
         // Populate
         $this->populateProvider($provider);
 
-        // Only disable the 'Salesforce' state, not Patron
-        $this->connection->enabled = $provider->enabled;
-        $provider->enabled = true;
+        // Sync the enabled status
+        $provider->enabled = $this->connection->enabled;
 
         // Base settings
         $this->connection->settings = array_merge(
@@ -68,7 +69,7 @@ class AccessTokenConnectionConfiguration extends DefaultConfiguration
         );
 
         // Provider
-        if (!$provider->save()) {
+        if (!$provider->saveAndLock(Force::getInstance())) {
             $this->connection->addError('class', 'Unable to save provider settings');
             return false;
         }
@@ -93,7 +94,7 @@ class AccessTokenConnectionConfiguration extends DefaultConfiguration
         $provider = $this->getProvider();
 
         // Provider
-        if (!$provider->delete()) {
+        if (!$provider->delete(Force::getInstance())) {
             $this->connection->addError('class', 'Unable to delete provider settings');
             return false;
         }
@@ -112,7 +113,7 @@ class AccessTokenConnectionConfiguration extends DefaultConfiguration
 
             // Get provider from settings
             if (null !== ($provider = $this->connection->settings['provider'] ?? null)) {
-                $provider = $manageProviders->get($provider);
+                $provider = $manageProviders->find($provider);
             }
 
             if (!$provider instanceof Provider) {

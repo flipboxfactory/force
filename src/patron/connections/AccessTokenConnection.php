@@ -9,6 +9,8 @@
 namespace flipbox\force\patron\connections;
 
 /**
+ * A Salesforce connection which consists of an OAuth2 provider along with the specified API version to use.
+ *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */

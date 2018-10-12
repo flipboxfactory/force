@@ -35,35 +35,61 @@ trait ProviderTrait
     }
 
     /**
-     * @return Salesforce
+     * @return bool
+     */
+    public function hasProvider(): bool
+    {
+        return $this->findProvider() instanceof Salesforce;
+    }
+
+    /**
+     * @return null|Salesforce
      * @throws \flipbox\ember\exceptions\NotFoundException
      * @throws \yii\base\InvalidConfigException
      */
-    public function getProvider(): Salesforce
+    public function findProvider()
     {
         if ($this->provider instanceof Salesforce) {
             return $this->provider;
+        }
+
+        if ($this->provider === false) {
+            return null;
         }
 
         return $this->provider = $this->resolveProvider($this->provider);
     }
 
     /**
-     * @param $provider
      * @return Salesforce
      * @throws \flipbox\ember\exceptions\NotFoundException
      * @throws \yii\base\InvalidConfigException
      */
-    protected function resolveProvider($provider): Salesforce
+    public function getProvider(): Salesforce
+    {
+        if (null === ($provider = $this->findProvider())) {
+            throw new InvalidArgumentException("Unable to resolve provider");
+        }
+
+        return $provider;
+    }
+
+    /**
+     * @param $provider
+     * @return Salesforce|false
+     * @throws \flipbox\ember\exceptions\NotFoundException
+     * @throws \yii\base\InvalidConfigException
+     */
+    protected function resolveProvider($provider)
     {
         if (is_numeric($provider) || is_string($provider)) {
-            $provider = Patron::getInstance()->getProviders()->get($provider);
+            $provider = Patron::getInstance()->getProviders()->find($provider);
         } else {
             $provider = Craft::createObject($provider);
         }
 
         if (!$provider instanceof Salesforce) {
-            throw new InvalidArgumentException("Unable to resolve provider");
+            return false;
         }
 
         return $provider;

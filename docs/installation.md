@@ -4,11 +4,11 @@
 Composer is a simple, straight forward installation.  Simple run the following command in your project root:
 
 ```bash
-composer require flipboxfactory/craft-hubspot
+composer require flipboxfactory/force
 ```
 
 &nbsp;
 
 ### Option 2: Plugin Store
-Within your Craft CMS project admin panel, navigate to the 'Plugin Store' and search for `HubSpot`.  Installation
+Within your Craft CMS project admin panel, navigate to the 'Plugin Store' and search for `Salesforce`.  Installation
 is a button click away.

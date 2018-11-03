@@ -10,9 +10,9 @@ module.exports = {
         search: true,
         searchMaxSuggestions: 10,
         nav: [
-            {text: 'Details', link: 'https://flipboxdigital.com/software/force'},
-            {text: 'Changelog', link: 'https://github.com/flipboxfactory/force/blob/develop/CHANGELOG'},
-            {text: 'Documentation', link: '/'}
+            {text: 'Details', link: 'https://flipboxfactory.com/craft-cms-plugins/salesforce'},
+            {text: 'Changelog', link: 'https://github.com/flipboxfactory/force/blob/master/CHANGELOG.md'},
+            {text: 'Repo', link: 'https://github.com/flipboxfactory/force'}
         ],
         sidebar: {
             '/': [

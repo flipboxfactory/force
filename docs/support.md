@@ -1,11 +1,11 @@
 # Support
 
-All **Bugs**, **Enhancements**, **Feature Requests** and other issues are managed through [GitHub](https://github.com/flipboxfactory/force/issues).
+All **Bugs**, **Enhancements**, **Feature Requests** and other issues are managed through GitHub.
 
-[View Issues](https://github.com/flipboxfactory/force/issues)
+<button-link url="https://github.com/flipboxfactory/force/issues">View Issues</button-link>
 
 ***
 
-Collaborate and get questions answered quickly via [chat](https://gitter.im/flipboxfactory/force).
+Collaborate and get questions answered quickly via chat.
 
-[View Discussions](https://gitter.im/flipboxfactory/force)
+<button-link url="https://gitter.im/flipboxfactory/force">View Discussions</button-link>

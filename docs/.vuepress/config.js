@@ -3,6 +3,7 @@ module.exports = {
     description: 'Salesforce Plugin for Craft CMS',
     base: '/',
     themeConfig: {
+        logo: '/icon.svg',
         docsRepo: 'flipboxfactory/force',
         docsDir: 'docs',
         docsBranch: 'master',

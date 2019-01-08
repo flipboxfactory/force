@@ -9,7 +9,7 @@
 namespace flipbox\force\migrations;
 
 use craft\db\Migration;
-use flipbox\force\records\SOQL as QueryRecord;
+use flipbox\force\records\QueryBuilder as QueryRecord;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -66,6 +66,7 @@ class Install extends Migration
             'id' => $this->primaryKey(),
             'handle' => $this->string()->notNull(),
             'name' => $this->string()->notNull(),
+            'class' => $this->string()->notNull(),
             'settings' => $this->string(),
             'dateCreated' => $this->dateTime()->notNull(),
             'dateUpdated' => $this->dateTime()->notNull(),

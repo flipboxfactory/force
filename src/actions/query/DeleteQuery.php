@@ -9,7 +9,7 @@
 namespace flipbox\force\actions\query;
 
 use flipbox\craft\ember\actions\records\DeleteRecord;
-use flipbox\force\records\SOQL;
+use flipbox\force\records\QueryBuilder;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -27,10 +27,10 @@ class DeleteQuery extends DeleteRecord
 
     /**
      * @inheritdoc
-     * @return SOQL
+     * @return QueryBuilder
      */
     protected function find($identifier)
     {
-        return SOQL::findOne($identifier);
+        return QueryBuilder::findOne($identifier);
     }
 }

@@ -1,45 +1,125 @@
 <?php
 
+/**
+ * @copyright  Copyright (c) Flipbox Digital Limited
+ * @license    https://github.com/flipboxfactory/craft-sortable-associations/blob/master/LICENSE
+ * @link       https://github.com/flipboxfactory/craft-sortable-associations
+ */
+
 namespace flipbox\force\queries;
 
-use craft\db\Query;
+use craft\helpers\Db;
+use flipbox\craft\ember\queries\ActiveQuery;
 use flipbox\craft\ember\queries\AuditAttributesTrait;
-use flipbox\craft\ember\queries\PopulateObjectTrait;
-use Flipbox\Salesforce\Query\QueryBuilderInterface;
+use flipbox\craft\sortable\associations\records\SortableAssociationInterface;
 
 /**
- * @author Flipbox Factory <hello@flipboxfactory.com>
- * @since 1.0.0
+ * @method SortableAssociationInterface[] getCachedResult()
+ *
+ * deprecated
  */
-class SOQLQuery extends Query
+class SOQLQuery extends ActiveQuery
 {
-    use PopulateObjectTrait,
-        AuditAttributesTrait;
+    use AuditAttributesTrait;
+
+    /**
+     * @var int|int[]|string|string[]|null
+     */
+    public $id;
+
+    /**
+     * @var string|string[]|null
+     */
+    public $handle;
+
+    /**
+     * @var string|string[]|null
+     */
+    public $name;
+
+    /**
+     * @var string|string[]|null
+     */
+    public $class;
 
     /*******************************************
-     * RESULTS
+     * ATTRIBUTES
      *******************************************/
 
     /**
-     * @inheritdoc
-     * @return QueryBuilderInterface
+     * @param int|int[]|string|string[]|null $id
+     * @return $this
      */
-    public function one($db = null)
+    public function id($id)
     {
-        if (null === ($config = parent::one($db))) {
-            return null;
-        }
-
-        return $this->createObject($config);
+        $this->id = $id;
+        return $this;
     }
 
     /**
-     * @param array $config
-     * @return QueryBuilderInterface
+     * @param int|int[]|string|string[]|null $id
+     * @return $this
      */
-    protected function createObject(array $config)
+    public function setId($id)
     {
+        return $this->id($id);
+    }
 
+    /**
+     * @param string|string[]|null $handle
+     * @return $this
+     */
+    public function handle($handle)
+    {
+        $this->handle = $handle;
+        return $this;
+    }
+
+    /**
+     * @param string|string[]|null $handle
+     * @return $this
+     */
+    public function setHandle($handle)
+    {
+        return $this->handle($handle);
+    }
+
+    /**
+     * @param string|string[]|null $name
+     * @return $this
+     */
+    public function name($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @param string|string[]|null $name
+     * @return $this
+     */
+    public function setName($name)
+    {
+        return $this->name($name);
+    }
+
+    /**
+     * @param string|string[]|null $class
+     * @return $this
+     */
+    public function class($class)
+    {
+        $this->class = $class;
+        return $this;
+    }
+
+    /**
+     * @param string|string[]|null $class
+     * @return $this
+     */
+    public function setClass($class)
+    {
+        return $this->class($class);
     }
 
 
@@ -49,11 +129,27 @@ class SOQLQuery extends Query
 
     /**
      * @inheritdoc
+     * @throws \ReflectionException
      */
     public function prepare($builder)
     {
+        $this->prepareAttributeConditions();
         $this->applyAuditAttributeConditions();
 
         return parent::prepare($builder);
+    }
+
+    /**
+     * Apply environment params
+     */
+    protected function prepareAttributeConditions()
+    {
+        $attributes = ['id', 'handle', 'name', 'class'];
+
+        foreach ($attributes as $attribute) {
+            if (($value = $this->{$attribute}) !== null) {
+                $this->andWhere(Db::parseParam($attribute, $value));
+            }
+        }
     }
 }

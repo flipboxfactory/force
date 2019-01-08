@@ -4,15 +4,21 @@
 Craft.ForceQuery = Garnish.Base.extend(
     {
         $results: null,
+        $soql: null,
+        $submit: null,
         $form: null,
+        $container: null,
 
         init: function (form, settings) {
             this.$form = $(form);
-            this.$results = this.$form.find("#query-results");
+            this.$container = this.$form.find("#query-preview");
+            this.$results = this.$container.find("#query-results");
+            this.$soql = this.$container.find("#query-soql");
 
             this.setSettings(settings, Craft.ForceQuery.defaults);
 
-            this.$form.on('submit', $.proxy(this, 'onSubmit'));
+            this.$submit = this.$form.find('.preview');
+            this.$submit.on('click', $.proxy(this, 'onSubmit'));
 
             var $spinner = this.$form.find('.spinner');
             if ($spinner.length) {
@@ -30,16 +36,22 @@ Craft.ForceQuery = Garnish.Base.extend(
             Craft.actionRequest(
                 'POST',
                 this.settings.action,
-                $(ev.currentTarget).serialize(),
+                this.$form.serialize(),
                 $.proxy(
                     function (response, textStatus, jqXHR) {
                         this.$spinner.addClass('hidden');
                         if (jqXHR.status >= 200 && jqXHR.status <= 299) {
                             this.afterQuery(response);
 
-                            Craft.cp.displayNotice(
-                                Craft.t('force', this.settings.messageSuccess)
-                            );
+                            if(response.errors) {
+                                Craft.cp.displayError(
+                                    Craft.t('force', this.settings.messageError)
+                                );
+                            } else {
+                                Craft.cp.displayNotice(
+                                    Craft.t('force', this.settings.messageSuccess)
+                                );
+                            }
                         }
                     },
                     this
@@ -47,7 +59,10 @@ Craft.ForceQuery = Garnish.Base.extend(
             );
         },
         afterQuery: function (response) {
-            this.$results.html(JSON.stringify(response, null, 2));
+            console.log(this.$container);
+            this.$container.show();
+            this.$soql.html(response.query);
+            this.$results.html(JSON.stringify(response.result || response.errors, null, 2));
             this.onAfterQuery(response);
         },
 

@@ -9,7 +9,7 @@
 namespace flipbox\force\actions\query;
 
 use Craft;
-use flipbox\force\records\SOQL;
+use flipbox\force\records\QueryBuilder;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -18,28 +18,40 @@ use flipbox\force\records\SOQL;
 trait PopulateQueryTrait
 {
     /**
-     * @param SOQL $query
-     * @return SOQL
+     * @param QueryBuilder $query
+     * @return QueryBuilder
      */
-    private function populateSettings(SOQL $query): SOQL
+    protected function populateSettings(QueryBuilder $query): QueryBuilder
     {
-        $query->settings = [
-            'query' => $this->getQuerySettings()
-        ];
-        return $query;
-    }
-
-    /**
-     * @return array
-     */
-    private function getQuerySettings(): array
-    {
-        $settings = Craft::$app->getRequest()->getBodyParam('settings.query', []);
+        $settings = Craft::$app->getRequest()->getBodyParam('settings', []);
 
         if (!is_array($settings)) {
             $settings = [$settings];
         }
 
-        return $settings;
+        $settings['variables'] = $this->prepareVariables((array)($settings['variables'] ?? []));
+
+        $query->settings = $settings;
+        return $query;
+    }
+
+    /**
+     * @param array $variables
+     * @return array
+     */
+    protected function prepareVariables(array $variables): array
+    {
+        $return = [];
+
+        foreach (array_filter($variables) as $key => $value) {
+            if (is_numeric($key)) {
+                $key = $value['key'] ?? $key;
+                $value = $value['value'] ?? $value;
+            }
+
+            $return[$key] = $value;
+        }
+
+        return $return;
     }
 }

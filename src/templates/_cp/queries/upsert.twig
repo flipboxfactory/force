@@ -1,5 +1,21 @@
-{% extends "force/_cp/settings/_layout" %}
+{% extends "force/_cp/_layout" %}
 {% import "_includes/forms" as forms %}
+{% set builder = query.criteria.query %}
+
+{% do view.registerJsFile("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js") %}
+{% do view.registerCssFile("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css") %}
+{% js %}
+    hljs.initHighlightingOnLoad();
+{% endjs %}
+{% css %}
+    .hljs {
+        background: none;
+        padding: 0;
+    }
+    .breakall {
+        word-break: break-all;
+    }
+{% endcss %}
 
 {% block actionButton %}
     <div class="btngroup submit right">
@@ -42,9 +58,10 @@
     <input type="hidden" name="action"
            value="{{ baseActionPath }}/{% if query.id %}update{% else %}create{% endif %}">
     {% if query.id %}<input type="hidden" name="query" value="{{ query.id }}">{% endif %}
+    <input type="hidden" name="class" value="{{ className(query) }}">
     {{ redirectInput(baseCpPath) }}
 
-    <div id="query">
+    <div class="soql">
         {{ forms.textField({
             first: true,
             label: "Name"|t('force'),
@@ -69,9 +86,46 @@
             required: true
         }) }}
 
-        {% namespace 'settings[query]' %}
-            <input type="hidden" name="class" value="{{ className(query.criteria.query) }}">
-            {{ querySettings.inputHtml()|raw }}
+        {{ forms.textareaField({
+            label: "Query"|t('force'),
+            instructions: "The raw query.  You may also include twig markup to represent dynamic variables."|t('force'),
+            id: 'soql',
+            class: 'code',
+            name: 'soql',
+            value: query.soql ?? '',
+            errors: query.getErrors('soql'),
+            required: true,
+            rows: 12
+        }) }}
+
+        {% namespace 'settings' %}
+            {{ query.settingsHtml()|raw }}
         {% endnamespace %}
+
+        <input type="submit" class="btn preview" value="{{ 'Preview Query'|t('app') }}">
+        <div class="spinner hidden"></div>
+
+        <div id="query-preview" style="display: none;">
+            <br /><br />
+            <div id="query-soql"></div>
+            <hr/>
+            <pre><code id="query-results" class="json"></code></pre>
+        </div>
     </div>
 {% endblock %}
+{% js %}
+    var query = new Craft.ForceQuery(
+    '#{{ 'main-form'|namespaceInputId|e('js') }}',
+    {
+        onAfterQuery: function() {
+            $('#query-results').each(function(i, e) {hljs.highlightBlock(e)});
+        }
+    }
+    );
+{% endjs %}
+
+{% if query is not defined or not query.handle %}
+    {% js %}
+        new Craft.HandleGenerator('#name', '#handle');
+    {% endjs %}
+{% endif %}

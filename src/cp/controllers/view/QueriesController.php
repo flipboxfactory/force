@@ -10,7 +10,7 @@ namespace flipbox\force\cp\controllers\view;
 
 use Craft;
 use craft\helpers\UrlHelper;
-use flipbox\force\records\SOQL;
+use flipbox\force\records\QueryBuilder;
 use flipbox\force\web\assets\soql\SOQL as SOQLAsset;
 use yii\web\Response;
 
@@ -33,7 +33,7 @@ class QueriesController extends AbstractController
     /**
      * The index view template path
      */
-    const TEMPLATE_VIEW = self::TEMPLATE_BASE . DIRECTORY_SEPARATOR . 'view';
+    const TEMPLATE_UPSERT = self::TEMPLATE_BASE . DIRECTORY_SEPARATOR . 'upsert';
 
     /**
      * Index/List
@@ -45,7 +45,7 @@ class QueriesController extends AbstractController
         $variables = [];
         $this->baseVariables($variables);
 
-        $variables['queries'] = SOQL::findAll([]);
+        $variables['queries'] = QueryBuilder::findAll([]);
 
         return $this->renderTemplate(
             static::TEMPLATE_INDEX,
@@ -53,24 +53,29 @@ class QueriesController extends AbstractController
         );
     }
 
-    /**
-     * @param null $identifier
-     * @return Response
-     * @throws \flipbox\ember\exceptions\NotFoundException
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function actionView($identifier = null): Response
+    public function actionUpsert($identifier = null, QueryBuilder $query = null): Response
     {
         Craft::$app->getView()->registerAssetBundle(SOQLAsset::class);
-        $query = SOQL::getOne($identifier);
+
+        if (null === $query) {
+            if (null === $identifier) {
+                $query = new QueryBuilder();
+            } else {
+                $query = QueryBuilder::getOne($identifier);
+            }
+        }
 
         $variables = [];
-        $this->viewVariables($variables, $query);
+        if ($query->getIsNewRecord()) {
+            $this->insertVariables($variables);
+        } else {
+            $this->updateVariables($variables, $query);
+        }
 
         $variables['query'] = $query;
         $variables['fullPageForm'] = true;
 
-        return $this->renderTemplate(static::TEMPLATE_VIEW, $variables);
+        return $this->renderTemplate(static::TEMPLATE_UPSERT, $variables);
     }
 
 
@@ -101,9 +106,9 @@ class QueriesController extends AbstractController
 
     /**
      * @param array $variables
-     * @param SOQL $query
+     * @param QueryBuilder $query
      */
-    protected function viewVariables(array &$variables, SOQL $query)
+    protected function updateVariables(array &$variables, QueryBuilder $query)
     {
         $this->baseVariables($variables);
         $variables['title'] .= ' - ' . $query->name;

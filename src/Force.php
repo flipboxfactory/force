@@ -22,7 +22,6 @@ use flipbox\craft\ember\helpers\UrlHelper;
 use flipbox\craft\ember\modules\LoggerTrait;
 use flipbox\craft\psr3\Logger;
 use flipbox\force\fields\Objects as ObjectsField;
-use flipbox\force\fields\Query as QueryField;
 use flipbox\force\models\Settings as SettingsModel;
 use flipbox\force\web\twig\variables\Force as ForceVariable;
 use Flipbox\Salesforce\Salesforce;
@@ -36,7 +35,6 @@ use yii\base\Event;
  *
  * @property services\Cache $cache
  * @property Logger $psr3Logger
- * @property services\Queries $queries
  * @property services\Transformers $transformers
  */
 class Force extends Plugin
@@ -79,7 +77,6 @@ class Force extends Plugin
             Fields::EVENT_REGISTER_FIELD_TYPES,
             function (RegisterComponentTypesEvent $event) {
                 $event->types[] = ObjectsField::class;
-                $event->types[] = QueryField::class;
             }
         );
 
@@ -236,7 +233,8 @@ class Force extends Plugin
 
                 // QUERIES
                 'force/queries' => 'force/cp/view/queries/index',
-                'force/queries/<identifier:\d+>' => 'force/cp/view/queries/view',
+                'force/queries/new' => 'force/cp/view/queries/upsert',
+                'force/queries/<identifier:\d+>' => 'force/cp/view/queries/upsert',
 
                 // SOBJECTS
                 'force/objects' => 'force/cp/view/objects/index',
@@ -250,11 +248,6 @@ class Force extends Plugin
                 'force/settings/connections' => 'force/cp/settings/view/connections/index',
                 'force/settings/connections/new' => 'force/cp/settings/view/connections/upsert',
                 'force/settings/connections/<identifier:\d+>' => 'force/cp/settings/view/connections/upsert',
-
-                // SETTINGS: QUERIES
-                'force/settings/queries' => 'force/cp/settings/view/queries/index',
-                'force/settings/queries/new' => 'force/cp/settings/view/queries/upsert',
-                'force/settings/queries/<identifier:\d+>' => 'force/cp/settings/view/queries/upsert',
 
                 // SETTINGS: SOBJECTS
                 'force/settings/objects' => 'force/cp/settings/view/objects/index'

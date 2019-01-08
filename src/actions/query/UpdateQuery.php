@@ -9,7 +9,7 @@
 namespace flipbox\force\actions\query;
 
 use flipbox\craft\ember\actions\records\UpdateRecord;
-use flipbox\force\records\SOQL;
+use flipbox\force\records\QueryBuilder;
 use yii\db\ActiveRecord;
 
 /**
@@ -23,9 +23,10 @@ class UpdateQuery extends UpdateRecord
     /**
      * @inheritdoc
      */
-    protected $validBodyParams = [
+    public $validBodyParams = [
         'name',
-        'handle'
+        'handle',
+        'soql'
     ];
 
     /**
@@ -38,8 +39,8 @@ class UpdateQuery extends UpdateRecord
 
     /**
      * @inheritdoc
-     * @param SOQL $record
-     * @return SOQL
+     * @param QueryBuilder $record
+     * @return QueryBuilder
      */
     protected function populate(ActiveRecord $record): ActiveRecord
     {
@@ -49,10 +50,10 @@ class UpdateQuery extends UpdateRecord
 
     /**
      * @inheritdoc
-     * @return SOQL
+     * @return QueryBuilder
      */
     protected function find($identifier)
     {
-        return SOQL::findOne($identifier);
+        return QueryBuilder::findOne($identifier);
     }
 }

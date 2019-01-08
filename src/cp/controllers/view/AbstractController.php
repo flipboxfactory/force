@@ -36,7 +36,7 @@ abstract class AbstractController extends Controller
      */
     protected function getBaseActionPath(): string
     {
-        return Force::getInstance()->getUniqueId();
+        return Force::getInstance()->getUniqueId() . '/cp';
     }
 
     /**

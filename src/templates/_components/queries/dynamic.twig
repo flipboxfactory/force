@@ -1,19 +1,8 @@
 {% import "_includes/forms" as forms %}
 
-{{ forms.textareaField({
-    label: ""|t('force'),
-    instructions: "The raw query.  You may also include twig markup to represent dynamic variables."|t('force'),
-    id: 'soql',
-    class: 'code',
-    name: 'soql',
-    value: settings.builder.soql,
-    errors: settings.getErrors('query'),
-    required: true,
-    rows: 12
-}) }}
-
 {% set rows = [] %}
-{% for key, value in settings.builder.variables %}
+{% set variables = record.settings.variables ?? [] %}
+{% for key, value in variables %}
     {% set rows = rows|merge([{
         key: {
             value: key

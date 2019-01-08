@@ -8,9 +8,11 @@
 
 namespace flipbox\force\actions\query;
 
+use Craft;
 use flipbox\craft\ember\actions\records\CreateRecord;
-use flipbox\force\records\SOQL;
+use flipbox\force\records\QueryBuilder;
 use yii\db\ActiveRecord;
+use yii\di\Instance;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -23,30 +25,40 @@ class CreateQuery extends CreateRecord
     /**
      * @inheritdoc
      */
-    protected $validBodyParams = [
+    public $validBodyParams = [
         'name',
-        'handle'
+        'handle',
+        'soql'
     ];
 
     /**
      * @inheritdoc
-     * @param SOQL $record
-     * @return SOQL
+     * @param QueryBuilder $record
+     * @return QueryBuilder
      */
     protected function populate(ActiveRecord $record): ActiveRecord
     {
-        $this->populateSettings($record);
-        return parent::populate($record);
+        parent::populate($record);
+        return $this->populateSettings($record);
     }
 
     /**
-     * @inheritdoc
-     * @return SOQL
+     * @param array $config
+     * @return QueryBuilder
+     * @throws \yii\base\InvalidConfigException
      */
     protected function newRecord(array $config = []): ActiveRecord
     {
-        $record = new SOQL();
+        $class = Craft::$app->getRequest()->getBodyParam('class', QueryBuilder::class);
+
+        /** @var QueryBuilder $record */
+        $record = Instance::ensure(
+            $class,
+            QueryBuilder::class
+        );
+
         $record->setAttributes($config);
+
         return $record;
     }
 }

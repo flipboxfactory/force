@@ -9,9 +9,9 @@
 namespace flipbox\force\cp\controllers;
 
 use craft\helpers\ArrayHelper;
-use flipbox\ember\filters\FlashMessageFilter;
-use flipbox\ember\filters\ModelErrorFilter;
-use flipbox\ember\filters\RedirectFilter;
+use flipbox\craft\ember\filters\FlashMessageFilter;
+use flipbox\craft\ember\filters\ModelErrorFilter;
+use flipbox\craft\ember\filters\RedirectFilter;
 use flipbox\force\cp\Cp;
 
 /**
@@ -20,7 +20,7 @@ use flipbox\force\cp\Cp;
  *
  * @property Cp $module
  */
-abstract class AbstractController extends \flipbox\ember\controllers\AbstractController
+abstract class AbstractController extends \flipbox\craft\ember\controllers\AbstractController
 {
     /**
      * @return array

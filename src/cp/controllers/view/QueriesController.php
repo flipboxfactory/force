@@ -10,9 +10,8 @@ namespace flipbox\force\cp\controllers\view;
 
 use Craft;
 use craft\helpers\UrlHelper;
-use flipbox\force\Force;
-use flipbox\force\records\Query;
-use flipbox\force\web\assets\soql\SOQL;
+use flipbox\force\records\SOQL;
+use flipbox\force\web\assets\soql\SOQL as SOQLAsset;
 use yii\web\Response;
 
 /**
@@ -37,14 +36,6 @@ class QueriesController extends AbstractController
     const TEMPLATE_VIEW = self::TEMPLATE_BASE . DIRECTORY_SEPARATOR . 'view';
 
     /**
-     * @return \flipbox\force\services\QueryManager
-     */
-    protected function queryService()
-    {
-        return Force::getInstance()->getQueryManager();
-    }
-
-    /**
      * Index/List
      *
      * @return Response
@@ -54,7 +45,7 @@ class QueriesController extends AbstractController
         $variables = [];
         $this->baseVariables($variables);
 
-        $variables['queries'] = $this->queryService()->findAll();
+        $variables['queries'] = SOQL::findAll([]);
 
         return $this->renderTemplate(
             static::TEMPLATE_INDEX,
@@ -70,8 +61,8 @@ class QueriesController extends AbstractController
      */
     public function actionView($identifier = null): Response
     {
-        Craft::$app->getView()->registerAssetBundle(SOQL::class);
-        $query = $this->queryService()->get($identifier);
+        Craft::$app->getView()->registerAssetBundle(SOQLAsset::class);
+        $query = SOQL::getOne($identifier);
 
         $variables = [];
         $this->viewVariables($variables, $query);
@@ -110,9 +101,9 @@ class QueriesController extends AbstractController
 
     /**
      * @param array $variables
-     * @param Query $query
+     * @param SOQL $query
      */
-    protected function viewVariables(array &$variables, Query $query)
+    protected function viewVariables(array &$variables, SOQL $query)
     {
         $this->baseVariables($variables);
         $variables['title'] .= ' - ' . $query->name;

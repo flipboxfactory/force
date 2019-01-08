@@ -12,8 +12,8 @@ use Craft;
 use craft\base\ElementInterface;
 use flipbox\craft\integration\fields\actions\AbstractIntegrationAction;
 use flipbox\craft\integration\fields\Integrations;
-use flipbox\force\db\ObjectAssociationQuery;
-use flipbox\force\Force;
+use flipbox\craft\integration\queries\IntegrationAssociationQuery;
+use flipbox\force\queue\SyncElementToSalesforceObjectJob;
 use yii\web\HttpException;
 
 class SyncTo extends AbstractIntegrationAction
@@ -38,25 +38,28 @@ class SyncTo extends AbstractIntegrationAction
     }
 
     /**
-     * @param Integrations $field
-     * @param ElementInterface $element
-     * @return bool
+     * @inheritdoc
      * @throws HttpException
+     * @throws \Throwable
+     * @throws \craft\errors\ElementNotFoundException
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
+     * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
     public function performAction(Integrations $field, ElementInterface $element): bool
     {
-        // Todo ENSURE CORRECT FIELD TYPE
-
-        /** @var ObjectAssociationQuery $query */
+        /** @var IntegrationAssociationQuery $query */
         if (null === ($query = $element->getFieldValue($field->handle))) {
             throw new HttpException(400, 'Field is not associated to element');
         }
 
-        if (!Force::getInstance()->getResources()->getObject()->syncUp(
-            $element,
-            $field
-        )) {
+        $job = new SyncElementToSalesforceObjectJob([
+            'element' => $element,
+            'field' => $field
+        ]);
+
+
+        if (!$job->execute(Craft::$app->getQueue())) {
             $this->setMessage("Failed to sync from Salesforce Object");
             return false;
         }

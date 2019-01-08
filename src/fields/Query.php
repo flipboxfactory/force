@@ -11,11 +11,13 @@ namespace flipbox\force\fields;
 use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
-use flipbox\ember\helpers\ModelHelper;
-use flipbox\force\criteria\QueryCriteria;
-use flipbox\force\Force;
-use flipbox\force\query\traits\QueryBuilderAttributeTrait;
+use flipbox\craft\ember\helpers\ModelHelper;
+use flipbox\force\query\settings\DynamicQuerySettings;
 use flipbox\force\validators\QueryBuilderSettingsValidator;
+use Flipbox\Salesforce\Criteria\QueryCriteria;
+use Flipbox\Salesforce\Query\DynamicQueryBuilder;
+use Flipbox\Salesforce\Query\QueryBuilderAttributeTrait;
+use yii\base\Exception;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -39,11 +41,19 @@ class Query extends Field
      */
     public function normalizeValue($value, ElementInterface $element = null)
     {
-        return Force::getInstance()->getQueryField()->normalizeValue(
-            $this,
-            $value,
-            $element
-        );
+        if ($value instanceof QueryCriteria) {
+            return $value;
+        }
+
+        $criteria = new QueryCriteria();
+
+        $criteria->query = $this->getQuery([
+            'variables' => [
+                'element' => $element
+            ]
+        ]);
+
+        return $criteria;
     }
 
     /*******************************************
@@ -57,7 +67,25 @@ class Query extends Field
      */
     public function getSettingsHtml()
     {
-        return Force::getInstance()->getQueryField()->getSettingsHtml($this);
+        $query = $this->getQuery();
+
+        if (!$query instanceof DynamicQueryBuilder) {
+            throw new Exception("Invalid Salesforce Query Type");
+        }
+
+        $settings = new DynamicQuerySettings($query);
+
+        if ($this->hasErrors('query')) {
+            $settings->addError('query', $this->getFirstError('query'));
+        }
+
+        return Craft::$app->getView()->renderTemplate(
+            'force/_components/fieldtypes/Query/settings',
+            [
+                'field' => $this,
+                'querySettings' => $settings
+            ]
+        );
     }
 
     /**
@@ -67,7 +95,14 @@ class Query extends Field
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {
-        return Force::getInstance()->getQueryField()->getInputHtml($this, $value, $element);
+        return Craft::$app->getView()->renderTemplate(
+            'force/_components/fieldtypes/Query/input',
+            [
+                'element' => $element,
+                'value' => $value,
+                'field' => $this
+            ]
+        );
     }
 
     /*******************************************

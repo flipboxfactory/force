@@ -8,12 +8,15 @@
 
 namespace flipbox\force\web\twig\variables;
 
-use flipbox\force\criteria\ObjectAccessorCriteriaInterface;
+use flipbox\craft\ember\helpers\QueryHelper;
+use flipbox\craft\integration\queries\IntegrationConnectionQuery;
 use flipbox\force\Force as ForcePlugin;
 use flipbox\force\models\Settings;
+use flipbox\force\queries\SOQLQuery;
+use flipbox\force\records\Connection;
 use flipbox\force\services\Cache;
-use flipbox\force\services\Connections;
-use flipbox\force\services\Resources;
+use Flipbox\Salesforce\Criteria\ObjectAccessorCriteria;
+use Flipbox\Salesforce\Criteria\ObjectAccessorCriteriaInterface;
 use yii\di\ServiceLocator;
 
 /**
@@ -30,24 +33,29 @@ class Force extends ServiceLocator
         parent::init();
 
         $this->setComponents([
-            'resources' => ForcePlugin::getInstance()->getResources(),
-            'connections' => ForcePlugin::getInstance()->getConnections(),
+//            'resources' => ForcePlugin::getInstance()->getResources(),
             'cache' => ForcePlugin::getInstance()->getCache()
         ]);
     }
 
     /**
      * @param array $criteria
-     * @return \flipbox\force\criteria\QueryCriteria|\flipbox\force\criteria\QueryCriteriaInterface
-     * @throws \flipbox\ember\exceptions\NotFoundException
+     * @return SOQLQuery
      */
-    public function getQuery(array $criteria = [])
+    public function getQuery(array $criteria = []): SOQLQuery
     {
         if (is_string($criteria)) {
-            return ForcePlugin::getInstance()->getQueries()->get($criteria);
+            $criteria = [(is_numeric($criteria) ? 'id' : 'handle') => $criteria];
         }
 
-        return $this->getResources()->getQuery()->getCriteria($criteria);
+        $query = new SOQLQuery();
+
+        QueryHelper::configure(
+            $query,
+            $criteria
+        );
+
+        return $query;
     }
 
     /**
@@ -56,7 +64,7 @@ class Force extends ServiceLocator
      */
     public function getObject(array $criteria = []): ObjectAccessorCriteriaInterface
     {
-        return $this->getResources()->getObject()->getAccessorCriteria($criteria);
+        return new ObjectAccessorCriteria($criteria);
     }
 
     /**
@@ -69,26 +77,21 @@ class Force extends ServiceLocator
         return ForcePlugin::getInstance()->getSettings();
     }
 
-    /**
-     * @noinspection PhpDocMissingThrowsInspection
-     * @return Resources
-     */
-    public function getResources(): Resources
-    {
-        /** @noinspection PhpUnhandledExceptionInspection */
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->get('resources');
-    }
 
     /**
-     * @noinspection PhpDocMissingThrowsInspection
-     * @return Connections
+     * @param array $config
+     * @return IntegrationConnectionQuery
      */
-    public function getConnections(): Connections
+    public function getConnections(array $config = []): IntegrationConnectionQuery
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->get('connections');
+        $query = Connection::find();
+
+        QueryHelper::configure(
+            $query,
+            $config
+        );
+
+        return $query;
     }
 
     /**

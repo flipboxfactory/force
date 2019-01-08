@@ -9,10 +9,8 @@
 namespace flipbox\force\cp;
 
 use Craft;
-use craft\events\RegisterTemplateRootsEvent;
-use craft\web\View;
+use flipbox\force\events\RegisterConnectionsEvent;
 use flipbox\force\Force;
-use yii\base\Event;
 use yii\base\Module as BaseModule;
 use yii\web\NotFoundHttpException;
 
@@ -24,25 +22,8 @@ use yii\web\NotFoundHttpException;
  */
 class Cp extends BaseModule
 {
-    /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        parent::init();
+    private $registeredConnections;
 
-        // Ember templates
-        Event::on(
-            View::class,
-            View::EVENT_REGISTER_CP_TEMPLATE_ROOTS,
-            function (RegisterTemplateRootsEvent $e) {
-                $e->roots['force/ember/card'] = Craft::$app->getPath()->getVendorPath() .
-                    '/flipboxfactory/craft-assets-card/src/templates';
-                $e->roots['force/ember/circle-icon'] = Craft::$app->getPath()->getVendorPath() .
-                    '/flipboxfactory/craft-assets-circle-icon/src/templates';
-            }
-        );
-    }
 
     /**
      * @inheritdoc
@@ -55,5 +36,28 @@ class Cp extends BaseModule
         }
 
         return parent::beforeAction($action);
+    }
+
+    /*******************************************
+     * PROVIDERS
+     *******************************************/
+
+    /**
+     * @return array
+     */
+    public function getAvailableConnections(): array
+    {
+        if ($this->registeredConnections === null) {
+            $event = new RegisterConnectionsEvent();
+
+            $this->trigger(
+                $event::REGISTER_CONNECTIONS,
+                $event
+            );
+
+            $this->registeredConnections = $event->connections;
+        }
+
+        return $this->registeredConnections;
     }
 }

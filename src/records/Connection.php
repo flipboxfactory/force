@@ -9,15 +9,14 @@
 namespace flipbox\force\records;
 
 use flipbox\craft\integration\records\IntegrationConnection;
-use flipbox\craft\integration\services\IntegrationConnectionManager;
-use flipbox\force\Force;
 use flipbox\force\validators\ConnectionValidator;
+use Flipbox\Salesforce\Connections\ConnectionInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class Connection extends IntegrationConnection
+abstract class Connection extends IntegrationConnection implements ConnectionInterface
 {
     /**
      * The table name
@@ -37,30 +36,8 @@ class Connection extends IntegrationConnection
                         'class'
                     ],
                     ConnectionValidator::class
-                ],
-                [
-                    [
-                        'settings'
-                    ],
-                    'required',
-                    'message' => 'A value is required.'
-                ],
-                [
-                    [
-                        'settings'
-                    ],
-                    'each',
-                    'rule' => ['required', 'message' => 'A value is required.']
                 ]
             ]
         );
-    }
-
-    /**
-     * @return IntegrationConnectionManager
-     */
-    protected function getConnectionManager(): IntegrationConnectionManager
-    {
-        return Force::getInstance()->getConnectionManager();
     }
 }

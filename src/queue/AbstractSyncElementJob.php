@@ -104,4 +104,34 @@ abstract class AbstractSyncElementJob extends BaseJob
     {
         return $field instanceof Objects;
     }
+
+
+    /**
+     * @param $transformer
+     * @return bool
+     */
+    protected function isTransformerClass($transformer): bool
+    {
+        return is_string($transformer) &&
+            class_exists($transformer) &&
+            (
+                method_exists($transformer, '__invoke') ||
+                is_callable([$transformer, '__invoke'])
+            );
+    }
+
+    /**
+     * @param $transformer
+     * @return null|callable
+     */
+    protected function resolveTransformer($transformer)
+    {
+        if (is_callable($transformer)) {
+            return $transformer;
+        }
+        if ($this->isTransformerClass($transformer)) {
+            return new $transformer();
+        }
+        return null;
+    }
 }

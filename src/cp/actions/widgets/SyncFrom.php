@@ -10,11 +10,11 @@ namespace flipbox\force\actions\widgets;
 
 use Craft;
 use craft\base\ElementInterface;
-use flipbox\force\actions\traits\FieldResolverTrait;
+use flipbox\craft\integration\actions\ResolverTrait;
+use flipbox\craft\integration\fields\Integrations;
+use flipbox\craft\integration\queries\IntegrationAssociationQuery;
+use flipbox\craft\integration\records\IntegrationAssociation;
 use flipbox\force\cp\actions\sync\AbstractSyncFrom;
-use flipbox\force\db\ObjectAssociationQuery;
-use flipbox\force\fields\Objects;
-use flipbox\force\Force;
 use yii\web\HttpException;
 
 /**
@@ -23,24 +23,29 @@ use yii\web\HttpException;
  */
 class SyncFrom extends AbstractSyncFrom
 {
-    use FieldResolverTrait;
+    use ResolverTrait;
 
     /**
      * @param string $id
      * @param string $field
      * @param string $elementType
+     * @param int|null $siteId
      * @return mixed
      * @throws HttpException
      * @throws \Exception
      */
-    public function run(string $id, string $field, string $elementType)
+    public function run(string $id, string $field, string $elementType, int $siteId = null)
     {
         $field = $this->resolveField($field);
 
         /** @var ElementInterface $element */
-        $element = $this->resolveElement($field, $id, $elementType);
+        $element = $this->autoResolveElement($field, $id, $elementType, $siteId);
 
-        /** @var ObjectAssociationQuery $query */
+
+        var_dump($element->getId());
+        exit;
+
+        /** @var IntegrationAssociationQuery $query */
         if (null === ($query = $element->getFieldValue($field->handle))) {
             throw new HttpException(400, 'Invalid value');
         }
@@ -49,29 +54,44 @@ class SyncFrom extends AbstractSyncFrom
     }
 
     /**
-     * @param Objects $field
+     * @param Integrations $field
      * @param string $id
      * @param string $elementType
+     * @param int|null $siteId
      * @return ElementInterface
      */
-    private function resolveElement(
-        Objects $field,
+    private function autoResolveElement(
+        Integrations $field,
         string $id,
-        string $elementType
-    ): ElementInterface {
-        $elementId = Force::getInstance()->getObjectAssociations()->getQuery([
-            'select' => ['elementId'],
-            'fieldId' => $field->id,
-            'objectId' => $id
-        ])->scalar();
+        string $elementType,
+        int $siteId = null
+    ): ElementInterface
+    {
+        /** @var IntegrationAssociation $recordClass */
+        $recordClass = $field::recordClass();
 
-        $element = null;
+        /** @var IntegrationAssociationQuery $query */
+        $query = $recordClass::find();
+        $query->fieldId($field->id)
+            ->objectId($id);
 
-        if ($elementId !== null) {
-            $element = Craft::$app->getElements()->getElementById($elementId, $elementType);
+        if (null !== $siteId) {
+            $query->siteId($siteId);
         }
 
-        if ($element === null) {
+        $query->select(['elementId']);
+
+        if (null !== ($elementId = $query->scalar())) {
+            try {
+                $element = $this->resolveElement($elementId);
+            } catch (HttpException $e) {
+
+                // TODO - log this
+
+            }
+        }
+
+        if (empty($element)) {
             $element = Craft::$app->getElements()->createElement($elementType);
         }
 

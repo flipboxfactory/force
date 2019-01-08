@@ -9,10 +9,8 @@
 namespace flipbox\force\models;
 
 use craft\base\Model;
-use flipbox\ember\helpers\ModelHelper;
+use flipbox\craft\ember\helpers\ModelHelper;
 use flipbox\force\services\Cache;
-use flipbox\force\services\Connections;
-use yii\caching\Dependency;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -20,40 +18,12 @@ use yii\caching\Dependency;
  */
 class Settings extends Model
 {
+    const DEFAULT_CONNECTION = 'salesforce';
+
     /**
      * @var string
      */
     public $environmentTablePostfix = '';
-
-    /**
-     * @var int|null|false
-     */
-    public $associationsCacheDuration = false;
-
-    /**
-     * @var null|Dependency
-     */
-    public $associationsCacheDependency = null;
-
-    /**
-     * @var int|null|false
-     */
-    public $connectionsCacheDuration = false;
-
-    /**
-     * @var null|Dependency
-     */
-    public $connectionsCacheDependency = null;
-
-    /**
-     * @var int|null|false
-     */
-    public $queryCacheDuration = false;
-
-    /**
-     * @var null|Dependency
-     */
-    public $queryCacheDependency = null;
 
     /**
      * @var string
@@ -63,7 +33,7 @@ class Settings extends Model
     /**
      * @var string
      */
-    private $defaultConnection = Connections::APP_CONNECTION;
+    private $defaultConnection = self::DEFAULT_CONNECTION;
 
     /**
      * @param string $key

@@ -9,10 +9,13 @@
 namespace flipbox\force\cp\controllers\settings\view;
 
 use Craft;
-use flipbox\ember\helpers\ArrayHelper;
-use flipbox\force\criteria\ObjectAccessorCriteria;
-use flipbox\force\Force;
-use flipbox\force\transformers\collections\TransformerCollection;
+use flipbox\craft\ember\helpers\ArrayHelper;
+use flipbox\force\transformers\DynamicModelResponse;
+use flipbox\force\transformers\InstanceDescribeObjectResponse;
+use flipbox\force\transformers\InstanceDescribeObjectsResponse;
+use Flipbox\Salesforce\Criteria\InstanceCriteria;
+use Flipbox\Salesforce\Criteria\ObjectAccessorCriteria;
+use yii\base\DynamicModel;
 use yii\web\Response;
 
 /**
@@ -41,16 +44,17 @@ class ObjectsController extends AbstractController
         $this->baseVariables($variables);
 
         $object = Craft::$app->getRequest()->getParam('object');
-        $describedObject = null;
 
-        if ($object !== null) {
-            $describedObject = (new ObjectAccessorCriteria([
-                'object' => $object,
-                'transformer' => TransformerCollection::class
-            ]))->describe();
-        }
+        $criteria = new ObjectAccessorCriteria([
+            'object' => $object
+        ]);
 
-        $variables['describedObject'] = $describedObject;
+        $variables['describedObject'] = call_user_func_array(
+            new DynamicModelResponse(),
+            [
+                $criteria->describe()
+            ]
+        );
         $variables['objectOptions'] = $this->getObjectOptions();
         $variables['tabs'] = $this->getTabs();
 
@@ -62,16 +66,22 @@ class ObjectsController extends AbstractController
 
     /**
      * @return array
-     * @throws \yii\base\InvalidConfigException
      */
     private function getObjectOptions()
     {
-        $describe = Force::getInstance()->getResources()->getGeneral()->getCriteria([
-            'transformer' => TransformerCollection::class
-        ])->describe();
+        $criteria = new InstanceCriteria();
+
+        /** @var DynamicModel $objects */
+        $objects = call_user_func_array(
+            new DynamicModelResponse(),
+            [
+                $criteria->describe()
+            ]
+        );
+
         $describeOptions = [];
 
-        foreach (ArrayHelper::getValue($describe, 'sobjects', []) as $object) {
+        foreach (ArrayHelper::getValue($objects, 'sobjects', []) as $object) {
             $describeOptions[] = [
                 'label' => $object['label'],
                 'value' => $object['name']

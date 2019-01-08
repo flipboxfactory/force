@@ -10,9 +10,9 @@ namespace flipbox\force\cp\controllers\settings;
 
 use Craft;
 use craft\helpers\ArrayHelper;
-use flipbox\force\actions\queries\Create;
-use flipbox\force\actions\queries\Delete;
-use flipbox\force\actions\queries\Update;
+use flipbox\force\actions\query\CreateQuery;
+use flipbox\force\actions\query\DeleteQuery;
+use flipbox\force\actions\query\UpdateQuery;
 use flipbox\force\cp\controllers\AbstractController;
 
 /**
@@ -78,9 +78,9 @@ class QueriesController extends AbstractController
      */
     public function actionCreate()
     {
-        /** @var Create $action */
+        /** @var CreateQuery $action */
         $action = Craft::createObject([
-            'class' => Create::class
+            'class' => CreateQuery::class
         ], [
             'create',
             $this
@@ -102,9 +102,9 @@ class QueriesController extends AbstractController
             $query = Craft::$app->getRequest()->getBodyParam('query');
         }
 
-        /** @var Update $action */
+        /** @var UpdateQuery $action */
         $action = Craft::createObject([
-            'class' => Update::class
+            'class' => UpdateQuery::class
         ], [
             'update',
             $this
@@ -126,9 +126,9 @@ class QueriesController extends AbstractController
             $query = Craft::$app->getRequest()->getBodyParam('query');
         }
 
-        /** @var Delete $action */
+        /** @var DeleteQuery $action */
         $action = Craft::createObject([
-            'class' => Delete::class
+            'class' => DeleteQuery::class
         ], [
             'delete',
             $this

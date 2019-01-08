@@ -10,10 +10,10 @@ namespace flipbox\force\records;
 
 use Craft;
 use flipbox\craft\integration\records\IntegrationAssociation;
-use flipbox\craft\sortable\associations\services\SortableAssociations;
-use flipbox\force\db\ObjectAssociationQuery;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
+use flipbox\force\migrations\ObjectAssociations;
+use Flipbox\Salesforce\Criteria\ObjectAccessorCriteria;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -35,8 +35,36 @@ class ObjectAssociation extends IntegrationAssociation
      */
     public function __construct(array $config = [])
     {
-        Force::getInstance()->getObjectAssociations()->ensureTableExists();
+        $this->ensureTableExists();
         parent::__construct($config);
+    }
+
+
+    /**
+     * @throws \Throwable
+     */
+    public function ensureTableExists()
+    {
+        if (!in_array(
+            Craft::$app->getDb()->tablePrefix . static::tableAlias(),
+            Craft::$app->getDb()->getSchema()->tableNames,
+            true
+        )) {
+            $this->createTable();
+        }
+    }
+
+    /**
+     * @return bool
+     * @throws \Throwable
+     */
+    private function createTable(): bool
+    {
+        ob_start();
+        (new ObjectAssociations())->up();
+        ob_end_clean();
+
+        return true;
     }
 
     /**
@@ -45,25 +73,6 @@ class ObjectAssociation extends IntegrationAssociation
     public static function tableAlias()
     {
         return parent::tableAlias() . Force::getInstance()->getSettings()->environmentTablePostfix;
-    }
-
-    /**
-     * @return SortableAssociations
-     */
-    protected function associationService(): SortableAssociations
-    {
-        return Force::getInstance()->getObjectAssociations();
-    }
-
-    /**
-     * @noinspection PhpDocMissingThrowsInspection
-     * @return ObjectAssociationQuery
-     */
-    public static function find(): ObjectAssociationQuery
-    {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        /** @noinspection PhpUnhandledExceptionInspection */
-        return Craft::createObject(ObjectAssociationQuery::class, [get_called_class()]);
     }
 
     /**
@@ -81,24 +90,15 @@ class ObjectAssociation extends IntegrationAssociation
             return null;
         }
 
-        $base = [
+        $resource = new ObjectAccessorCriteria([
             'connection' => $field->getConnection(),
             'cache' => $field->getCache()
-        ];
-
-        $resource = Force::getInstance()->getResources()->getObject();
+        ]);
 
         // Can't override these...
-        $criteria['id'] = $this->{self::TARGET_ATTRIBUTE} ?: self::DEFAULT_ID;
+        $criteria['id'] = $this->objectId ?: self::DEFAULT_ID;
         $criteria['object'] = $field->object;
 
-        return $resource->read(
-            $resource->getAccessorCriteria(
-                array_merge(
-                    $base,
-                    $criteria
-                )
-            )
-        );
+        return $resource->read($criteria);
     }
 }

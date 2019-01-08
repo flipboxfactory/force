@@ -8,7 +8,9 @@
 
 namespace flipbox\force\cp\controllers\settings\view;
 
-use flipbox\force\criteria\InstanceCriteria;
+use flipbox\force\transformers\DynamicModelResponse;
+use flipbox\force\transformers\InstanceLimitResponse;
+use Flipbox\Salesforce\Criteria\InstanceCriteria;
 use yii\web\Response;
 
 /**
@@ -29,7 +31,6 @@ class LimitsController extends AbstractController
 
     /**
      * @return Response
-     * @throws \yii\base\InvalidConfigException
      */
     public function actionIndex(): Response
     {
@@ -37,7 +38,12 @@ class LimitsController extends AbstractController
         $this->baseVariables($variables);
 
         $criteria = new InstanceCriteria();
-        $variables['limits'] = $criteria->limits();
+        $variables['limits'] = call_user_func_array(
+            new DynamicModelResponse(),
+            [
+                $criteria->limits()
+            ]
+        );
 
         return $this->renderTemplate(
             static::TEMPLATE_INDEX,

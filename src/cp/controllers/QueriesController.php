@@ -9,7 +9,7 @@
 namespace flipbox\force\cp\controllers;
 
 use Craft;
-use flipbox\force\Force;
+use Flipbox\Salesforce\Criteria\ObjectAccessorCriteria;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -23,10 +23,10 @@ class QueriesController extends AbstractController
      */
     public function actionRequest()
     {
-        $criteria = Force::getInstance()->getResources()->getQuery()->getCriteria(
+        $criteria = new ObjectAccessorCriteria(
             Craft::$app->getRequest()->getBodyParams()
         );
 
-        return $criteria->fetch();
+        return $criteria->read();
     }
 }

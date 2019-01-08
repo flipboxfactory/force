@@ -10,11 +10,9 @@ namespace flipbox\force\cp\controllers\settings\view;
 
 use Craft;
 use craft\helpers\UrlHelper;
-use flipbox\craft\assets\card\Card;
-use flipbox\craft\assets\circleicon\CircleIcon;
 use flipbox\force\Force;
 use flipbox\force\records\Connection;
-use yii\web\HttpException;
+use yii\di\Instance;
 use yii\web\Response;
 
 /**
@@ -39,14 +37,6 @@ class ConnectionsController extends AbstractController
     const TEMPLATE_UPSERT = self::TEMPLATE_BASE . DIRECTORY_SEPARATOR . 'upsert';
 
     /**
-     * @return \flipbox\force\services\ConnectionManager
-     */
-    protected function connectionService()
-    {
-        return Force::getInstance()->getConnectionManager();
-    }
-
-    /**
      * @return Response
      */
     public function actionIndex(): Response
@@ -54,20 +44,9 @@ class ConnectionsController extends AbstractController
         $variables = [];
         $this->baseVariables($variables);
 
-        Craft::$app->getView()->registerAssetBundle(Card::class);
-        Craft::$app->getView()->registerAssetBundle(CircleIcon::class);
+        $variables['connections'] = Connection::find()->all();
 
-        $variables['iconPath'] = '@vendor/flipboxfactory/force/src/icons/salesforce.svg';
-
-        $variables['configurableConnections'] = Force::getInstance()->getConnectionManager()->findAllByCriteria([
-            'indexBy' => 'handle'
-        ]);
-        $variables['connections'] = Force::getInstance()->getConnections()->getAll();
-        $variables['activeConnection'] = Force::getInstance()->getConnections()->get();
-
-        $variables['types'] = $this->connectionService()->getConfigurations(
-            $this->connectionService()->create()
-        );
+        $variables['types'] = $this->getAvailableConnections();
 
         return $this->renderTemplate(
             static::TEMPLATE_INDEX,
@@ -79,34 +58,45 @@ class ConnectionsController extends AbstractController
      * @param null $identifier
      * @param Connection|null $connection
      * @return Response
-     * @throws HttpException
-     * @throws \flipbox\ember\exceptions\NotFoundException
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
      */
     public function actionUpsert($identifier = null, Connection $connection = null): Response
     {
-
         if (null === $connection) {
-            if (null === $identifier) {
-                $connection = $this->connectionService()->create();
-            } else {
-                $connection = $this->connectionService()->get($identifier);
+            if (null !== $identifier) {
+                $connection = Connection::getOne($identifier);
             }
         }
 
         $variables = [];
-        if ($connection->getIsNewRecord()) {
+        if ($connection === null || $connection->getIsNewRecord()) {
             $this->insertVariables($variables);
         } else {
             $this->updateVariables($variables, $connection);
         }
 
-        $variables['types'] = $this->connectionService()->getConfigurations($connection);
+        $variables['types'] = $this->getAvailableConnections();
         $variables['connection'] = $connection;
         $variables['fullPageForm'] = true;
 
         return $this->renderTemplate(static::TEMPLATE_UPSERT, $variables);
     }
 
+    public function getAvailableConnections()
+    {
+        $classes = Force::getInstance()->getCp()->getAvailableConnections();
+
+        $connections = [];
+        foreach ($classes as $connection) {
+            if (!$connection instanceof Connection) {
+                $connection = Instance::ensure($connection, Connection::class);
+            }
+
+            $connections[get_class($connection)] = $connection;
+        }
+
+        return $connections;
+    }
 
     /*******************************************
      * BASE PATHS

@@ -10,8 +10,8 @@ namespace flipbox\force\cp\controllers;
 
 use Craft;
 use craft\helpers\ArrayHelper;
-use flipbox\force\actions\objects\Associate;
-use flipbox\force\actions\objects\Dissociate;
+use flipbox\force\actions\objects\AssociateObject;
+use flipbox\force\actions\objects\DissociateObject;
 use flipbox\force\records\ObjectAssociation;
 
 /**
@@ -68,7 +68,8 @@ class ObjectsController extends AbstractController
         string $objectId = null,
         string $field = null,
         string $element = null
-    ) {
+    )
+    {
 
         if ($objectId === null) {
             $objectId = Craft::$app->getRequest()->getParam('objectId');
@@ -86,9 +87,9 @@ class ObjectsController extends AbstractController
             $element = Craft::$app->getRequest()->getRequiredParam('element');
         }
 
-        /** @var Associate $action */
+        /** @var AssociateObject $action */
         return (Craft::createObject([
-            'class' => Associate::class
+            'class' => AssociateObject::class
         ], [
             'associate',
             $this
@@ -112,7 +113,8 @@ class ObjectsController extends AbstractController
         string $objectId = null,
         string $field = null,
         string $element = null
-    ) {
+    )
+    {
 
         if ($objectId === null) {
             $objectId = Craft::$app->getRequest()->getRequiredParam('objectId');
@@ -126,9 +128,9 @@ class ObjectsController extends AbstractController
             $element = Craft::$app->getRequest()->getRequiredParam('element');
         }
 
-        /** @var Dissociate $action */
+        /** @var DissociateObject $action */
         return (Craft::createObject([
-            'class' => Dissociate::class
+            'class' => DissociateObject::class
         ], [
             'dissociate',
             $this

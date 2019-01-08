@@ -8,10 +8,9 @@
 
 namespace flipbox\force\helpers;
 
-use flipbox\force\connections\ConnectionInterface;
 use flipbox\force\Force;
-use flipbox\force\services\Connections;
-use yii\base\InvalidConfigException;
+use flipbox\force\records\Connection;
+use Flipbox\Salesforce\Connections\ConnectionInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -20,9 +19,9 @@ use yii\base\InvalidConfigException;
 class ConnectionHelper
 {
     /**
-     * @param null|string|ConnectionInterface $connection
+     * @param $connection
      * @return ConnectionInterface
-     * @throws InvalidConfigException
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
      */
     public static function resolveConnection($connection): ConnectionInterface
     {
@@ -31,9 +30,9 @@ class ConnectionHelper
         }
 
         if ($connection === null) {
-            $connection = Connections::DEFAULT_CONNECTION;
+            $connection = Force::getInstance()->getSettings()->getDefaultConnection();
         }
 
-        return Force::getInstance()->getConnections()->get($connection);
+        return Connection::getOne($connection);
     }
 }

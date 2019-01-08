@@ -8,7 +8,7 @@
 
 namespace flipbox\force\query\settings;
 
-use flipbox\force\query\QueryBuilderInterface;
+use Flipbox\Salesforce\Query\QueryBuilderInterface;
 
 interface QuerySettingsInterface
 {

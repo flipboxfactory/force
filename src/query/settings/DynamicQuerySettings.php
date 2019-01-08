@@ -9,10 +9,10 @@
 namespace flipbox\force\query\settings;
 
 use Craft;
-use flipbox\ember\models\Model;
 use flipbox\force\Force;
-use flipbox\force\query\DynamicQueryBuilder;
-use flipbox\force\query\QueryBuilderInterface;
+use Flipbox\Salesforce\Query\DynamicQueryBuilder;
+use Flipbox\Salesforce\Query\QueryBuilderInterface;
+use yii\base\Model;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

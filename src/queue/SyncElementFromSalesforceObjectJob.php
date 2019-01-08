@@ -8,22 +8,94 @@
 
 namespace flipbox\force\queue;
 
-use flipbox\force\Force;
+use Craft;
+use craft\base\ElementInterface;
+use flipbox\force\fields\Objects;
+use flipbox\force\transformers\PopulateElementErrorsFromResponse;
+use flipbox\force\transformers\PopulateElementFromResponse;
+use Flipbox\Salesforce\Resources\SObject;
 
 /**
  * Sync a Salesforce Object to a Craft Element
  */
 class SyncElementFromSalesforceObjectJob extends AbstractSyncElementJob
 {
+    use ResolveObjectIdFromElementTrait;
+
     /**
-     * @inheritdoc
+     * @var string
+     */
+    public $transformer = PopulateElementFromResponse::class;
+
+    /**
+     * @param \craft\queue\QueueInterface|\yii\queue\Queue $queue
+     * @return bool
+     * @throws \Throwable
+     * @throws \craft\errors\ElementNotFoundException
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
+     * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
     public function execute($queue)
     {
-        return Force::getInstance()->getResources()->getObject()->syncDown(
+        return $this->syncDown(
             $this->getElement(),
             $this->getField()
         );
+    }
+
+    /**
+     * @param ElementInterface $element
+     * @param Objects $field
+     * @return bool
+     * @throws \Throwable
+     * @throws \craft\errors\ElementNotFoundException
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function syncDown(
+        ElementInterface $element,
+        Objects $field
+    ): bool
+    {
+        /** @var string $id */
+        if (null === ($id = $this->resolveObjectIdFromElement($element, $field))) {
+            return false;
+        }
+
+        $response = SObject::read(
+            $field->getConnection(),
+            $field->getCache(),
+            $field->object,
+            $id
+        );
+
+        if (!($response->getStatusCode() >= 200 && $response->getStatusCode() <= 299)) {
+            call_user_func_array(
+                new PopulateElementErrorsFromResponse(),
+                [
+                    $response,
+                    $element,
+                    $field,
+                    $id
+                ]
+            );
+            return false;
+        }
+
+        if (null !== ($transformer = $this->resolveTransformer($this->transformer))) {
+            call_user_func_array(
+                $transformer,
+                [
+                    $response,
+                    $element,
+                    $field,
+                    $id
+                ]
+            );
+        }
+
+        return Craft::$app->getElements()->saveElement($element);
     }
 }

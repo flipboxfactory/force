@@ -21,7 +21,7 @@
                     </a>
                 </li>
             </ul>
-            {% if connection.id %}
+            {% if connection and connection.id %}
                 <hr/>
                 <ul role="listbox">
                     <li>
@@ -40,8 +40,8 @@
 
 {% block content %}
     <input type="hidden" name="action"
-           value="{{ baseActionPath }}/{% if connection.id %}update{% else %}create{% endif %}">
-    {% if connection.id %}<input type="hidden" name="connection" value="{{ connection.id }}">{% endif %}
+           value="{{ baseActionPath }}/{% if connection and connection.id %}update{% else %}create{% endif %}">
+    {% if connection and connection.id %}<input type="hidden" name="connection" value="{{ connection.id }}">{% endif %}
     {{ redirectInput(baseCpPath) }}
 
     <div id="connection">
@@ -52,8 +52,8 @@
             id: 'handle',
             class: 'code',
             name: 'handle',
-            value: connection.handle,
-            errors: connection.getErrors('handle'),
+            value: connection.handle ?? '',
+            errors: connection.getErrors('handle') ?? [],
             required: true
         }) }}
 
@@ -71,7 +71,7 @@
             id: 'class',
             name: 'class',
             options: typeOptions,
-            value: connection.class,
+            value: connection.class ?? '',
             errors: adapter.getErrors('class') ?? null,
             toggle: true
         }) }}
@@ -79,40 +79,17 @@
         <hr />
 
         {% for class, type in types %}
-            {% set isCurrent = class == connection.class %}
+            {% set isCurrent = class == (connection.class ?? '') %}
 
             <div{% if not isCurrent and types|length > 1 %} class="hidden"{% endif %}>
                 {% namespace 'settings['~class~']' %}
-                    {% if not isCurrent %}
-                        {{ type.getSettingsHtml()|raw }}
+                    {% if isCurrent %}
+                        {{ connection.getSettingsHtml()|raw }}
                     {% else %}
-                        {{ connection.configuration.getSettingsHtml()|raw }}
+                        {{ type.getSettingsHtml()|raw }}
                     {% endif %}
                 {% endnamespace %}
             </div>
         {% endfor %}
     </div>
-{% endblock %}
-
-{% block details %}
-    <div id="settings" class="meta">
-        {{ forms.lightswitchField({
-            label: "Enabled"|t('app'),
-            id: 'enabled',
-            name: 'enabled',
-            on: connection.id ? connection.enabled : true,
-            errors: connection.getErrors('enabled')
-        }) }}
-    </div>
-    <div class="meta read-only">
-        <div class="data">
-            <h5 class="heading">{{ "Created at"|t('app') }}</h5>
-            <div class="value">{{ connection.dateCreated|datetime('short') }}</div>
-        </div>
-        <div class="data">
-            <h5 class="heading">{{ "Updated at"|t('app') }}</h5>
-            <div class="value">{{ connection.dateUpdated|datetime('short') }}</div>
-        </div>
-    </div>
-
 {% endblock %}

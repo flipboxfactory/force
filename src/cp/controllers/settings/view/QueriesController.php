@@ -10,10 +10,9 @@ namespace flipbox\force\cp\controllers\settings\view;
 
 use Craft;
 use craft\helpers\UrlHelper;
-use flipbox\force\Force;
-use flipbox\force\query\DynamicQueryBuilder;
 use flipbox\force\query\settings\DynamicQuerySettings;
-use flipbox\force\records\Query;
+use flipbox\force\records\SOQL;
+use Flipbox\Salesforce\Query\DynamicQueryBuilder;
 use yii\web\HttpException;
 use yii\web\Response;
 
@@ -39,14 +38,6 @@ class QueriesController extends AbstractController
     const TEMPLATE_UPSERT = self::TEMPLATE_BASE . DIRECTORY_SEPARATOR . 'upsert';
 
     /**
-     * @return \flipbox\force\services\QueryManager
-     */
-    protected function queryService()
-    {
-        return Force::getInstance()->getQueryManager();
-    }
-
-    /**
      * @return Response
      */
     public function actionIndex(): Response
@@ -54,7 +45,7 @@ class QueriesController extends AbstractController
         $variables = [];
         $this->baseVariables($variables);
 
-        $variables['queries'] = $this->queryService()->findAll();
+        $variables['queries'] = SOQL::findAll([]);
 
         return $this->renderTemplate(
             static::TEMPLATE_INDEX,
@@ -64,18 +55,18 @@ class QueriesController extends AbstractController
 
     /**
      * @param null $identifier
-     * @param Query|null $query
+     * @param SOQL|null $query
      * @return Response
      * @throws HttpException
-     * @throws \flipbox\ember\exceptions\NotFoundException
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
      */
-    public function actionUpsert($identifier = null, Query $query = null): Response
+    public function actionUpsert($identifier = null, SOQL $query = null): Response
     {
         if (null === $query) {
             if (null === $identifier) {
-                $query = $this->queryService()->create();
+                $query = new SOQL();
             } else {
-                $query = $this->queryService()->get($identifier);
+                $query = SOQL::getOne($identifier);
             }
         }
 
@@ -131,9 +122,9 @@ class QueriesController extends AbstractController
 
     /**
      * @param array $variables
-     * @param Query $query
+     * @param SOQL $query
      */
-    protected function updateVariables(array &$variables, Query $query)
+    protected function updateVariables(array &$variables, SOQL $query)
     {
         $this->baseVariables($variables);
         $variables['title'] .= ' - ' . Craft::t('force', 'Edit') . ' ' . $query->name;

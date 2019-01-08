@@ -10,11 +10,9 @@ namespace flipbox\force\cp\controllers\settings;
 
 use Craft;
 use craft\helpers\ArrayHelper;
-use flipbox\force\actions\connections\Create;
-use flipbox\force\actions\connections\Delete;
-use flipbox\force\actions\connections\Disable;
-use flipbox\force\actions\connections\Enable;
-use flipbox\force\actions\connections\Update;
+use flipbox\force\actions\connections\CreateConnection;
+use flipbox\force\actions\connections\DeleteConnection;
+use flipbox\force\actions\connections\UpdateConnection;
 use flipbox\force\cp\controllers\AbstractController;
 use flipbox\force\cp\Cp;
 
@@ -38,13 +36,11 @@ class ConnectionsController extends AbstractController
                     'default' => 'connection'
                 ],
                 'redirect' => [
-                    'only' => ['create', 'update', 'delete', 'enable', 'disable'],
+                    'only' => ['create', 'update', 'delete'],
                     'actions' => [
                         'create' => [201],
                         'update' => [200],
                         'delete' => [204],
-                        'enable' => [200],
-                        'disable' => [200]
                     ]
                 ],
                 'flash' => [
@@ -60,14 +56,6 @@ class ConnectionsController extends AbstractController
                         'delete' => [
                             204 => Craft::t('force', "Connection successfully deleted."),
                             400 => Craft::t('force', "Failed to delete connection.")
-                        ],
-                        'enable' => [
-                            200 => Craft::t('patron', "Connection successfully enabled."),
-                            400 => Craft::t('patron', "Failed to enabled connection.")
-                        ],
-                        'disable' => [
-                            200 => Craft::t('patron', "Connection successfully disable."),
-                            400 => Craft::t('patron', "Failed to disable connection.")
                         ]
                     ]
                 ]
@@ -83,9 +71,9 @@ class ConnectionsController extends AbstractController
     {
         /** @var \yii\base\Action $action */
         $action = Craft::createObject([
-            'class' => Create::class
+            'class' => CreateConnection::class
         ], [
-            'create',
+            'update',
             $this
         ]);
 
@@ -105,7 +93,7 @@ class ConnectionsController extends AbstractController
 
         /** @var \yii\base\Action $action */
         $action = Craft::createObject([
-            'class' => Update::class
+            'class' => UpdateConnection::class
         ], [
             'update',
             $this
@@ -127,59 +115,11 @@ class ConnectionsController extends AbstractController
             $connection = Craft::$app->getRequest()->getBodyParam('connection');
         }
 
-        /** @var Delete $action */
+        /** @var DeleteConnection $action */
         $action = Craft::createObject([
-            'class' => Delete::class
+            'class' => DeleteConnection::class
         ], [
             'delete',
-            $this
-        ]);
-
-        return $action->runWithParams([
-            'connection' => $connection
-        ]);
-    }
-
-    /**
-     * @param int|null $connection
-     * @return mixed
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\web\BadRequestHttpException
-     */
-    public function actionEnable($connection = null)
-    {
-        if (null === $connection) {
-            $connection = Craft::$app->getRequest()->getBodyParam('connection');
-        }
-
-        $action = Craft::createObject([
-            'class' => Enable::class
-        ], [
-            'enable',
-            $this
-        ]);
-
-        return $action->runWithParams([
-            'connection' => $connection
-        ]);
-    }
-
-    /**
-     * @param int|null $connection
-     * @return mixed
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\web\BadRequestHttpException
-     */
-    public function actionDisable($connection = null)
-    {
-        if (null === $connection) {
-            $connection = Craft::$app->getRequest()->getBodyParam('connection');
-        }
-
-        $action = Craft::createObject([
-            'class' => Disable::class
-        ], [
-            'disable',
             $this
         ]);
 

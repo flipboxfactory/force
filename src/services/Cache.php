@@ -41,7 +41,7 @@ class Cache extends ServiceLocator
     /**
      * The default cache identifier
      */
-    const DEFAULT_CACHE = 'DEFAULT';
+    const DEFAULT_CACHE = 'default';
 
     /**
      * @inheritdoc

@@ -10,7 +10,7 @@ namespace flipbox\force\cp\controllers;
 
 use Craft;
 use craft\base\ElementInterface;
-use flipbox\ember\helpers\ArrayHelper;
+use craft\helpers\ArrayHelper;
 use flipbox\force\actions\widgets\SyncFrom;
 use yii\web\HttpException;
 
@@ -62,7 +62,8 @@ class WidgetsController extends AbstractController
         string $id = null,
         string $field = null,
         string $elementType = null
-    ) {
+    )
+    {
         if ($id === null) {
             $id = Craft::$app->getRequest()->getRequiredParam('id');
         }

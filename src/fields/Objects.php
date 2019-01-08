@@ -10,12 +10,14 @@ namespace flipbox\force\fields;
 
 use Craft;
 use flipbox\craft\integration\fields\Integrations;
-use flipbox\craft\integration\services\IntegrationAssociations;
-use flipbox\craft\integration\services\IntegrationField;
-use flipbox\force\connections\ConnectionInterface;
+use flipbox\force\fields\actions\SyncItemFrom;
+use flipbox\force\fields\actions\SyncItemTo;
+use flipbox\force\fields\actions\SyncTo;
 use flipbox\force\Force;
-use flipbox\force\services\ObjectAssociations;
-use flipbox\force\services\ObjectsField;
+use flipbox\force\models\Settings;
+use flipbox\force\records\Connection;
+use flipbox\force\records\ObjectAssociation;
+use Flipbox\Salesforce\Connections\ConnectionInterface;
 use Psr\SimpleCache\CacheInterface;
 
 /**
@@ -71,20 +73,25 @@ class Objects extends Integrations
 
     /**
      * @inheritdoc
-     * @return ObjectsField
      */
-    protected function fieldService(): IntegrationField
-    {
-        return Force::getInstance()->getObjectsField();
-    }
+    protected $defaultAvailableActions = [
+        SyncTo::class
+    ];
 
     /**
      * @inheritdoc
-     * @return ObjectAssociations
      */
-    protected function associationService(): IntegrationAssociations
+    protected $defaultAvailableItemActions = [
+        SyncItemFrom::class,
+        SyncItemTo::class,
+    ];
+
+    /**
+     * @inheritdoc
+     */
+    public static function recordClass(): string
     {
-        return Force::getInstance()->getObjectAssociations();
+        return ObjectAssociation::class;
     }
 
     /**
@@ -109,12 +116,11 @@ class Objects extends Integrations
 
     /**
      * @return ConnectionInterface
-     * @throws \yii\base\InvalidConfigException
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
      */
     public function getConnection(): ConnectionInterface
     {
-        $service = Force::getInstance()->getConnections();
-        return $service->get($service::DEFAULT_CONNECTION);
+        return Connection::getOne(Settings::DEFAULT_CONNECTION);
     }
 
     /*******************************************

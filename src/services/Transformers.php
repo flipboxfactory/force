@@ -14,6 +14,8 @@ use yii\base\Component;
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
+ *
+ * @deprecated
  */
 class Transformers extends Component
 {
@@ -32,7 +34,8 @@ class Transformers extends Component
         string $identifier,
         string $class,
         $default = null
-    ) {
+    )
+    {
         return Flux::getInstance()->getTransformers()->find(
             $identifier,
             static::FORCE_SCOPE,

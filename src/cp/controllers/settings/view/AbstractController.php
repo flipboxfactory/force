@@ -9,7 +9,7 @@
 namespace flipbox\force\cp\controllers\settings\view;
 
 use Craft;
-use flipbox\ember\helpers\UrlHelper;
+use flipbox\craft\ember\helpers\UrlHelper;
 use flipbox\force\cp\Cp as CpModule;
 use flipbox\force\Force;
 

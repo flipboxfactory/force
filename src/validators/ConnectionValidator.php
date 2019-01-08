@@ -9,7 +9,7 @@
 namespace flipbox\force\validators;
 
 use Craft;
-use flipbox\force\connections\ConnectionInterface;
+use Flipbox\Salesforce\Connections\ConnectionInterface;
 use yii\validators\Validator;
 
 /**

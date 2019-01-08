@@ -9,10 +9,10 @@
 namespace flipbox\force\cp\controllers;
 
 use Craft;
-use flipbox\ember\helpers\ArrayHelper;
-use flipbox\force\cp\actions\fields\CreateItem;
-use flipbox\force\cp\actions\fields\PerformAction;
-use flipbox\force\cp\actions\fields\PerformItemAction;
+use craft\helpers\ArrayHelper;
+use flipbox\craft\integration\actions\fields\CreateFieldItem;
+use flipbox\craft\integration\actions\fields\PerformFieldAction;
+use flipbox\craft\integration\actions\fields\PerformFieldItemAction;
 use yii\web\BadRequestHttpException;
 
 /**
@@ -66,7 +66,8 @@ class FieldsController extends AbstractController
         string $element = null,
         string $action = null,
         string $id = null
-    ) {
+    )
+    {
         if ($field === null) {
             $field = Craft::$app->getRequest()->getRequiredParam('field');
         }
@@ -83,9 +84,9 @@ class FieldsController extends AbstractController
             $id = Craft::$app->getRequest()->getRequiredParam('id');
         }
 
-        /** @var PerformItemAction $action */
+        /** @var PerformFieldItemAction $action */
         return (Craft::createObject([
-            'class' => PerformItemAction::class
+            'class' => PerformFieldItemAction::class
         ], [
             'preform-action',
             $this
@@ -111,7 +112,8 @@ class FieldsController extends AbstractController
         string $field = null,
         string $element = null,
         string $action = null
-    ) {
+    )
+    {
         if ($field === null) {
             $field = Craft::$app->getRequest()->getRequiredParam('field');
         }
@@ -124,9 +126,9 @@ class FieldsController extends AbstractController
             $action = Craft::$app->getRequest()->getRequiredParam('action');
         }
 
-        /** @var PerformAction $action */
+        /** @var PerformFieldAction $action */
         return (Craft::createObject([
-            'class' => PerformAction::class
+            'class' => PerformFieldAction::class
         ], [
             'preform-action',
             $this
@@ -149,7 +151,8 @@ class FieldsController extends AbstractController
         string $field = null,
         string $element = null,
         string $id = null
-    ) {
+    )
+    {
         if ($field === null) {
             $field = Craft::$app->getRequest()->getRequiredParam('field');
         }
@@ -162,9 +165,9 @@ class FieldsController extends AbstractController
             $id = Craft::$app->getRequest()->getParam('id');
         }
 
-        /** @var CreateItem $action */
+        /** @var CreateFieldItem $action */
         return (Craft::createObject([
-            'class' => CreateItem::class
+            'class' => CreateFieldItem::class
         ], [
             'create-item',
             $this

@@ -9,7 +9,7 @@
 namespace flipbox\force\web\assets\soql;
 
 use craft\web\AssetBundle;
-use flipbox\ember\web\assets\actions\Actions;
+use flipbox\craft\ember\web\assets\actions\Actions;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

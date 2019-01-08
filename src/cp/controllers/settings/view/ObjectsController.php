@@ -11,8 +11,6 @@ namespace flipbox\force\cp\controllers\settings\view;
 use Craft;
 use flipbox\craft\ember\helpers\ArrayHelper;
 use flipbox\force\transformers\DynamicModelResponse;
-use flipbox\force\transformers\InstanceDescribeObjectResponse;
-use flipbox\force\transformers\InstanceDescribeObjectsResponse;
 use Flipbox\Salesforce\Criteria\InstanceCriteria;
 use Flipbox\Salesforce\Criteria\ObjectAccessorCriteria;
 use yii\base\DynamicModel;
@@ -36,7 +34,6 @@ class ObjectsController extends AbstractController
 
     /**
      * @return Response
-     * @throws \yii\base\InvalidConfigException
      */
     public function actionIndex(): Response
     {

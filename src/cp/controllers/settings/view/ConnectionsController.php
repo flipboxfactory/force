@@ -38,6 +38,7 @@ class ConnectionsController extends AbstractController
 
     /**
      * @return Response
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionIndex(): Response
     {
@@ -59,6 +60,7 @@ class ConnectionsController extends AbstractController
      * @param Connection|null $connection
      * @return Response
      * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionUpsert($identifier = null, Connection $connection = null): Response
     {
@@ -82,6 +84,10 @@ class ConnectionsController extends AbstractController
         return $this->renderTemplate(static::TEMPLATE_UPSERT, $variables);
     }
 
+    /**
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     */
     public function getAvailableConnections()
     {
         $classes = Force::getInstance()->getCp()->getAvailableConnections();

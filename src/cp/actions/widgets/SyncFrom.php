@@ -15,6 +15,7 @@ use flipbox\craft\integration\fields\Integrations;
 use flipbox\craft\integration\queries\IntegrationAssociationQuery;
 use flipbox\craft\integration\records\IntegrationAssociation;
 use flipbox\force\cp\actions\sync\AbstractSyncFrom;
+use flipbox\force\fields\Objects;
 use yii\web\HttpException;
 
 /**
@@ -30,20 +31,22 @@ class SyncFrom extends AbstractSyncFrom
      * @param string $field
      * @param string $elementType
      * @param int|null $siteId
-     * @return mixed
+     * @return ElementInterface|mixed
      * @throws HttpException
-     * @throws \Exception
+     * @throws \Throwable
+     * @throws \craft\errors\ElementNotFoundException
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\UnauthorizedHttpException
      */
     public function run(string $id, string $field, string $elementType, int $siteId = null)
     {
+        /** @var Objects $field */
         $field = $this->resolveField($field);
 
         /** @var ElementInterface $element */
         $element = $this->autoResolveElement($field, $id, $elementType, $siteId);
-
-
-        var_dump($element->getId());
-        exit;
 
         /** @var IntegrationAssociationQuery $query */
         if (null === ($query = $element->getFieldValue($field->handle))) {

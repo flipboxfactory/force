@@ -35,10 +35,7 @@ class SyncElementToSalesforceObjectJob extends AbstractSyncElementJob
     /**
      * @param \craft\queue\QueueInterface|\yii\queue\Queue $queue
      * @return bool
-     * @throws \Throwable
-     * @throws \craft\errors\ElementNotFoundException
      * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
-     * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
     public function execute($queue)
@@ -49,14 +46,13 @@ class SyncElementToSalesforceObjectJob extends AbstractSyncElementJob
         );
     }
 
-
     /**
      * @param ElementInterface $element
      * @param Objects $field
      * @return bool
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
      * @throws \yii\base\InvalidConfigException
      */
-
     public function syncUp(
         ElementInterface $element,
         Objects $field
@@ -78,31 +74,6 @@ class SyncElementToSalesforceObjectJob extends AbstractSyncElementJob
             );
         }
 
-        return $this->rawSyncUp(
-            $element,
-            $field,
-            $payload,
-            $this->resolveObjectIdFromElement($element, $field)
-        );
-    }
-
-    /**
-     * @param ElementInterface $element
-     * @param Objects $field
-     * @param array $payload
-     * @param string|null $id
-     * @param Pipeline|null $pipeline
-     * @return bool
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function rawSyncUp(
-        ElementInterface $element,
-        Objects $field,
-        array $payload,
-        string $id = null,
-        Pipeline $pipeline = null
-    ): bool
-    {
         $response = SObject::upsert(
             $field->getConnection(),
             $field->getCache(),
@@ -111,23 +82,11 @@ class SyncElementToSalesforceObjectJob extends AbstractSyncElementJob
             $id
         );
 
-//        /** @var Element $element */
-//
-//        /** @var ResponseInterface $response */
-//        $response = $this->rawHttpUpsertRelay(
-//            $field->object,
-//            $payload,
-//            $id,
-//            $field->getConnection(),
-//            $field->getCache()
-//        )();
-
         return $this->handleSyncUpResponse(
             $response,
             $element,
             $field,
-            $id,
-            $pipeline
+            $id
         );
     }
 
@@ -193,30 +152,4 @@ class SyncElementToSalesforceObjectJob extends AbstractSyncElementJob
 
         return true;
     }
-
-    /**
-     * @param ResponseInterface $response
-     * @param ElementInterface $element
-     */
-    protected function handleResponseErrors(ResponseInterface $response, ElementInterface $element)
-    {
-        /** @var Element $element */
-
-        $data = Json::decodeIfJson(
-            $response->getBody()->getContents()
-        );
-
-        $errors = (array)Factory::item(
-            new Interpret(),
-            $data
-        );
-
-        $errors = array_filter($errors);
-
-        if (empty($errors)) {
-            $element->addErrors($errors);
-        }
-    }
-
-
 }

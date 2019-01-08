@@ -9,7 +9,6 @@
 namespace flipbox\force\cp\controllers\settings\view;
 
 use flipbox\force\transformers\DynamicModelResponse;
-use flipbox\force\transformers\InstanceLimitResponse;
 use Flipbox\Salesforce\Criteria\InstanceCriteria;
 use yii\web\Response;
 

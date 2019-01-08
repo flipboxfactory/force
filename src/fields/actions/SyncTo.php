@@ -41,7 +41,6 @@ class SyncTo extends AbstractIntegrationAction
      * @inheritdoc
      * @throws HttpException
      * @throws \Throwable
-     * @throws \craft\errors\ElementNotFoundException
      * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException

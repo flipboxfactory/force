@@ -9,33 +9,32 @@
 namespace flipbox\force\cp\actions;
 
 use Craft;
-use flipbox\ember\actions\model\traits\Save;
 use flipbox\force\Force;
 use flipbox\force\models\Settings;
-use yii\base\Action;
 use yii\base\Model;
+use flipbox\craft\ember\actions\models\CreateModel;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class SaveSettings extends Action
+class SaveSettings extends CreateModel
 {
-    use Save;
-
     /**
      * @return array
      */
-    protected function validBodyParams(): array
-    {
-        return [
-            'defaultConnection',
-            'defaultCache'
-        ];
-    }
+    public $validBodyParams = [
+        'defaultCache'
+    ];
 
     /**
-     *
+     * @inheritdoc
+     */
+    public $statusCodeSuccess = 200;
+
+    /**
+     * @inheritdoc
+     * @throws \yii\web\UnauthorizedHttpException
      */
     public function run()
     {
@@ -56,5 +55,14 @@ class SaveSettings extends Action
                 $this->validBodyParams()
             )
         );
+    }
+
+    /**
+     * @inheritdoc
+     * @return Settings
+     */
+    protected function newModel(array $config = []): Model
+    {
+        return clone Force::getInstance()->getSettings();
     }
 }

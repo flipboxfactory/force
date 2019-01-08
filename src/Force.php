@@ -35,7 +35,6 @@ use yii\base\Event;
  *
  * @property services\Cache $cache
  * @property Logger $psr3Logger
- * @property services\Transformers $transformers
  */
 class Force extends Plugin
 {

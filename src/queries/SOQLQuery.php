@@ -129,7 +129,6 @@ class SOQLQuery extends ActiveQuery
 
     /**
      * @inheritdoc
-     * @throws \ReflectionException
      */
     public function prepare($builder)
     {

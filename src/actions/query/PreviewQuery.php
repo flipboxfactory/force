@@ -25,7 +25,7 @@ class PreviewQuery extends CreateQuery
 
     /**
      * @inheritdoc
-     * @param ActiveRecord $record
+     * @param QueryBuilder $record
      */
     public function runInternal(ActiveRecord $record)
     {
@@ -58,6 +58,7 @@ class PreviewQuery extends CreateQuery
 
     /**
      * @param QueryBuilder $record
+     * @return DynamicModel
      */
     protected function preview(QueryBuilder $record): DynamicModel
     {

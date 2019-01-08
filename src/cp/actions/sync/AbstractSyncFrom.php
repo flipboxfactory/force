@@ -10,7 +10,7 @@ namespace flipbox\force\cp\actions\sync;
 
 use Craft;
 use craft\base\ElementInterface;
-use flipbox\ember\actions\traits\CheckAccess;
+use flipbox\craft\ember\actions\CheckAccessTrait;
 use flipbox\force\fields\Objects;
 use flipbox\force\queue\SyncElementFromSalesforceObjectJob;
 use yii\base\Action;
@@ -21,13 +21,18 @@ use yii\base\Action;
  */
 abstract class AbstractSyncFrom extends Action
 {
-    use CheckAccess;
+    use CheckAccessTrait;
 
     /**
      * @param ElementInterface $element
      * @param Objects $field
-     * @return mixed
-     * @throws \Exception
+     * @return ElementInterface|mixed
+     * @throws \Throwable
+     * @throws \craft\errors\ElementNotFoundException
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\UnauthorizedHttpException
      */
     protected function runInternal(
         ElementInterface $element,

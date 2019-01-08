@@ -53,6 +53,13 @@ class QueriesController extends AbstractController
         );
     }
 
+    /**
+     * @param null $identifier
+     * @param QueryBuilder|null $query
+     * @return Response
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
+     * @throws \yii\base\InvalidConfigException
+     */
     public function actionUpsert($identifier = null, QueryBuilder $query = null): Response
     {
         Craft::$app->getView()->registerAssetBundle(SOQLAsset::class);

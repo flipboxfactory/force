@@ -77,7 +77,8 @@ class ObjectAssociation extends IntegrationAssociation
 
     /**
      * @param array $criteria
-     * @return mixed|null
+     * @return \Psr\Http\Message\ResponseInterface|null
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
      * @throws \yii\base\InvalidConfigException
      */
     public function getObject(array $criteria = [])

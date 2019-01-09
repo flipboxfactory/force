@@ -57,8 +57,7 @@ class SyncElementFromSalesforceObjectJob extends AbstractSyncElementJob
     public function syncDown(
         ElementInterface $element,
         Objects $field
-    ): bool
-    {
+    ): bool {
         /** @var string $id */
         if (null === ($id = $this->resolveObjectIdFromElement($element, $field))) {
             return false;

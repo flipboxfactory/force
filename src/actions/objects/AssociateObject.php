@@ -27,8 +27,7 @@ class AssociateObject extends AssociateIntegration
      */
     protected function validate(
         IntegrationAssociation $record
-    ): bool
-    {
+    ): bool {
         $field = $record->getField();
         if (!$field instanceof Objects) {
             return false;

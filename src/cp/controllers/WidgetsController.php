@@ -62,8 +62,7 @@ class WidgetsController extends AbstractController
         string $id = null,
         string $field = null,
         string $elementType = null
-    )
-    {
+    ) {
         if ($id === null) {
             $id = Craft::$app->getRequest()->getRequiredParam('id');
         }

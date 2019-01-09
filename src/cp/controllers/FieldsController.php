@@ -66,8 +66,7 @@ class FieldsController extends AbstractController
         string $element = null,
         string $action = null,
         string $id = null
-    )
-    {
+    ) {
         if ($field === null) {
             $field = Craft::$app->getRequest()->getRequiredParam('field');
         }
@@ -112,8 +111,7 @@ class FieldsController extends AbstractController
         string $field = null,
         string $element = null,
         string $action = null
-    )
-    {
+    ) {
         if ($field === null) {
             $field = Craft::$app->getRequest()->getRequiredParam('field');
         }
@@ -151,8 +149,7 @@ class FieldsController extends AbstractController
         string $field = null,
         string $element = null,
         string $id = null
-    )
-    {
+    ) {
         if ($field === null) {
             $field = Craft::$app->getRequest()->getRequiredParam('field');
         }

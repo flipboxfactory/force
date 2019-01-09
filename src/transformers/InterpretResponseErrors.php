@@ -8,7 +8,6 @@
 
 namespace flipbox\force\transformers;
 
-
 use craft\helpers\ArrayHelper;
 
 /**

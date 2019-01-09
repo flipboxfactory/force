@@ -68,8 +68,7 @@ class SyncFrom extends AbstractSyncFrom
         string $id,
         string $elementType,
         int $siteId = null
-    ): ElementInterface
-    {
+    ): ElementInterface {
         /** @var IntegrationAssociation $recordClass */
         $recordClass = $field::recordClass();
 
@@ -88,9 +87,7 @@ class SyncFrom extends AbstractSyncFrom
             try {
                 $element = $this->resolveElement($elementId);
             } catch (HttpException $e) {
-
                 // TODO - log this
-
             }
         }
 

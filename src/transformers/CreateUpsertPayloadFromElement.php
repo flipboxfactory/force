@@ -30,8 +30,7 @@ class CreateUpsertPayloadFromElement
         ElementInterface $element,
         Objects $field,
         string $id = null
-    ): array
-    {
+    ): array {
         return $this->createPayload($element, $field, $id);
     }
 
@@ -47,8 +46,7 @@ class CreateUpsertPayloadFromElement
         ElementInterface $element,
         Objects $field,
         string $id = null
-    ): array
-    {
+    ): array {
         /** @var Element $element */
 
         return [];

@@ -56,8 +56,7 @@ class SyncElementToSalesforceObjectJob extends AbstractSyncElementJob
     public function syncUp(
         ElementInterface $element,
         Objects $field
-    ): bool
-    {
+    ): bool {
 
         $id = $this->resolveObjectIdFromElement($element, $field);
 
@@ -102,8 +101,7 @@ class SyncElementToSalesforceObjectJob extends AbstractSyncElementJob
         ElementInterface $element,
         Objects $field,
         string $objectId = null
-    ): bool
-    {
+    ): bool {
 
         /** @var Element $element */
 

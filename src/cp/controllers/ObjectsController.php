@@ -68,8 +68,7 @@ class ObjectsController extends AbstractController
         string $objectId = null,
         string $field = null,
         string $element = null
-    )
-    {
+    ) {
 
         if ($objectId === null) {
             $objectId = Craft::$app->getRequest()->getParam('objectId');
@@ -113,8 +112,7 @@ class ObjectsController extends AbstractController
         string $objectId = null,
         string $field = null,
         string $element = null
-    )
-    {
+    ) {
 
         if ($objectId === null) {
             $objectId = Craft::$app->getRequest()->getRequiredParam('objectId');

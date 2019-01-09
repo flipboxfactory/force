@@ -55,7 +55,8 @@ class InstanceCriteria extends AbstractCriteria implements InstanceCriteriaInter
             $this->getConnection(),
             $this->getCache(),
             $this->getLogger(),
-            $config);
+            $config
+        );
     }
 
     /**

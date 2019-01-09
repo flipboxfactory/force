@@ -37,8 +37,7 @@ abstract class AbstractSyncFrom extends Action
     protected function runInternal(
         ElementInterface $element,
         Objects $field
-    )
-    {
+    ) {
         // Check access
         if (($access = $this->checkAccess($element, $field)) !== true) {
             return $access;
@@ -64,8 +63,7 @@ abstract class AbstractSyncFrom extends Action
     protected function performAction(
         ElementInterface $element,
         Objects $field
-    )
-    {
+    ) {
         $job = new SyncElementFromSalesforceObjectJob([
             'element' => $element,
             'field' => $field

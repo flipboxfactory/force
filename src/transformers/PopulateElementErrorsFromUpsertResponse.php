@@ -32,8 +32,7 @@ class PopulateElementErrorsFromUpsertResponse
         ElementInterface $element,
         Objects $field,
         string $id = null
-    ): ElementInterface
-    {
+    ): ElementInterface {
         /** @var Element $element */
 
         $data = Json::decodeIfJson(

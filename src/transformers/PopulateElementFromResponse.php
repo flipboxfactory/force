@@ -31,8 +31,7 @@ class PopulateElementFromResponse
         ElementInterface $element,
         Objects $field,
         string $id = null
-    ): ElementInterface
-    {
+    ): ElementInterface {
         $this->populateElementFromResponse($response, $element, $field, $id);
         return $element;
     }
@@ -48,8 +47,7 @@ class PopulateElementFromResponse
         ElementInterface $element,
         Objects $field,
         string $id = null
-    )
-    {
+    ) {
         $this->populateElementObjectIdFromResponse($response, $element, $field, $id);
     }
 
@@ -64,8 +62,7 @@ class PopulateElementFromResponse
         ElementInterface $element,
         Objects $field,
         string $id = null
-    )
-    {
+    ) {
         $element->{$field->handle} = $id ?: $this->getObjectIdFromResponse($response);
     }
 

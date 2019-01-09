@@ -43,7 +43,7 @@ Craft.ForceQuery = Garnish.Base.extend(
                         if (jqXHR.status >= 200 && jqXHR.status <= 299) {
                             this.afterQuery(response);
 
-                            if(response.errors) {
+                            if (response.errors) {
                                 Craft.cp.displayError(
                                     Craft.t('force', this.settings.messageError)
                                 );

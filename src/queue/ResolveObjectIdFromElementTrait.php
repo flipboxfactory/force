@@ -29,8 +29,7 @@ trait ResolveObjectIdFromElementTrait
     protected function resolveObjectIdFromElement(
         ElementInterface $element,
         Objects $field
-    )
-    {
+    ) {
         /** @var Element $element */
 
         /** @var IntegrationAssociation $recordClass */

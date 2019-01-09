@@ -28,7 +28,7 @@ use yii\validators\UniqueValidator;
  * @property string $class
  * @property string $soql
  */
-class QueryBuilder extends ActiveRecordWithId implements QueryBuilderInterface
+class SOQL extends ActiveRecordWithId implements QueryBuilderInterface
 {
     use HandleRulesTrait;
 

@@ -10,7 +10,7 @@ namespace flipbox\force\actions\query;
 
 use Craft;
 use flipbox\craft\ember\actions\records\CreateRecord;
-use flipbox\force\records\QueryBuilder;
+use flipbox\force\records\SOQL;
 use yii\db\ActiveRecord;
 use yii\di\Instance;
 
@@ -33,8 +33,8 @@ class CreateQuery extends CreateRecord
 
     /**
      * @inheritdoc
-     * @param QueryBuilder $record
-     * @return QueryBuilder
+     * @param SOQL $record
+     * @return SOQL
      */
     protected function populate(ActiveRecord $record): ActiveRecord
     {
@@ -44,17 +44,17 @@ class CreateQuery extends CreateRecord
 
     /**
      * @param array $config
-     * @return QueryBuilder
+     * @return SOQL
      * @throws \yii\base\InvalidConfigException
      */
     protected function newRecord(array $config = []): ActiveRecord
     {
-        $class = Craft::$app->getRequest()->getBodyParam('class', QueryBuilder::class);
+        $class = Craft::$app->getRequest()->getBodyParam('class', SOQL::class);
 
-        /** @var QueryBuilder $record */
+        /** @var SOQL $record */
         $record = Instance::ensure(
             $class,
-            QueryBuilder::class
+            SOQL::class
         );
 
         $record->setAttributes($config);

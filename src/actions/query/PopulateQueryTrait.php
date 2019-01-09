@@ -9,7 +9,7 @@
 namespace flipbox\force\actions\query;
 
 use Craft;
-use flipbox\force\records\QueryBuilder;
+use flipbox\force\records\SOQL;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -18,10 +18,10 @@ use flipbox\force\records\QueryBuilder;
 trait PopulateQueryTrait
 {
     /**
-     * @param QueryBuilder $query
-     * @return QueryBuilder
+     * @param SOQL $query
+     * @return SOQL
      */
-    protected function populateSettings(QueryBuilder $query): QueryBuilder
+    protected function populateSettings(SOQL $query): SOQL
     {
         $settings = Craft::$app->getRequest()->getBodyParam('settings', []);
 

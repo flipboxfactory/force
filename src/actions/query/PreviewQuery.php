@@ -8,7 +8,7 @@
 
 namespace flipbox\force\actions\query;
 
-use flipbox\force\records\QueryBuilder;
+use flipbox\force\records\SOQL;
 use flipbox\force\transformers\DynamicModelResponse;
 use flipbox\force\criteria\QueryCriteria;
 use yii\base\DynamicModel;
@@ -25,7 +25,7 @@ class PreviewQuery extends CreateQuery
 
     /**
      * @inheritdoc
-     * @param QueryBuilder $record
+     * @param SOQL $record
      */
     public function runInternal(ActiveRecord $record)
     {
@@ -57,10 +57,10 @@ class PreviewQuery extends CreateQuery
     }
 
     /**
-     * @param QueryBuilder $record
+     * @param SOQL $record
      * @return DynamicModel
      */
-    protected function preview(QueryBuilder $record): DynamicModel
+    protected function preview(SOQL $record): DynamicModel
     {
         $criteria = new QueryCriteria([
             'query' => $record

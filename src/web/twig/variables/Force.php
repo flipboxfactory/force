@@ -14,7 +14,7 @@ use flipbox\force\Force as ForcePlugin;
 use flipbox\force\models\Settings;
 use flipbox\force\queries\SOQLQuery;
 use flipbox\force\records\Connection;
-use flipbox\force\records\QueryBuilder;
+use flipbox\force\records\SOQL;
 use flipbox\force\services\Cache;
 use flipbox\force\criteria\ObjectAccessorCriteria;
 use flipbox\force\criteria\ObjectAccessorCriteriaInterface;
@@ -48,7 +48,7 @@ class Force extends ServiceLocator
             $criteria = [(is_numeric($criteria) ? 'id' : 'handle') => $criteria];
         }
 
-        $query = QueryBuilder::find();
+        $query = SOQL::find();
 
         QueryHelper::configure(
             $query,

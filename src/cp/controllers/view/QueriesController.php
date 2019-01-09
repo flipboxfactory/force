@@ -10,7 +10,7 @@ namespace flipbox\force\cp\controllers\view;
 
 use Craft;
 use craft\helpers\UrlHelper;
-use flipbox\force\records\QueryBuilder;
+use flipbox\force\records\SOQL;
 use flipbox\force\web\assets\soql\SOQL as SOQLAsset;
 use yii\web\Response;
 
@@ -45,7 +45,7 @@ class QueriesController extends AbstractController
         $variables = [];
         $this->baseVariables($variables);
 
-        $variables['queries'] = QueryBuilder::findAll([]);
+        $variables['queries'] = SOQL::findAll([]);
 
         return $this->renderTemplate(
             static::TEMPLATE_INDEX,
@@ -55,20 +55,20 @@ class QueriesController extends AbstractController
 
     /**
      * @param null $identifier
-     * @param QueryBuilder|null $query
+     * @param SOQL|null $query
      * @return Response
      * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
      * @throws \yii\base\InvalidConfigException
      */
-    public function actionUpsert($identifier = null, QueryBuilder $query = null): Response
+    public function actionUpsert($identifier = null, SOQL $query = null): Response
     {
         Craft::$app->getView()->registerAssetBundle(SOQLAsset::class);
 
         if (null === $query) {
             if (null === $identifier) {
-                $query = new QueryBuilder();
+                $query = new SOQL();
             } else {
-                $query = QueryBuilder::getOne($identifier);
+                $query = SOQL::getOne($identifier);
             }
         }
 
@@ -113,9 +113,9 @@ class QueriesController extends AbstractController
 
     /**
      * @param array $variables
-     * @param QueryBuilder $query
+     * @param SOQL $query
      */
-    protected function updateVariables(array &$variables, QueryBuilder $query)
+    protected function updateVariables(array &$variables, SOQL $query)
     {
         $this->baseVariables($variables);
         $variables['title'] .= ' - ' . $query->name;

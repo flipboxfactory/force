@@ -70,7 +70,7 @@ class SyncElementFromSalesforceObjectJob extends AbstractSyncElementJob
             $id
         );
 
-        if (!($response->getStatusCode() >= 200 && $response->getStatusCode() <= 299)) {
+        if (($response->getStatusCode() < 200 || $response->getStatusCode() > 300)) {
             call_user_func_array(
                 new PopulateElementErrorsFromResponse(),
                 [

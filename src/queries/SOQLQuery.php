@@ -11,12 +11,10 @@ namespace flipbox\force\queries;
 use craft\helpers\Db;
 use flipbox\craft\ember\queries\ActiveQuery;
 use flipbox\craft\ember\queries\AuditAttributesTrait;
-use flipbox\craft\sortable\associations\records\SortableAssociationInterface;
 
 /**
- * @method SortableAssociationInterface[] getCachedResult()
- *
- * deprecated
+ * @author Flipbox Factory <hello@flipboxfactory.com>
+ * @since 1.0.0
  */
 class SOQLQuery extends ActiveQuery
 {

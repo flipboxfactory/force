@@ -9,7 +9,7 @@
 namespace flipbox\force\migrations;
 
 use craft\db\Migration;
-use flipbox\force\records\QueryBuilder as QueryRecord;
+use flipbox\force\records\SOQL as QueryRecord;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

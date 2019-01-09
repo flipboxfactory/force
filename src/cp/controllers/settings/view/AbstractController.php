@@ -35,7 +35,7 @@ abstract class AbstractController extends \flipbox\force\cp\controllers\view\Abs
      */
     protected function getBaseActionPath(): string
     {
-        return parent::getBaseActionPath() . '/cp/settings';
+        return parent::getBaseActionPath() . '/settings';
     }
 
     /**

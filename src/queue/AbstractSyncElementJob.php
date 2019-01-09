@@ -122,6 +122,21 @@ abstract class AbstractSyncElementJob extends BaseJob
 
     /**
      * @param $transformer
+     * @return bool
+     */
+    protected function isTransformerClassArray($transformer): bool
+    {
+        if (!is_array($transformer)) {
+            false;
+        }
+
+        return $this->isTransformerClass($transformer['class'] ?? null);
+    }
+
+
+
+    /**
+     * @param $transformer
      * @return null|callable
      */
     protected function resolveTransformer($transformer)
@@ -129,9 +144,15 @@ abstract class AbstractSyncElementJob extends BaseJob
         if (is_callable($transformer)) {
             return $transformer;
         }
+
         if ($this->isTransformerClass($transformer)) {
             return new $transformer();
         }
+
+        if ($this->isTransformerClassArray($transformer)) {
+            return Craft::createObject($transformer);
+        }
+
         return null;
     }
 }

@@ -25,7 +25,10 @@ class SyncElementFromSalesforceObjectJob extends AbstractSyncElementJob
     /**
      * @var string
      */
-    public $transformer = PopulateElementFromResponse::class;
+    public $transformer = [
+        'class' => PopulateElementFromResponse::class,
+        'action' => 'sync'
+    ];
 
     /**
      * @param \craft\queue\QueueInterface|\yii\queue\Queue $queue

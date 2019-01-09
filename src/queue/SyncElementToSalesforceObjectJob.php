@@ -8,6 +8,7 @@
 
 namespace flipbox\force\queue;
 
+use Craft;
 use craft\base\Element;
 use craft\base\ElementInterface;
 use flipbox\craft\ember\helpers\SiteHelper;
@@ -30,7 +31,10 @@ class SyncElementToSalesforceObjectJob extends AbstractSyncElementJob
     /**
      * @var string
      */
-    public $transformer = CreateUpsertPayloadFromElement::class;
+    public $transformer = [
+        'class' => CreateUpsertPayloadFromElement::class,
+        'action' => 'sync'
+    ];
 
     /**
      * @param \craft\queue\QueueInterface|\yii\queue\Queue $queue
@@ -47,7 +51,7 @@ class SyncElementToSalesforceObjectJob extends AbstractSyncElementJob
     }
 
     /**
-     * @param ElementInterface $element
+     * @param ElementInterface|element $element
      * @param Objects $field
      * @return bool
      * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
@@ -60,18 +64,23 @@ class SyncElementToSalesforceObjectJob extends AbstractSyncElementJob
 
         $id = $this->resolveObjectIdFromElement($element, $field);
 
-        $payload = [];
-
-        if (null !== ($transformer = $this->resolveTransformer($this->transformer))) {
-            $payload = call_user_func_array(
-                $transformer,
-                [
-                    $element,
-                    $field,
-                    $id
-                ]
+        if (null === ($transformer = $this->resolveTransformer($this->transformer))) {
+            $element->addError(
+                $field->handle,
+                Craft::t('force', 'Invalid payload transformer.')
             );
+
+            return false;
         }
+
+        $payload = call_user_func_array(
+            $transformer,
+            [
+                $element,
+                $field,
+                $id
+            ]
+        );
 
         $response = SObject::upsert(
             $field->getConnection(),

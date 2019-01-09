@@ -13,6 +13,7 @@ use craft\base\ElementInterface;
 use craft\helpers\Json;
 use flipbox\craft\ember\helpers\SiteHelper;
 use flipbox\craft\integration\queries\IntegrationConnectionQuery;
+use flipbox\force\events\PopulateElementFromResponseEvent;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use flipbox\force\records\ObjectAssociation;
@@ -24,6 +25,13 @@ use Psr\Http\Message\ResponseInterface;
  */
 class PopulateElementFromResponse
 {
+    /**
+     * An action used to assemble a unique event name.
+     *
+     * @var string
+     */
+    public $action;
+
     /**
      * @param ResponseInterface $response
      * @param ElementInterface $element
@@ -43,7 +51,7 @@ class PopulateElementFromResponse
 
     /**
      * @param ResponseInterface $response
-     * @param ElementInterface $element
+     * @param ElementInterface|element $element
      * @param Objects $field
      * @param string|null $id
      */
@@ -52,8 +60,27 @@ class PopulateElementFromResponse
         ElementInterface $element,
         Objects $field,
         string $id = null
-    ) {
+    ): ElementInterface {
         $this->populateElementObjectIdFromResponse($response, $element, $field, $id);
+
+        $event = new PopulateElementFromResponseEvent([
+            'response' => $response
+        ]);
+
+        $name = $event::eventName(
+            $field->object,
+            $this->action
+        );
+
+        Force::info(sprintf(
+            "Populate Element: Event '%s', Element '%s'",
+            $name,
+            $element->id . ' - ' . $element->title
+        ), __METHOD__);
+
+        $element->trigger($name, $event);
+
+        return $event->sender ?: $element;
     }
 
     /**

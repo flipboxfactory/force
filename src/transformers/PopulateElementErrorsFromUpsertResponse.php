@@ -41,7 +41,9 @@ class PopulateElementErrorsFromUpsertResponse
 
         $errors = call_user_func_array(
             new InterpretUpsertResponseErrors(),
-            $data
+            [
+                $data
+            ]
         );
 
         $element->addErrors($errors);

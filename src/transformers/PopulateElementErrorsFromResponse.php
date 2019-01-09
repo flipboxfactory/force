@@ -41,7 +41,9 @@ class PopulateElementErrorsFromResponse
 
         $errors = call_user_func_array(
             new InterpretResponseErrors(),
-            $data
+            [
+                $data
+            ]
         );
 
         $element->addErrors($errors);

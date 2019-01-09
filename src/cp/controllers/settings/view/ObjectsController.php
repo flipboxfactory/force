@@ -11,8 +11,8 @@ namespace flipbox\force\cp\controllers\settings\view;
 use Craft;
 use flipbox\craft\ember\helpers\ArrayHelper;
 use flipbox\force\transformers\DynamicModelResponse;
-use Flipbox\Salesforce\Criteria\InstanceCriteria;
-use Flipbox\Salesforce\Criteria\ObjectAccessorCriteria;
+use flipbox\force\criteria\InstanceCriteria;
+use flipbox\force\criteria\ObjectAccessorCriteria;
 use yii\base\DynamicModel;
 use yii\web\Response;
 

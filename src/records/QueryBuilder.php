@@ -15,7 +15,7 @@ use flipbox\craft\ember\models\HandleRulesTrait;
 use flipbox\craft\ember\records\ActiveRecordWithId;
 use flipbox\force\queries\SOQLQuery;
 use flipbox\force\validators\QueryBuilderValidator;
-use Flipbox\Salesforce\Criteria\QueryCriteria;
+use flipbox\force\criteria\QueryCriteria;
 use Flipbox\Salesforce\Query\QueryBuilderInterface;
 use yii\validators\UniqueValidator;
 

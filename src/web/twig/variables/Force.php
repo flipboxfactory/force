@@ -16,8 +16,8 @@ use flipbox\force\queries\SOQLQuery;
 use flipbox\force\records\Connection;
 use flipbox\force\records\QueryBuilder;
 use flipbox\force\services\Cache;
-use Flipbox\Salesforce\Criteria\ObjectAccessorCriteria;
-use Flipbox\Salesforce\Criteria\ObjectAccessorCriteriaInterface;
+use flipbox\force\criteria\ObjectAccessorCriteria;
+use flipbox\force\criteria\ObjectAccessorCriteriaInterface;
 use yii\di\ServiceLocator;
 
 /**

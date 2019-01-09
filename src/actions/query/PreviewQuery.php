@@ -10,7 +10,7 @@ namespace flipbox\force\actions\query;
 
 use flipbox\force\records\QueryBuilder;
 use flipbox\force\transformers\DynamicModelResponse;
-use Flipbox\Salesforce\Criteria\QueryCriteria;
+use flipbox\force\criteria\QueryCriteria;
 use yii\base\DynamicModel;
 use yii\db\ActiveRecord;
 use yii\web\HttpException;

@@ -9,7 +9,7 @@
 namespace flipbox\force\cp\controllers\settings\view;
 
 use flipbox\force\transformers\DynamicModelResponse;
-use Flipbox\Salesforce\Criteria\InstanceCriteria;
+use flipbox\force\criteria\InstanceCriteria;
 use yii\web\Response;
 
 /**

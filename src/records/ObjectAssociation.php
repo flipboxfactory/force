@@ -13,7 +13,7 @@ use flipbox\craft\integration\records\IntegrationAssociation;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
 use flipbox\force\migrations\ObjectAssociations;
-use Flipbox\Salesforce\Criteria\ObjectAccessorCriteria;
+use flipbox\force\criteria\ObjectAccessorCriteria;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

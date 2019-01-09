@@ -8,7 +8,7 @@
 
 namespace flipbox\force\criteria;
 
-use flipbox\force\helpers\CacheHelper;
+use flipbox\force\Force;
 use Psr\SimpleCache\CacheInterface;
 
 /**
@@ -47,6 +47,24 @@ trait CacheTrait
      */
     public function getCache(): CacheInterface
     {
-        return $this->cache = CacheHelper::resolveCache($this->cache);
+        return $this->cache = $this->resolveCache($this->cache);
+    }
+
+    /**
+     * @param null|string|CacheInterface $cache
+     * @return CacheInterface
+     * @throws \yii\base\InvalidConfigException
+     */
+    protected function resolveCache($cache): CacheInterface
+    {
+        if ($cache instanceof CacheInterface) {
+            return $cache;
+        }
+
+        if ($cache === null) {
+            $cache = Force::getInstance()->getSettings()->getDefaultCache();
+        }
+
+        return Force::getInstance()->getCache()->get($cache);
     }
 }

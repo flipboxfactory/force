@@ -8,7 +8,8 @@
 
 namespace flipbox\force\criteria;
 
-use flipbox\force\helpers\ConnectionHelper;
+use flipbox\force\Force;
+use flipbox\force\records\Connection;
 use Flipbox\Salesforce\Connections\ConnectionInterface;
 
 /**
@@ -47,6 +48,24 @@ trait ConnectionTrait
      */
     public function getConnection(): ConnectionInterface
     {
-        return $this->connection = ConnectionHelper::resolveConnection($this->connection);
+        return $this->connection = $this->resolveConnection($this->connection);
+    }
+
+    /**
+     * @param $connection
+     * @return ConnectionInterface
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
+     */
+    protected static function resolveConnection($connection): ConnectionInterface
+    {
+        if ($connection instanceof ConnectionInterface) {
+            return $connection;
+        }
+
+        if ($connection === null) {
+            $connection = Force::getInstance()->getSettings()->getDefaultConnection();
+        }
+
+        return Connection::getOne($connection);
     }
 }

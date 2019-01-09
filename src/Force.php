@@ -235,9 +235,9 @@ class Force extends Plugin
                 'force/queries/new' => 'force/cp/view/queries/upsert',
                 'force/queries/<identifier:\d+>' => 'force/cp/view/queries/upsert',
 
-                // SOBJECTS
-                'force/objects' => 'force/cp/view/objects/index',
-                'force/objects/<identifier:\d+>' => 'force/cp/view/objects/view',
+//                // SOBJECTS
+//                'force/objects' => 'force/cp/view/objects/index',
+//                'force/objects/<identifier:\d+>' => 'force/cp/view/objects/view',
 
                 // SETTINGS
                 'force/settings' => 'force/cp/settings/view/general/index',

@@ -10,6 +10,7 @@ namespace flipbox\force\events;
 
 use craft\base\ElementInterface;
 use craft\helpers\StringHelper;
+use flipbox\force\fields\Objects;
 use Psr\Http\Message\ResponseInterface;
 use yii\base\Event;
 
@@ -21,7 +22,17 @@ class PopulateElementFromResponseEvent extends Event
     /**
      * @var ResponseInterface
      */
-    protected $response;
+    private $response;
+
+    /**
+     * @var Objects
+     */
+    private $field;
+
+    /**
+     * @var string|null
+     */
+    public $objectId;
 
     /**
      * @param ResponseInterface $response
@@ -39,6 +50,24 @@ class PopulateElementFromResponseEvent extends Event
     public function getResponse(): ResponseInterface
     {
         return $this->response;
+    }
+
+    /**
+     * @param Objects $field
+     * @return $this
+     */
+    public function setField(Objects $field)
+    {
+        $this->field = $field;
+        return $this;
+    }
+
+    /**
+     * @return Objects
+     */
+    public function getField(): Objects
+    {
+        return $this->field;
     }
 
     /**

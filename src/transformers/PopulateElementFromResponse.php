@@ -36,35 +36,37 @@ class PopulateElementFromResponse
      * @param ResponseInterface $response
      * @param ElementInterface $element
      * @param Objects $field
-     * @param string|null $id
+     * @param string $objectId
      * @return ElementInterface
      */
     public function __invoke(
         ResponseInterface $response,
         ElementInterface $element,
         Objects $field,
-        string $id = null
+        string $objectId
     ): ElementInterface {
-        $this->populateElementFromResponse($response, $element, $field, $id);
+        $this->populateElementFromResponse($response, $element, $field, $objectId);
         return $element;
     }
 
     /**
      * @param ResponseInterface $response
-     * @param ElementInterface|element $element
+     * @param ElementInterface $element
      * @param Objects $field
-     * @param string|null $id
+     * @param string $objectId
+     * @return ElementInterface
      */
     protected function populateElementFromResponse(
         ResponseInterface $response,
         ElementInterface $element,
         Objects $field,
-        string $id = null
+        string $objectId
     ): ElementInterface {
-        $this->populateElementObjectIdFromResponse($response, $element, $field, $id);
 
         $event = new PopulateElementFromResponseEvent([
-            'response' => $response
+            'response' => $response,
+            'field' => $field,
+            'objectId' => $objectId
         ]);
 
         $name = $event::eventName(
@@ -81,65 +83,5 @@ class PopulateElementFromResponse
         $element->trigger($name, $event);
 
         return $event->sender ?: $element;
-    }
-
-    /**
-     * @param ResponseInterface $response
-     * @param ElementInterface|Element $element
-     * @param Objects $field
-     * @param string|null $id
-     */
-    protected function populateElementObjectIdFromResponse(
-        ResponseInterface $response,
-        ElementInterface $element,
-        Objects $field,
-        string $id = null
-    ) {
-        // Not already associated?
-        if($id === null) {
-
-            if (null === ($objectId = $this->getObjectIdFromResponse($response))) {
-                Force::error("Unable to determine object id from response");
-                return;
-            };
-
-
-            /** @var IntegrationConnectionQuery $query */
-            $query = $element->getFieldValue($field->handle);
-            $query->indexBy = ['objectId'];
-
-            $associations = $query->all();
-
-            if (!array_key_exists($objectId, $associations)) {
-                $recordClass = $field::recordClass();
-
-                /** @var ObjectAssociation $association */
-                $association = new $recordClass;
-
-                $association->setField($field)
-                    ->setElement($element)
-                    ->setSiteId(SiteHelper::ensureSiteId($element->siteId));
-                $association->objectId = $objectId;
-
-                $associations[$objectId] = $associations;
-
-                $query->setCachedResult(array_values($associations));
-            }
-        }
-    }
-
-    /**
-     * @param ResponseInterface $response
-     * @return string|null
-     */
-    protected function getObjectIdFromResponse(ResponseInterface $response)
-    {
-        $data = Json::decodeIfJson(
-            $response->getBody()->getContents()
-        );
-
-        $id = $data['Id'] ?? ($data['id'] ?? null);
-
-        return $id ? (string)$id : null;
     }
 }

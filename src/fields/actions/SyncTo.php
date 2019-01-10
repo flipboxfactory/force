@@ -59,15 +59,13 @@ class SyncTo extends AbstractIntegrationAction
 
 
         if (!$job->execute(Craft::$app->getQueue())) {
-            $this->setMessage("Failed to sync from Salesforce Object");
+            $this->setMessage("Failed to create Salesforce Object");
             return false;
         }
 
-        $element->setFieldValue($field->handle, null);
-
         $this->id = $query->select(['objectId'])->scalar();
 
-        $this->setMessage("Sync to Salesforce executed successfully");
+        $this->setMessage("Created Salesforce Object successfully");
         return true;
     }
 }

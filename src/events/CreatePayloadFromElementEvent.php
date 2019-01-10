@@ -23,6 +23,24 @@ class CreatePayloadFromElementEvent extends Event
     public $payload = [];
 
     /**
+     * @param array $payload
+     * @return $this
+     */
+    public function setPayload(array $payload)
+    {
+        $this->payload = $payload;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPayload(): array
+    {
+        return $this->payload;
+    }
+
+    /**
      * @param string $object
      * @param string|null $action
      * @return string

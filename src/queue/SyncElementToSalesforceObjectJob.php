@@ -11,6 +11,7 @@ namespace flipbox\force\queue;
 use Craft;
 use craft\base\Element;
 use craft\base\ElementInterface;
+use craft\helpers\Json;
 use flipbox\craft\ember\helpers\SiteHelper;
 use flipbox\craft\integration\queries\IntegrationAssociationQuery;
 use flipbox\force\fields\Objects;
@@ -127,31 +128,32 @@ class SyncElementToSalesforceObjectJob extends AbstractSyncElementJob
             return false;
         }
 
-        //
         if (empty($objectId)) {
-            /** @var IntegrationAssociationQuery $fieldValue */
-            if (null === ($fieldValue = $element->{$field->handle})) {
+            if (null === ($objectId = $this->getObjectIdFromResponse($response))) {
+                Force::error("Unable to determine object id from response");
+                return false;
+            };
+
+            /** @var IntegrationAssociationQuery $query */
+            if (null === ($query = $element->{$field->handle})) {
                 Force::warning("Field is not available on element.");
                 return false;
             };
 
-            $associations = $fieldValue->indexBy('objectId')->all();
+            $associations = $query->indexBy('objectId')->all();
 
             if (!array_key_exists($objectId, $associations)) {
-
-                /** @var ObjectAssociation $recordClass */
                 $recordClass = $field::recordClass();
 
                 /** @var ObjectAssociation $association */
                 $association = new $recordClass();
-                $association->setField($this)
+                $association->setField($field)
                     ->setElement($element)
                     ->setSiteId(SiteHelper::ensureSiteId($element->siteId));
                 $association->objectId = $objectId;
-
                 $associations[$objectId] = $association;
 
-                $fieldValue->setCachedResult($associations);
+                $query->setCachedResult($associations);
 
                 return $association->save();
             }
@@ -159,4 +161,20 @@ class SyncElementToSalesforceObjectJob extends AbstractSyncElementJob
 
         return true;
     }
+
+    /**
+     * @param ResponseInterface $response
+     * @return string|null
+     */
+    protected function getObjectIdFromResponse(ResponseInterface $response)
+    {
+        $data = Json::decodeIfJson(
+            $response->getBody()->getContents()
+        );
+
+        $id = $data['Id'] ?? ($data['id'] ?? null);
+
+        return $id ? (string)$id : null;
+    }
+
 }

@@ -59,7 +59,7 @@ class CreateUpsertPayloadFromElement extends BaseObject
 
         $element->trigger($name, $event);
 
-        return $event->payload;
+        return $event->getPayload();
     }
 
     /**

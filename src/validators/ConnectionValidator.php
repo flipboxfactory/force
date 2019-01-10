@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\validators;
+namespace flipbox\craft\salesforce\validators;
 
 use Craft;
 use Flipbox\Salesforce\Connections\ConnectionInterface;
@@ -31,7 +31,7 @@ class ConnectionValidator extends Validator
                 !is_subclass_of($class, ConnectionInterface::class)
             ) {
                 $message = Craft::t(
-                    'force',
+                    'salesforce',
                     '“{class}” is a not a valid connection.',
                     ['class' => $class]
                 );

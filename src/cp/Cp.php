@@ -6,11 +6,11 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp;
+namespace flipbox\craft\salesforce\cp;
 
 use Craft;
-use flipbox\force\events\RegisterConnectionsEvent;
-use flipbox\force\Force;
+use flipbox\craft\salesforce\events\RegisterConnectionsEvent;
+use flipbox\craft\salesforce\Force;
 use yii\base\Module as BaseModule;
 use yii\web\NotFoundHttpException;
 

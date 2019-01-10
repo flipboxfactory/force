@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\actions\connections;
+namespace flipbox\craft\salesforce\actions\connections;
 
 use flipbox\craft\ember\actions\records\DeleteRecord;
 

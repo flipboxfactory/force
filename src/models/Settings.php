@@ -6,11 +6,11 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\models;
+namespace flipbox\craft\salesforce\models;
 
 use craft\base\Model;
 use flipbox\craft\ember\helpers\ModelHelper;
-use flipbox\force\services\Cache;
+use flipbox\craft\salesforce\services\Cache;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

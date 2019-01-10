@@ -6,10 +6,10 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\migrations;
+namespace flipbox\craft\salesforce\migrations;
 
 use craft\db\Migration;
-use flipbox\force\records\SOQL as QueryRecord;
+use flipbox\craft\salesforce\records\SOQL as QueryRecord;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

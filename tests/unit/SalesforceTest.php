@@ -1,11 +1,11 @@
 <?php
 
-namespace flipbox\force\tests;
+namespace flipbox\craft\salesforce\tests;
 
 use Codeception\Test\Unit;
 use flipbox\craft\psr3\Logger;
-use flipbox\force\Force as SalesforcePlugin;
-use flipbox\force\services\Cache;
+use flipbox\craft\salesforce\Force as SalesforcePlugin;
+use flipbox\craft\salesforce\services\Cache;
 
 class SalesforceTest extends Unit
 {
@@ -20,7 +20,7 @@ class SalesforceTest extends Unit
      */
     protected function _before()
     {
-        $this->module = new SalesforcePlugin('force');
+        $this->module = new SalesforcePlugin('salesforce');
     }
 
     /**

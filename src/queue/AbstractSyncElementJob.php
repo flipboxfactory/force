@@ -6,12 +6,12 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\queue;
+namespace flipbox\craft\salesforce\queue;
 
 use Craft;
 use craft\base\ElementInterface;
 use craft\queue\BaseJob;
-use flipbox\force\fields\Objects;
+use flipbox\craft\salesforce\fields\Objects;
 use yii\base\InvalidConfigException;
 
 /**

@@ -6,13 +6,13 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\controllers\settings\view;
+namespace flipbox\craft\salesforce\cp\controllers\settings\view;
 
 use Craft;
 use flipbox\craft\ember\helpers\ArrayHelper;
-use flipbox\force\transformers\DynamicModelResponse;
-use flipbox\force\criteria\InstanceCriteria;
-use flipbox\force\criteria\ObjectAccessorCriteria;
+use flipbox\craft\salesforce\transformers\DynamicModelResponse;
+use flipbox\craft\salesforce\criteria\InstanceCriteria;
+use flipbox\craft\salesforce\criteria\ObjectAccessorCriteria;
 use yii\base\DynamicModel;
 use yii\web\Response;
 
@@ -102,11 +102,11 @@ class ObjectsController extends AbstractController
     {
         return [
             'fields' => [
-                'label' => Craft::t('force', 'Fields'),
+                'label' => Craft::t('salesforce', 'Fields'),
                 'url' => '#fields'
             ],
             'relations' => [
-                'label' => Craft::t('force', 'Relationships'),
+                'label' => Craft::t('salesforce', 'Relationships'),
                 'url' => '#relations'
             ]
         ];

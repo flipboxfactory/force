@@ -6,7 +6,7 @@
  * @link       https://github.com/flipbox/salesforce
  */
 
-namespace flipbox\force\transformers;
+namespace flipbox\craft\salesforce\transformers;
 
 use craft\helpers\ArrayHelper;
 

@@ -1,4 +1,4 @@
-{% extends "force/_cp/_layout" %}
+{% extends "salesforce/_cp/_layout" %}
 {% import "_includes/forms" as forms %}
 
 {% block actionButton %}
@@ -20,11 +20,11 @@
 {% block details %}
     <div class="meta read-only">
         <div class="data">
-            <h5 class="heading">{{ "Name"|t('force') }}</h5>
+            <h5 class="heading">{{ "Name"|t('salesforce') }}</h5>
             <div class="value">{{ object.name }}</div>
         </div>
         <div class="data">
-            <h5 class="heading">{{ "Handle"|t('force') }}</h5>
+            <h5 class="heading">{{ "Handle"|t('salesforce') }}</h5>
             <div class="value">{{ object.handle }}</div>
         </div>
     </div>

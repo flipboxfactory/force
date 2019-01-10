@@ -3,7 +3,7 @@ module.exports = {
     description: 'Salesforce Plugin for Craft CMS',
     base: '/',
     themeConfig: {
-        docsRepo: 'flipboxfactory/force',
+        docsRepo: 'flipboxfactory/craft-salesforce',
         docsDir: 'docs',
         docsBranch: 'master',
         editLinks: true,
@@ -11,7 +11,7 @@ module.exports = {
         searchMaxSuggestions: 10,
         nav: [
             {text: 'Details', link: 'https://flipboxdigital.com/software/force'},
-            {text: 'Changelog', link: 'https://github.com/flipboxfactory/force/blob/develop/CHANGELOG'},
+            {text: 'Changelog', link: 'https://github.com/flipboxfactory/craft-salesforce/blob/develop/CHANGELOG'},
             {text: 'Documentation', link: '/'}
         ],
         sidebar: {

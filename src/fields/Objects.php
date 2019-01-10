@@ -6,17 +6,17 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\fields;
+namespace flipbox\craft\salesforce\fields;
 
 use Craft;
 use flipbox\craft\integration\fields\Integrations;
-use flipbox\force\fields\actions\SyncItemFrom;
-use flipbox\force\fields\actions\SyncItemTo;
-use flipbox\force\fields\actions\SyncTo;
-use flipbox\force\Force;
-use flipbox\force\models\Settings;
-use flipbox\force\records\Connection;
-use flipbox\force\records\ObjectAssociation;
+use flipbox\craft\salesforce\fields\actions\SyncItemFrom;
+use flipbox\craft\salesforce\fields\actions\SyncItemTo;
+use flipbox\craft\salesforce\fields\actions\SyncTo;
+use flipbox\craft\salesforce\Force;
+use flipbox\craft\salesforce\models\Settings;
+use flipbox\craft\salesforce\records\Connection;
+use flipbox\craft\salesforce\records\ObjectAssociation;
 use Flipbox\Salesforce\Connections\ConnectionInterface;
 use Psr\SimpleCache\CacheInterface;
 
@@ -29,47 +29,47 @@ class Objects extends Integrations
     /**
      * The Plugin's translation category
      */
-    const TRANSLATION_CATEGORY = 'force';
+    const TRANSLATION_CATEGORY = 'salesforce';
 
     /**
      * @inheritdoc
      */
-    const INPUT_TEMPLATE_PATH = 'force/_components/fieldtypes/Objects/input';
+    const INPUT_TEMPLATE_PATH = 'salesforce/_components/fieldtypes/Objects/input';
 
     /**
      * @inheritdoc
      */
-    const INPUT_ITEM_TEMPLATE_PATH = 'force/_components/fieldtypes/Objects/_inputItem';
+    const INPUT_ITEM_TEMPLATE_PATH = 'salesforce/_components/fieldtypes/Objects/_inputItem';
 
     /**
      * @inheritdoc
      */
-    const SETTINGS_TEMPLATE_PATH = 'force/_components/fieldtypes/Objects/settings';
+    const SETTINGS_TEMPLATE_PATH = 'salesforce/_components/fieldtypes/Objects/settings';
 
     /**
      * @inheritdoc
      */
-    const ACTION_PREFORM_ACTION_PATH = 'force/cp/fields/perform-action';
+    const ACTION_PREFORM_ACTION_PATH = 'salesforce/cp/fields/perform-action';
 
     /**
      * @inheritdoc
      */
-    const ACTION_CREATE_ITEM_PATH = 'force/cp/fields/create-item';
+    const ACTION_CREATE_ITEM_PATH = 'salesforce/cp/fields/create-item';
 
     /**
      * @inheritdoc
      */
-    const ACTION_ASSOCIATION_ITEM_PATH = 'force/cp/objects/associate';
+    const ACTION_ASSOCIATION_ITEM_PATH = 'salesforce/cp/objects/associate';
 
     /**
      * @inheritdoc
      */
-    const ACTION_DISSOCIATION_ITEM_PATH = 'force/cp/objects/dissociate';
+    const ACTION_DISSOCIATION_ITEM_PATH = 'salesforce/cp/objects/dissociate';
 
     /**
      * @inheritdoc
      */
-    const ACTION_PREFORM_ITEM_ACTION_PATH = 'force/cp/fields/perform-item-action';
+    const ACTION_PREFORM_ITEM_ACTION_PATH = 'salesforce/cp/fields/perform-item-action';
 
     /**
      * @inheritdoc
@@ -99,7 +99,7 @@ class Objects extends Integrations
      */
     public static function displayName(): string
     {
-        return Craft::t('force', 'Salesforce Objects');
+        return Craft::t('salesforce', 'Salesforce Objects');
     }
 
     /**
@@ -107,7 +107,7 @@ class Objects extends Integrations
      */
     public static function defaultSelectionLabel(): string
     {
-        return Craft::t('force', 'Add a Salesforce Object');
+        return Craft::t('salesforce', 'Add a Salesforce Object');
     }
 
     /*******************************************

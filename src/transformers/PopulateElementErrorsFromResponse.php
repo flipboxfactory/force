@@ -6,12 +6,12 @@
  * @link       https://github.com/flipbox/salesforce
  */
 
-namespace flipbox\force\transformers;
+namespace flipbox\craft\salesforce\transformers;
 
 use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\helpers\Json;
-use flipbox\force\fields\Objects;
+use flipbox\craft\salesforce\fields\Objects;
 use Psr\Http\Message\ResponseInterface;
 
 /**

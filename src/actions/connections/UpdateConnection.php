@@ -6,10 +6,10 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\actions\connections;
+namespace flipbox\craft\salesforce\actions\connections;
 
 use flipbox\craft\integration\actions\connections\UpdateConnection as UpdateIntegrationConnection;
-use flipbox\force\records\Connection;
+use flipbox\craft\salesforce\records\Connection;
 use yii\db\ActiveRecord;
 
 /**

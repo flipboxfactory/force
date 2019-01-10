@@ -6,13 +6,13 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\controllers\view;
+namespace flipbox\craft\salesforce\cp\controllers\view;
 
 use Craft;
 use craft\web\Controller;
 use flipbox\craft\ember\helpers\UrlHelper;
-use flipbox\force\cp\Cp as CpModule;
-use flipbox\force\Force;
+use flipbox\craft\salesforce\cp\Cp as CpModule;
+use flipbox\craft\salesforce\Force;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -25,7 +25,7 @@ abstract class AbstractController extends Controller
     /**
      * The index view template path
      */
-    const TEMPLATE_BASE = 'force' . DIRECTORY_SEPARATOR . '_cp';
+    const TEMPLATE_BASE = 'salesforce' . DIRECTORY_SEPARATOR . '_cp';
 
     /*******************************************
      * BASE PATHS
@@ -67,7 +67,7 @@ abstract class AbstractController extends Controller
     {
         $module = Force::getInstance();
 
-        $title = Craft::t('force', "Salesforce");
+        $title = Craft::t('salesforce', "Salesforce");
 
         // Settings
         $variables['settings'] = $module->getSettings();
@@ -86,7 +86,7 @@ abstract class AbstractController extends Controller
         if (!$activeSubNav = Craft::$app->getRequest()->getSegment(2)) {
             $activeSubNav = 'queries';
         }
-        $variables['selectedSubnavItem'] = 'force.' . $activeSubNav;
+        $variables['selectedSubnavItem'] = 'salesforce.' . $activeSubNav;
 
         // Breadcrumbs
         $variables['crumbs'][] = [
@@ -111,6 +111,6 @@ abstract class AbstractController extends Controller
         $variables['continueEditingUrl'] = $this->getBaseContinueEditingUrl('/{id}');
 
         // Append title
-        $variables['title'] .= ' - ' . Craft::t('force', 'New');
+        $variables['title'] .= ' - ' . Craft::t('salesforce', 'New');
     }
 }

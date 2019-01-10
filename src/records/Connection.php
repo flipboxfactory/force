@@ -6,10 +6,10 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\records;
+namespace flipbox\craft\salesforce\records;
 
 use flipbox\craft\integration\records\IntegrationConnection;
-use flipbox\force\validators\ConnectionValidator;
+use flipbox\craft\salesforce\validators\ConnectionValidator;
 use Flipbox\Salesforce\Connections\ConnectionInterface;
 
 /**

@@ -6,12 +6,12 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\services;
+namespace flipbox\craft\salesforce\services;
 
 use Craft;
 use flipbox\craft\psr16\SimpleCacheAdapter;
-use flipbox\force\events\RegisterCacheEvent;
-use flipbox\force\Force;
+use flipbox\craft\salesforce\events\RegisterCacheEvent;
+use flipbox\craft\salesforce\Force;
 use yii\base\InvalidConfigException;
 use yii\caching\CacheInterface;
 use yii\caching\DummyCache;

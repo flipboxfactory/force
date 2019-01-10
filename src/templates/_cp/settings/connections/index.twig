@@ -1,41 +1,41 @@
-{% extends "force/_cp/settings/_layout" %}
+{% extends "salesforce/_cp/settings/_layout" %}
 
 {% block actionButton %}
     <div class="buttons right">
         <a href="{{ url(continueEditingUrl ~ '/new') }}"
-           class="btn submit add icon">{{ "New connection"|t('force') }}</a>
+           class="btn submit add icon">{{ "New connection"|t('salesforce') }}</a>
     </div>
 {% endblock %}
 
 {% set content %}
     <table id="connections" class="data fullwidth collapsible">
         <thead>
-        <th scope="col">{{ "Type"|t('force') }}</th>
-        <th scope="col">{{ "Handle"|t('force') }}</th>
-        <th scope="col">{{ "Default"|t('force') }}</th>
+        <th scope="col">{{ "Type"|t('salesforce') }}</th>
+        <th scope="col">{{ "Handle"|t('salesforce') }}</th>
+        <th scope="col">{{ "Default"|t('salesforce') }}</th>
         </thead>
         <tbody>
         {% if connections|length %}
             {% for connection in connections %}
                 <tr data-id="{{ connection.id }}" data-name="{{ connection.handle }}">
                     <th scope="row"
-                        data-title="{{ 'Type'|t('force') }}">
+                        data-title="{{ 'Type'|t('salesforce') }}">
                         <a href="{{ url(baseCpPath~'/'~connection.id) }}">
                             {{ attribute(types, connection.class).displayName() ?? '' }}
                         </a>
                     </th>
 
-                    <td data-title="{{ 'Handle'|t('force') }}">
+                    <td data-title="{{ 'Handle'|t('salesforce') }}">
                         <code>{{ connection.handle }}</code>
                     </td>
-                    <td data-title="{{ 'Default'|t('force') }}">
+                    <td data-title="{{ 'Default'|t('salesforce') }}">
                         <span class="status{% if settings.defaultConnection == connection.handle %} enabled{% endif %}"></span>                    </td>
                 </tr>
             {% endfor %}
         {% else %}
             <tr>
                 <td colspan="3">
-                    {{ "No connections exist yet."|t('force') }}
+                    {{ "No connections exist yet."|t('salesforce') }}
                 </td>
             </tr>
         {% endif %}

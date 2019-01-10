@@ -6,14 +6,14 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\fields\actions;
+namespace flipbox\craft\salesforce\fields\actions;
 
 use Craft;
 use craft\base\ElementInterface;
 use flipbox\craft\integration\fields\actions\AbstractIntegrationItemAction;
 use flipbox\craft\integration\fields\Integrations;
 use flipbox\craft\integration\records\IntegrationAssociation;
-use flipbox\force\queue\SyncElementFromSalesforceObjectJob;
+use flipbox\craft\salesforce\queue\SyncElementFromSalesforceObjectJob;
 
 class SyncItemFrom extends AbstractIntegrationItemAction
 {
@@ -22,7 +22,7 @@ class SyncItemFrom extends AbstractIntegrationItemAction
      */
     public function getTriggerLabel(): string
     {
-        return Craft::t('force', 'Sync From Salesforce');
+        return Craft::t('salesforce', 'Sync From Salesforce');
     }
 
     /**
@@ -30,7 +30,7 @@ class SyncItemFrom extends AbstractIntegrationItemAction
      */
     public function getConfirmationMessage()
     {
-        return Craft::t('force', "Performing a sync will override any unsaved data.  Please confirm to continue.");
+        return Craft::t('salesforce', "Performing a sync will override any unsaved data.  Please confirm to continue.");
     }
 
     /**

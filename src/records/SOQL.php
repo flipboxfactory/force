@@ -6,16 +6,16 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\records;
+namespace flipbox\craft\salesforce\records;
 
 use Craft;
 use craft\helpers\Json;
 use flipbox\craft\ember\helpers\ModelHelper;
 use flipbox\craft\ember\models\HandleRulesTrait;
 use flipbox\craft\ember\records\ActiveRecordWithId;
-use flipbox\force\queries\SOQLQuery;
-use flipbox\force\validators\QueryBuilderValidator;
-use flipbox\force\criteria\QueryCriteria;
+use flipbox\craft\salesforce\queries\SOQLQuery;
+use flipbox\craft\salesforce\validators\QueryBuilderValidator;
+use flipbox\craft\salesforce\criteria\QueryCriteria;
 use Flipbox\Salesforce\Query\QueryBuilderInterface;
 use yii\validators\UniqueValidator;
 
@@ -66,7 +66,7 @@ class SOQL extends ActiveRecordWithId implements QueryBuilderInterface
     public function settingsHtml(): string
     {
         return Craft::$app->getView()->renderTemplate(
-            'force/_components/queries/dynamic',
+            'salesforce/_components/queries/dynamic',
             [
                 'record' => $this
             ]

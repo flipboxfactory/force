@@ -6,11 +6,11 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\actions\objects;
+namespace flipbox\craft\salesforce\actions\objects;
 
 use flipbox\craft\integration\actions\objects\AssociateObject as AssociateIntegration;
 use flipbox\craft\integration\records\IntegrationAssociation;
-use flipbox\force\fields\Objects;
+use flipbox\craft\salesforce\fields\Objects;
 use Flipbox\Salesforce\Resources\SObject;
 use Psr\Http\Message\ResponseInterface;
 

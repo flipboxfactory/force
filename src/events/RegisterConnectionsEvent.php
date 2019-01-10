@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\events;
+namespace flipbox\craft\salesforce\events;
 
 use Flipbox\Salesforce\Connections\ConnectionInterface;
 use yii\base\Event;

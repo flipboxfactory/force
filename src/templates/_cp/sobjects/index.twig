@@ -1,22 +1,22 @@
-{% extends "force/_cp/_layout" %}
+{% extends "salesforce/_cp/_layout" %}
 
 {% set content %}
     <table id="queries" class="data fullwidth collapsible">
         <thead>
-        <th scope="col">{{ "Name"|t('force') }}</th>
-        <th scope="col">{{ "Handle"|t('force') }}</th>
+        <th scope="col">{{ "Name"|t('salesforce') }}</th>
+        <th scope="col">{{ "Handle"|t('salesforce') }}</th>
         </thead>
         <tbody>
         {% if objects|length %}
             {% for object in objects %}
                 <tr data-id="{{ object.id }}" data-name="{{ object.name }}">
                     <th scope="row"
-                        data-title="{{ 'Name'|t('force') }}">
+                        data-title="{{ 'Name'|t('salesforce') }}">
                         <a href="{{ url(baseCpPath~'/'~object.id) }}">
                             {{ object.name }}
                         </a>
                     </th>
-                    <td data-title="{{ 'Handle'|t('force') }}">
+                    <td data-title="{{ 'Handle'|t('salesforce') }}">
                         <code>{{ object.handle }}</code>
                     </td>
                 </tr>
@@ -24,7 +24,7 @@
         {% else %}
             <tr>
                 <td colspan="3">
-                    {{ "No Salesforce Objects exist yet."|t('force') }}
+                    {{ "No Salesforce Objects exist yet."|t('salesforce') }}
                 </td>
             </tr>
         {% endif %}

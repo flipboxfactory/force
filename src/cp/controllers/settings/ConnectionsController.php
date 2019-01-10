@@ -6,15 +6,15 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\controllers\settings;
+namespace flipbox\craft\salesforce\cp\controllers\settings;
 
 use Craft;
 use craft\helpers\ArrayHelper;
-use flipbox\force\actions\connections\CreateConnection;
-use flipbox\force\actions\connections\DeleteConnection;
-use flipbox\force\actions\connections\UpdateConnection;
-use flipbox\force\cp\controllers\AbstractController;
-use flipbox\force\cp\Cp;
+use flipbox\craft\salesforce\actions\connections\CreateConnection;
+use flipbox\craft\salesforce\actions\connections\DeleteConnection;
+use flipbox\craft\salesforce\actions\connections\UpdateConnection;
+use flipbox\craft\salesforce\cp\controllers\AbstractController;
+use flipbox\craft\salesforce\cp\Cp;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -46,16 +46,16 @@ class ConnectionsController extends AbstractController
                 'flash' => [
                     'actions' => [
                         'create' => [
-                            201 => Craft::t('force', "Connection successfully created."),
-                            400 => Craft::t('force', "Failed to create connection.")
+                            201 => Craft::t('salesforce', "Connection successfully created."),
+                            400 => Craft::t('salesforce', "Failed to create connection.")
                         ],
                         'update' => [
-                            200 => Craft::t('force', "Connection successfully updated."),
-                            400 => Craft::t('force', "Failed to update connection.")
+                            200 => Craft::t('salesforce', "Connection successfully updated."),
+                            400 => Craft::t('salesforce', "Failed to update connection.")
                         ],
                         'delete' => [
-                            204 => Craft::t('force', "Connection successfully deleted."),
-                            400 => Craft::t('force', "Failed to delete connection.")
+                            204 => Craft::t('salesforce', "Connection successfully deleted."),
+                            400 => Craft::t('salesforce', "Failed to delete connection.")
                         ]
                     ]
                 ]

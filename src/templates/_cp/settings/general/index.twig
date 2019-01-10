@@ -1,18 +1,18 @@
-{% extends "force/_cp/settings/_layout" %}
+{% extends "salesforce/_cp/settings/_layout" %}
 {% import "_includes/forms" as forms %}
 
 {% set configOverrideMessage %}
     <span class="config-override">[Config Override]</span>
 {% endset %}
 
-{% set config = craft.app.config.getConfigFromFile('force') %}
+{% set config = craft.app.config.getConfigFromFile('salesforce') %}
 
 {% set content %}
     <input type="hidden" name="action" value="{{ baseActionPath }}/save">
     {{ redirectInput(baseCpPath) }}
 
-    {% set connecitonOptions = {(null): '-- Select Connection --'|t('force')} %}
-    {% for connection in craft.force.connections.all %}
+    {% set connecitonOptions = {(null): '-- Select Connection --'|t('salesforce')} %}
+    {% for connection in craft.salesforce.connections.all %}
         {% set connecitonOptions = connecitonOptions|merge({
             (connection.handle): connection.handle
         }) %}
@@ -20,8 +20,8 @@
 
     {% set connectionOverride = attribute(config, 'defaultConnection') is defined %}
     {{ forms.selectField({
-        label: "Default Connection"|t('force'),
-        instructions: "The default connection is used when an API request is made without a specified connection." ~ (connectionOverride ? configOverrideMessage : '') |t('force'),
+        label: "Default Connection"|t('salesforce'),
+        instructions: "The default connection is used when an API request is made without a specified connection." ~ (connectionOverride ? configOverrideMessage : '') |t('salesforce'),
         id: 'defaultConnection',
         name: 'defaultConnection',
         value: settings.defaultConnection,
@@ -29,8 +29,8 @@
         required: true
     }) }}
 
-    {% set cacheOptions = {(null): '-- Select Cache --'|t('force')} %}
-    {% for key, config in craft.force.cache.all %}
+    {% set cacheOptions = {(null): '-- Select Cache --'|t('salesforce')} %}
+    {% for key, config in craft.salesforce.cache.all %}
         {% set cacheOptions = cacheOptions|merge({
             (key): key
             }) %}
@@ -38,8 +38,8 @@
 
     {% set cacheOverride = attribute(config, 'defaultCache') is defined %}
     {{ forms.selectField({
-        label: "Default Cache"|t('force'),
-        instructions: "The default cache is used when an API request is made without a specified cache." ~ (cacheOverride ? configOverrideMessage : '') |t('force'),
+        label: "Default Cache"|t('salesforce'),
+        instructions: "The default cache is used when an API request is made without a specified cache." ~ (cacheOverride ? configOverrideMessage : '') |t('salesforce'),
         id: 'defaultCache',
         name: 'defaultCache',
         value: settings.defaultCache,

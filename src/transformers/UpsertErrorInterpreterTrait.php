@@ -6,9 +6,9 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\transformers;
+namespace flipbox\craft\salesforce\transformers;
 
-use flipbox\force\helpers\ErrorHelper;
+use flipbox\craft\salesforce\helpers\ErrorHelper;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

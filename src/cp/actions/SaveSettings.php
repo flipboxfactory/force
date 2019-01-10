@@ -6,11 +6,11 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\actions;
+namespace flipbox\craft\salesforce\cp\actions;
 
 use Craft;
-use flipbox\force\Force;
-use flipbox\force\models\Settings;
+use flipbox\craft\salesforce\Force;
+use flipbox\craft\salesforce\models\Settings;
 use yii\base\Model;
 use flipbox\craft\ember\actions\models\CreateModel;
 

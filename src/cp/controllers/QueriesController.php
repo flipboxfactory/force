@@ -6,14 +6,14 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\controllers;
+namespace flipbox\craft\salesforce\cp\controllers;
 
 use Craft;
 use craft\helpers\ArrayHelper;
-use flipbox\force\actions\query\CreateQuery;
-use flipbox\force\actions\query\DeleteQuery;
-use flipbox\force\actions\query\PreviewQuery;
-use flipbox\force\actions\query\UpdateQuery;
+use flipbox\craft\salesforce\actions\query\CreateQuery;
+use flipbox\craft\salesforce\actions\query\DeleteQuery;
+use flipbox\craft\salesforce\actions\query\PreviewQuery;
+use flipbox\craft\salesforce\actions\query\UpdateQuery;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -43,16 +43,16 @@ class QueriesController extends AbstractController
                 'flash' => [
                     'actions' => [
                         'create' => [
-                            201 => Craft::t('force', "Query successfully created."),
-                            400 => Craft::t('force', "Failed to create query.")
+                            201 => Craft::t('salesforce', "Query successfully created."),
+                            400 => Craft::t('salesforce', "Failed to create query.")
                         ],
                         'update' => [
-                            200 => Craft::t('force', "Query successfully updated."),
-                            400 => Craft::t('force', "Failed to update query.")
+                            200 => Craft::t('salesforce', "Query successfully updated."),
+                            400 => Craft::t('salesforce', "Failed to update query.")
                         ],
                         'delete' => [
-                            204 => Craft::t('force', "Query successfully deleted."),
-                            400 => Craft::t('force', "Failed to delete query.")
+                            204 => Craft::t('salesforce', "Query successfully deleted."),
+                            400 => Craft::t('salesforce', "Failed to delete query.")
                         ]
                     ]
                 ]

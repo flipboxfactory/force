@@ -6,11 +6,11 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\actions\query;
+namespace flipbox\craft\salesforce\actions\query;
 
 use Craft;
 use flipbox\craft\ember\actions\records\CreateRecord;
-use flipbox\force\records\SOQL;
+use flipbox\craft\salesforce\records\SOQL;
 use yii\db\ActiveRecord;
 use yii\di\Instance;
 

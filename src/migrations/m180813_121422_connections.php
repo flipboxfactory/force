@@ -6,10 +6,10 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\migrations;
+namespace flipbox\craft\salesforce\migrations;
 
 use flipbox\craft\integration\migrations\IntegrationConnections;
-use flipbox\force\records\Connection as ConnectionRecord;
+use flipbox\craft\salesforce\records\Connection as ConnectionRecord;
 
 class m180813_121422_connections extends IntegrationConnections
 {

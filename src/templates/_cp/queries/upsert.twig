@@ -1,4 +1,4 @@
-{% extends "force/_cp/_layout" %}
+{% extends "salesforce/_cp/_layout" %}
 {% import "_includes/forms" as forms %}
 {% set builder = query.criteria.query %}
 
@@ -43,7 +43,7 @@
                     <li>
                         <a class="formsubmit error"
                            data-action="{{ baseActionPath }}/delete"
-                           data-confirm="{{ 'Are you sure you want to delete this organization type?'|t('force') }}"
+                           data-confirm="{{ 'Are you sure you want to delete this organization type?'|t('salesforce') }}"
                            data-redirect="{{ baseCpPath|hash }}"
                            role="option"
                            tabindex="-1">{{ "Delete"|t('app') }}</a>
@@ -64,8 +64,8 @@
     <div class="soql">
         {{ forms.textField({
             first: true,
-            label: "Name"|t('force'),
-            instructions: "What this query will be called in the CP."|t('force'),
+            label: "Name"|t('salesforce'),
+            instructions: "What this query will be called in the CP."|t('salesforce'),
             id: 'name',
             name: 'name',
             value: query.name,
@@ -76,8 +76,8 @@
         }) }}
 
         {{ forms.textField({
-            label: "Handle"|t('force'),
-            instructions: "How you’ll refer to this query in the templates."|t('force'),
+            label: "Handle"|t('salesforce'),
+            instructions: "How you’ll refer to this query in the templates."|t('salesforce'),
             id: 'handle',
             class: 'code',
             name: 'handle',
@@ -87,8 +87,8 @@
         }) }}
 
         {{ forms.textareaField({
-            label: "Query"|t('force'),
-            instructions: "The raw query.  You may also include twig markup to represent dynamic variables."|t('force'),
+            label: "Query"|t('salesforce'),
+            instructions: "The raw query.  You may also include twig markup to represent dynamic variables."|t('salesforce'),
             id: 'soql',
             class: 'code',
             name: 'soql',

@@ -6,13 +6,13 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\controllers;
+namespace flipbox\craft\salesforce\cp\controllers;
 
 use Craft;
 use craft\helpers\ArrayHelper;
-use flipbox\force\actions\objects\AssociateObject;
-use flipbox\force\actions\objects\DissociateObject;
-use flipbox\force\records\ObjectAssociation;
+use flipbox\craft\salesforce\actions\objects\AssociateObject;
+use flipbox\craft\salesforce\actions\objects\DissociateObject;
+use flipbox\craft\salesforce\records\ObjectAssociation;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -41,12 +41,12 @@ class ObjectsController extends AbstractController
                 'flash' => [
                     'actions' => [
                         'associate' => [
-                            200 => Craft::t('force', "Salesforce Object associated successfully"),
-                            400 => Craft::t('force', "Failed to associate Salesforce Object")
+                            200 => Craft::t('salesforce', "Salesforce Object associated successfully"),
+                            400 => Craft::t('salesforce', "Failed to associate Salesforce Object")
                         ],
                         'dissociate' => [
-                            200 => Craft::t('force', "Salesforce Object dissociated successfully"),
-                            400 => Craft::t('force', "Failed to dissociate Salesforce Object")
+                            200 => Craft::t('salesforce', "Salesforce Object dissociated successfully"),
+                            400 => Craft::t('salesforce', "Failed to dissociate Salesforce Object")
                         ]
                     ]
                 ]

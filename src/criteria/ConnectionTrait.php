@@ -6,10 +6,10 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\criteria;
+namespace flipbox\craft\salesforce\criteria;
 
-use flipbox\force\Force;
-use flipbox\force\records\Connection;
+use flipbox\craft\salesforce\Force;
+use flipbox\craft\salesforce\records\Connection;
 use Flipbox\Salesforce\Connections\ConnectionInterface;
 
 /**

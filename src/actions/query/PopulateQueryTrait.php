@@ -6,10 +6,10 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\actions\query;
+namespace flipbox\craft\salesforce\actions\query;
 
 use Craft;
-use flipbox\force\records\SOQL;
+use flipbox\craft\salesforce\records\SOQL;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

@@ -6,14 +6,14 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\queue;
+namespace flipbox\craft\salesforce\queue;
 
 use craft\base\Element;
 use craft\base\ElementInterface;
 use flipbox\craft\ember\helpers\SiteHelper;
 use flipbox\craft\integration\records\IntegrationAssociation;
-use flipbox\force\fields\Objects;
-use flipbox\force\Force;
+use flipbox\craft\salesforce\fields\Objects;
+use flipbox\craft\salesforce\Force;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

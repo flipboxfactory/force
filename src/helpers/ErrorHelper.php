@@ -6,7 +6,7 @@
  * @link       https://github.com/flipbox/salesforce
  */
 
-namespace flipbox\force\helpers;
+namespace flipbox\craft\salesforce\helpers;
 
 use craft\helpers\ArrayHelper;
 

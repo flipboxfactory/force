@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\web\assets\base;
+namespace flipbox\craft\salesforce\web\assets\base;
 
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;

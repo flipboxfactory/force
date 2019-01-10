@@ -6,12 +6,12 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\controllers\settings\view;
+namespace flipbox\craft\salesforce\cp\controllers\settings\view;
 
 use Craft;
 use flipbox\craft\ember\helpers\UrlHelper;
-use flipbox\force\cp\Cp as CpModule;
-use flipbox\force\Force;
+use flipbox\craft\salesforce\cp\Cp as CpModule;
+use flipbox\craft\salesforce\Force;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -19,7 +19,7 @@ use flipbox\force\Force;
  *
  * @property CpModule $module
  */
-abstract class AbstractController extends \flipbox\force\cp\controllers\view\AbstractController
+abstract class AbstractController extends \flipbox\craft\salesforce\cp\controllers\view\AbstractController
 {
     /**
      * The index view template path
@@ -66,7 +66,7 @@ abstract class AbstractController extends \flipbox\force\cp\controllers\view\Abs
     {
         parent::baseVariables($variables);
 
-        $title = Craft::t('force', "Settings");
+        $title = Craft::t('salesforce', "Settings");
         $variables['title'] .= ': ' . $title;
 
         // Breadcrumbs
@@ -87,6 +87,6 @@ abstract class AbstractController extends \flipbox\force\cp\controllers\view\Abs
     {
         $this->baseVariables($variables);
         $variables['continueEditingUrl'] = $this->getBaseContinueEditingUrl('/{id}');
-        $variables['title'] .= ' - ' . Craft::t('force', 'New');
+        $variables['title'] .= ' - ' . Craft::t('salesforce', 'New');
     }
 }

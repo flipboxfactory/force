@@ -1,5 +1,5 @@
 {
-  "name": "flipboxfactory/force",
+  "name": "flipboxfactory/craft-salesforce",
   "description": "Salesforce Integration for Craft CMS",
   "version": "1.0.0",
   "type": "craft-plugin",
@@ -25,29 +25,29 @@
   },
   "autoload": {
     "psr-4": {
-      "flipbox\\force\\": "src/"
+      "flipbox\\craft\\salesforce\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "flipbox\\force\\tests\\": "tests/src/"
+      "flipbox\\craft\\salesforce\\tests\\": "tests/src/"
     }
   },
   "support": {
     "email": "support@flipboxfactory.com",
-    "issues": "https://github.com/flipboxfactory/force/issues?state=open",
-    "source": "https://github.com/flipboxfactory/force",
-    "docs": "https://github.com/flipboxfactory/force",
-    "rss": "https://github.com/flipboxfactory/force/commits/master.atom"
+    "issues": "https://github.com/flipboxfactory/craft-salesforce/issues?state=open",
+    "source": "https://github.com/flipboxfactory/craft-salesforce",
+    "docs": "https://github.com/flipboxfactory/craft-salesforce",
+    "rss": "https://github.com/flipboxfactory/craft-salesforce/commits/master.atom"
   },
   "extra": {
     "name": "Salesforce",
-    "handle": "force",
-    "class": "flipbox\\force\\Force",
+    "handle": "salesforce",
+    "class": "flipbox\\craft\\salesforce\\Force",
     "developer": "Flipbox Digital",
     "developerUrl": "https://www.flipboxdigital.com",
-    "changelogUrl": "https://raw.githubusercontent.com/flipboxfactory/force/master/CHANGELOG.md",
-    "downloadUrl": "https://github.com/flipboxfactory/force/archive/master.zip",
+    "changelogUrl": "https://raw.githubusercontent.com/flipboxfactory/craft-salesforce/master/CHANGELOG.md",
+    "downloadUrl": "https://github.com/flipboxfactory/craft-salesforce/archive/master.zip",
     "hasCpSection": true,
     "hasCpSettings": true,
     "schemaVersion": "1.1.0"

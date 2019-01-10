@@ -6,13 +6,13 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\actions\sync;
+namespace flipbox\craft\salesforce\cp\actions\sync;
 
 use Craft;
 use craft\base\ElementInterface;
 use flipbox\craft\ember\actions\CheckAccessTrait;
-use flipbox\force\fields\Objects;
-use flipbox\force\queue\SyncElementFromSalesforceObjectJob;
+use flipbox\craft\salesforce\fields\Objects;
+use flipbox\craft\salesforce\queue\SyncElementFromSalesforceObjectJob;
 use yii\base\Action;
 
 /**

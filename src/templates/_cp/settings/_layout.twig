@@ -1,6 +1,6 @@
 {% extends "_layouts/cp" %}
 {% block sidebar %}
-    {% set baseCpPath = 'force/settings' %}
+    {% set baseCpPath = 'salesforce/settings' %}
     {% set selected = selected is defined ? selected : craft.app.request.getSegment(3) %}
     {% set nav = {
         general : {

@@ -6,14 +6,14 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\widgets;
+namespace flipbox\craft\salesforce\widgets;
 
 use Craft;
 use craft\base\ElementInterface;
 use craft\base\Widget;
 use craft\db\Query;
-use flipbox\force\fields\Objects;
-use flipbox\force\web\assets\widgets\SyncWidget;
+use flipbox\craft\salesforce\fields\Objects;
+use flipbox\craft\salesforce\web\assets\widgets\SyncWidget;
 
 class ObjectWidget extends Widget
 {
@@ -37,7 +37,7 @@ class ObjectWidget extends Widget
      */
     public static function displayName(): string
     {
-        return Craft::t('force', 'Sync Salesforce Object');
+        return Craft::t('salesforce', 'Sync Salesforce Object');
     }
 
     /**
@@ -73,7 +73,7 @@ class ObjectWidget extends Widget
     public function getSettingsHtml()
     {
         return Craft::$app->getView()->renderTemplate(
-            'force/_components/widgets/ObjectWidget/settings',
+            'salesforce/_components/widgets/ObjectWidget/settings',
             [
                 'widget' => $this,
                 'fieldOptions' => $this->getFieldOptions(),
@@ -93,7 +93,7 @@ class ObjectWidget extends Widget
         Craft::$app->getView()->registerAssetBundle(SyncWidget::class);
 
         return Craft::$app->getView()->renderTemplate(
-            'force/_components/widgets/ObjectWidget/body',
+            'salesforce/_components/widgets/ObjectWidget/body',
             [
                 'widget' => $this
             ]

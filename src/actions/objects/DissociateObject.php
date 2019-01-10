@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\actions\objects;
+namespace flipbox\craft\salesforce\actions\objects;
 
 use flipbox\craft\integration\actions\objects\DissociateObject as DissociateIntegration;
 

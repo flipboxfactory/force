@@ -8,13 +8,13 @@
  * @link       https://github.com/flipbox/salesforce
  */
 
-namespace flipbox\force\transformers;
+namespace flipbox\craft\salesforce\transformers;
 
 use craft\base\Element;
 use craft\base\ElementInterface;
-use flipbox\force\events\CreatePayloadFromElementEvent;
-use flipbox\force\fields\Objects;
-use flipbox\force\Force;
+use flipbox\craft\salesforce\events\CreatePayloadFromElementEvent;
+use flipbox\craft\salesforce\fields\Objects;
+use flipbox\craft\salesforce\Force;
 use yii\base\BaseObject;
 
 /**

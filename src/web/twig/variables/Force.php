@@ -6,18 +6,18 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\web\twig\variables;
+namespace flipbox\craft\salesforce\web\twig\variables;
 
 use flipbox\craft\ember\helpers\QueryHelper;
 use flipbox\craft\integration\queries\IntegrationConnectionQuery;
-use flipbox\force\Force as ForcePlugin;
-use flipbox\force\models\Settings;
-use flipbox\force\queries\SOQLQuery;
-use flipbox\force\records\Connection;
-use flipbox\force\records\SOQL;
-use flipbox\force\services\Cache;
-use flipbox\force\criteria\ObjectAccessorCriteria;
-use flipbox\force\criteria\ObjectAccessorCriteriaInterface;
+use flipbox\craft\salesforce\Force as ForcePlugin;
+use flipbox\craft\salesforce\models\Settings;
+use flipbox\craft\salesforce\queries\SOQLQuery;
+use flipbox\craft\salesforce\records\Connection;
+use flipbox\craft\salesforce\records\SOQL;
+use flipbox\craft\salesforce\services\Cache;
+use flipbox\craft\salesforce\criteria\ObjectAccessorCriteria;
+use flipbox\craft\salesforce\criteria\ObjectAccessorCriteriaInterface;
 use yii\di\ServiceLocator;
 
 /**
@@ -68,7 +68,7 @@ class Force extends ServiceLocator
     }
 
     /**
-     * Sub-Variables that are accessed 'craft.force.settings'
+     * Sub-Variables that are accessed 'craft.salesforce.settings'
      *
      * @return Settings
      */

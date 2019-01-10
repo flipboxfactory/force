@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\web\assets\soql;
+namespace flipbox\craft\salesforce\web\assets\soql;
 
 use craft\web\AssetBundle;
 use flipbox\craft\ember\web\assets\actions\Actions;

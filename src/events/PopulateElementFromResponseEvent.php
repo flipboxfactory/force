@@ -6,12 +6,12 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\events;
+namespace flipbox\craft\salesforce\events;
 
 use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\helpers\StringHelper;
-use flipbox\force\fields\Objects;
+use flipbox\craft\salesforce\fields\Objects;
 use Psr\Http\Message\ResponseInterface;
 use yii\base\Event;
 

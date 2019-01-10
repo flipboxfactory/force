@@ -6,12 +6,12 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\controllers\view;
+namespace flipbox\craft\salesforce\cp\controllers\view;
 
 use Craft;
 use craft\helpers\UrlHelper;
-use flipbox\force\records\SOQL;
-use flipbox\force\web\assets\soql\SOQL as SOQLAsset;
+use flipbox\craft\salesforce\records\SOQL;
+use flipbox\craft\salesforce\web\assets\soql\SOQL as SOQLAsset;
 use yii\web\Response;
 
 /**
@@ -133,7 +133,7 @@ class QueriesController extends AbstractController
     {
         parent::baseVariables($variables);
 
-        $title = Craft::t('force', "Queries");
+        $title = Craft::t('salesforce', "Queries");
         $variables['title'] .= ' ' . $title;
 
         // Breadcrumbs

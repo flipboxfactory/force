@@ -45,11 +45,11 @@ Craft.ForceQuery = Garnish.Base.extend(
 
                             if (response.errors) {
                                 Craft.cp.displayError(
-                                    Craft.t('force', this.settings.messageError)
+                                    Craft.t('salesforce', this.settings.messageError)
                                 );
                             } else {
                                 Craft.cp.displayNotice(
-                                    Craft.t('force', this.settings.messageSuccess)
+                                    Craft.t('salesforce', this.settings.messageSuccess)
                                 );
                             }
                         }
@@ -73,7 +73,7 @@ Craft.ForceQuery = Garnish.Base.extend(
     },
     {
         defaults: {
-            action: 'force/cp/queries/request',
+            action: 'salesforce/cp/queries/request',
             messageError: "Failed to execute query",
             messageSuccess: "Query executed successfully",
             onAfterQuery: $.noop

@@ -6,13 +6,13 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\controllers;
+namespace flipbox\craft\salesforce\cp\controllers;
 
 use craft\helpers\ArrayHelper;
 use flipbox\craft\ember\filters\FlashMessageFilter;
 use flipbox\craft\ember\filters\ModelErrorFilter;
 use flipbox\craft\ember\filters\RedirectFilter;
-use flipbox\force\cp\Cp;
+use flipbox\craft\salesforce\cp\Cp;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

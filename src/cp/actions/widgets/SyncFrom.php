@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\actions\widgets;
+namespace flipbox\craft\salesforce\actions\widgets;
 
 use Craft;
 use craft\base\ElementInterface;
@@ -14,8 +14,8 @@ use flipbox\craft\integration\actions\ResolverTrait;
 use flipbox\craft\integration\fields\Integrations;
 use flipbox\craft\integration\queries\IntegrationAssociationQuery;
 use flipbox\craft\integration\records\IntegrationAssociation;
-use flipbox\force\cp\actions\sync\AbstractSyncFrom;
-use flipbox\force\fields\Objects;
+use flipbox\craft\salesforce\cp\actions\sync\AbstractSyncFrom;
+use flipbox\craft\salesforce\fields\Objects;
 use yii\web\HttpException;
 
 /**

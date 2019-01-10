@@ -6,7 +6,7 @@
  * @link       https://github.com/flipboxfactory/craft-sortable-associations
  */
 
-namespace flipbox\force\queries;
+namespace flipbox\craft\salesforce\queries;
 
 use craft\helpers\Db;
 use flipbox\craft\ember\queries\ActiveQuery;

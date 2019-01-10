@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\events;
+namespace flipbox\craft\salesforce\events;
 
 use craft\base\ElementInterface;
 use craft\helpers\StringHelper;

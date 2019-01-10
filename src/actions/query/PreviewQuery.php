@@ -6,11 +6,11 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\actions\query;
+namespace flipbox\craft\salesforce\actions\query;
 
-use flipbox\force\records\SOQL;
-use flipbox\force\transformers\DynamicModelResponse;
-use flipbox\force\criteria\QueryCriteria;
+use flipbox\craft\salesforce\records\SOQL;
+use flipbox\craft\salesforce\transformers\DynamicModelResponse;
+use flipbox\craft\salesforce\criteria\QueryCriteria;
 use yii\base\DynamicModel;
 use yii\db\ActiveRecord;
 use yii\web\HttpException;

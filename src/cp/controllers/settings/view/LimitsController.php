@@ -6,10 +6,10 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\controllers\settings\view;
+namespace flipbox\craft\salesforce\cp\controllers\settings\view;
 
-use flipbox\force\transformers\DynamicModelResponse;
-use flipbox\force\criteria\InstanceCriteria;
+use flipbox\craft\salesforce\transformers\DynamicModelResponse;
+use flipbox\craft\salesforce\criteria\InstanceCriteria;
 use yii\web\Response;
 
 /**

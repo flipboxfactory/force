@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\validators;
+namespace flipbox\craft\salesforce\validators;
 
 use Craft;
 use flipbox\craft\ember\validators\ModelValidator;
@@ -27,7 +27,7 @@ class QueryBuilderValidator extends ModelValidator
                 !is_subclass_of($class, QueryBuilderInterface::class)
             ) {
                 $message = Craft::t(
-                    'force',
+                    'salesforce',
                     '“{class}” is a not a valid query builder.',
                     ['class' => $class]
                 );

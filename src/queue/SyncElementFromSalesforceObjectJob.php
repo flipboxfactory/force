@@ -6,13 +6,13 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\queue;
+namespace flipbox\craft\salesforce\queue;
 
 use Craft;
 use craft\base\ElementInterface;
-use flipbox\force\fields\Objects;
-use flipbox\force\transformers\PopulateElementErrorsFromResponse;
-use flipbox\force\transformers\PopulateElementFromResponse;
+use flipbox\craft\salesforce\fields\Objects;
+use flipbox\craft\salesforce\transformers\PopulateElementErrorsFromResponse;
+use flipbox\craft\salesforce\transformers\PopulateElementFromResponse;
 use Flipbox\Salesforce\Resources\SObject;
 
 /**

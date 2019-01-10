@@ -6,14 +6,14 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\fields\actions;
+namespace flipbox\craft\salesforce\fields\actions;
 
 use Craft;
 use craft\base\ElementInterface;
 use flipbox\craft\integration\fields\actions\AbstractIntegrationAction;
 use flipbox\craft\integration\fields\Integrations;
 use flipbox\craft\integration\queries\IntegrationAssociationQuery;
-use flipbox\force\queue\SyncElementToSalesforceObjectJob;
+use flipbox\craft\salesforce\queue\SyncElementToSalesforceObjectJob;
 use yii\web\HttpException;
 
 class SyncTo extends AbstractIntegrationAction
@@ -23,7 +23,7 @@ class SyncTo extends AbstractIntegrationAction
      */
     public function getTriggerLabel(): string
     {
-        return Craft::t('force', 'Create Salesforce Object from Element');
+        return Craft::t('salesforce', 'Create Salesforce Object from Element');
     }
 
     /**
@@ -32,7 +32,7 @@ class SyncTo extends AbstractIntegrationAction
     public function getConfirmationMessage()
     {
         return Craft::t(
-            'force',
+            'salesforce',
             "This element will be used to create a new Salesforce Object.  Please confirm to continue."
         );
     }

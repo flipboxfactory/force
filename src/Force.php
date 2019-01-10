@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force;
+namespace flipbox\craft\salesforce;
 
 use Craft;
 use craft\base\Plugin;
@@ -21,9 +21,9 @@ use craft\web\View;
 use flipbox\craft\ember\helpers\UrlHelper;
 use flipbox\craft\ember\modules\LoggerTrait;
 use flipbox\craft\psr3\Logger;
-use flipbox\force\fields\Objects as ObjectsField;
-use flipbox\force\models\Settings as SettingsModel;
-use flipbox\force\web\twig\variables\Force as ForceVariable;
+use flipbox\craft\salesforce\fields\Objects as ObjectsField;
+use flipbox\craft\salesforce\models\Settings as SettingsModel;
+use flipbox\craft\salesforce\web\twig\variables\Force as ForceVariable;
 use Flipbox\Salesforce\Salesforce;
 use yii\base\Event;
 
@@ -95,7 +95,7 @@ class Force extends Plugin
             function (Event $event) {
                 /** @var CraftVariable $variable */
                 $variable = $event->sender;
-                $variable->set('force', ForceVariable::class);
+                $variable->set('salesforce', ForceVariable::class);
             }
         );
 
@@ -122,7 +122,7 @@ class Force extends Plugin
      */
     protected static function getLogFileName(): string
     {
-        return 'force';
+        return 'salesforce';
     }
 
     /**
@@ -134,13 +134,13 @@ class Force extends Plugin
             parent::getCpNavItem(),
             [
                 'subnav' => [
-                    'force.queries' => [
-                        'label' => Craft::t('force', 'Queries'),
-                        'url' => 'force/queries'
+                    'salesforce.queries' => [
+                        'label' => Craft::t('salesforce', 'Queries'),
+                        'url' => 'salesforce/queries'
                     ],
-                    'force.settings' => [
-                        'label' => Craft::t('force', 'Settings'),
-                        'url' => 'force/settings',
+                    'salesforce.settings' => [
+                        'label' => Craft::t('salesforce', 'Settings'),
+                        'url' => 'salesforce/settings',
                     ]
                 ]
             ]
@@ -167,7 +167,7 @@ class Force extends Plugin
     public function getSettingsResponse()
     {
         Craft::$app->getResponse()->redirect(
-            UrlHelper::cpUrl('force/settings')
+            UrlHelper::cpUrl('salesforce/settings')
         );
 
         Craft::$app->end();
@@ -228,28 +228,24 @@ class Force extends Plugin
             $event->rules,
             [
                 // ??
-                'force' => 'force/cp/view/queries/index',
+                'salesforce' => 'salesforce/cp/view/queries/index',
 
                 // QUERIES
-                'force/queries' => 'force/cp/view/queries/index',
-                'force/queries/new' => 'force/cp/view/queries/upsert',
-                'force/queries/<identifier:\d+>' => 'force/cp/view/queries/upsert',
-
-            //                // SOBJECTS
-            //                'force/objects' => 'force/cp/view/objects/index',
-            //                'force/objects/<identifier:\d+>' => 'force/cp/view/objects/view',
+                'salesforce/queries' => 'salesforce/cp/view/queries/index',
+                'salesforce/queries/new' => 'salesforce/cp/view/queries/upsert',
+                'salesforce/queries/<identifier:\d+>' => 'salesforce/cp/view/queries/upsert',
 
                 // SETTINGS
-                'force/settings' => 'force/cp/settings/view/general/index',
-                'force/settings/limits' => 'force/cp/settings/view/limits/index',
+                'salesforce/settings' => 'salesforce/cp/settings/view/general/index',
+                'salesforce/settings/limits' => 'salesforce/cp/settings/view/limits/index',
 
                 // SETTINGS: CONNECTIONS
-                'force/settings/connections' => 'force/cp/settings/view/connections/index',
-                'force/settings/connections/new' => 'force/cp/settings/view/connections/upsert',
-                'force/settings/connections/<identifier:\d+>' => 'force/cp/settings/view/connections/upsert',
+                'salesforce/settings/connections' => 'salesforce/cp/settings/view/connections/index',
+                'salesforce/settings/connections/new' => 'salesforce/cp/settings/view/connections/upsert',
+                'salesforce/settings/connections/<identifier:\d+>' => 'salesforce/cp/settings/view/connections/upsert',
 
                 // SETTINGS: SOBJECTS
-                'force/settings/objects' => 'force/cp/settings/view/objects/index'
+                'salesforce/settings/objects' => 'salesforce/cp/settings/view/objects/index'
             ]
         );
     }

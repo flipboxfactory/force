@@ -6,7 +6,7 @@
  * @link       https://github.com/flipbox/skeleton
  */
 
-namespace flipbox\force\criteria;
+namespace flipbox\craft\salesforce\criteria;
 
 use Craft;
 use yii\base\BaseObject;

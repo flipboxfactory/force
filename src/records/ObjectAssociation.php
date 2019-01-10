@@ -6,14 +6,14 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\records;
+namespace flipbox\craft\salesforce\records;
 
 use Craft;
 use flipbox\craft\integration\records\IntegrationAssociation;
-use flipbox\force\fields\Objects;
-use flipbox\force\Force;
-use flipbox\force\migrations\ObjectAssociations;
-use flipbox\force\criteria\ObjectAccessorCriteria;
+use flipbox\craft\salesforce\fields\Objects;
+use flipbox\craft\salesforce\Force;
+use flipbox\craft\salesforce\migrations\ObjectAssociations;
+use flipbox\craft\salesforce\criteria\ObjectAccessorCriteria;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

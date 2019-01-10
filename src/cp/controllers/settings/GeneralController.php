@@ -6,12 +6,12 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\controllers\settings;
+namespace flipbox\craft\salesforce\cp\controllers\settings;
 
 use Craft;
 use craft\helpers\ArrayHelper;
-use flipbox\force\cp\actions\SaveSettings;
-use flipbox\force\cp\controllers\AbstractController;
+use flipbox\craft\salesforce\cp\actions\SaveSettings;
+use flipbox\craft\salesforce\cp\controllers\AbstractController;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -39,8 +39,8 @@ class GeneralController extends AbstractController
                 'flash' => [
                     'actions' => [
                         'save' => [
-                            200 => Craft::t('force', "Settings successfully saved."),
-                            400 => Craft::t('force', "Failed to save settings.")
+                            200 => Craft::t('salesforce', "Settings successfully saved."),
+                            400 => Craft::t('salesforce', "Failed to save settings.")
                         ]
                     ]
                 ]

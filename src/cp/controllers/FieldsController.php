@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\controllers;
+namespace flipbox\craft\salesforce\cp\controllers;
 
 use Craft;
 use craft\helpers\ArrayHelper;
@@ -41,8 +41,8 @@ class FieldsController extends AbstractController
                 'flash' => [
                     'actions' => [
                         'perform-action' => [
-                            200 => Craft::t('force', "Action executed successfully."),
-                            400 => Craft::t('force', "Failed to execute action.")
+                            200 => Craft::t('salesforce', "Action executed successfully."),
+                            400 => Craft::t('salesforce', "Failed to execute action.")
                         ]
                     ]
                 ]

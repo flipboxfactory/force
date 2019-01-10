@@ -1,11 +1,11 @@
 # Salesforce integration for Craft CMS
-[![Join the chat at https://gitter.im/flipboxfactory/force](https://badges.gitter.im/flipboxfactory/force.svg)](https://gitter.im/flipboxfactory/force?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Latest Version](https://img.shields.io/github/release/flipboxfactory/force.svg?style=flat-square)](https://github.com/flipboxfactory/force/releases)
+[![Join the chat at https://gitter.im/flipboxfactory/craft-salesforce](https://badges.gitter.im/flipboxfactory/craft-salesforce.svg)](https://gitter.im/flipboxfactory/craft-salesforce?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Latest Version](https://img.shields.io/github/release/flipboxfactory/craft-salesforce.svg?style=flat-square)](https://github.com/flipboxfactory/craft-salesforce/releases)
 [![Software License](https://img.shields.io/badge/license-Proprietary-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/flipboxfactory/force/master.svg?style=flat-square)](https://travis-ci.org/flipboxfactory/force)
-[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/flipboxfactory/force.svg?style=flat-square)](https://scrutinizer-ci.com/g/flipboxfactory/force/code-structure)
-[![Quality Score](https://img.shields.io/scrutinizer/g/flipboxfactory/force.svg?style=flat-square)](https://scrutinizer-ci.com/g/flipboxfactory/force)
-[![Total Downloads](https://img.shields.io/packagist/dt/flipboxfactory/force.svg?style=flat-square)](https://packagist.org/packages/flipboxfactory/force)
+[![Build Status](https://img.shields.io/travis/flipboxfactory/craft-salesforce/master.svg?style=flat-square)](https://travis-ci.org/flipboxfactory/craft-salesforce)
+[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/flipboxfactory/craft-salesforce.svg?style=flat-square)](https://scrutinizer-ci.com/g/flipboxfactory/craft-salesforce/code-structure)
+[![Quality Score](https://img.shields.io/scrutinizer/g/flipboxfactory/craft-salesforce.svg?style=flat-square)](https://scrutinizer-ci.com/g/flipboxfactory/craft-salesforce)
+[![Total Downloads](https://img.shields.io/packagist/dt/flipboxfactory/craft-salesforce.svg?style=flat-square)](https://packagist.org/packages/flipboxfactory/craft-salesforce)
 
 This plugin provides [Salesforce](https://www.salesforce.com/) integration for [Craft CMS](https://craftcms.com/).
 
@@ -25,7 +25,7 @@ To install the plugin, follow these instructions.
 
 2. Then tell Composer to load the plugin:
 
-        composer require flipboxfactory/force
+        composer require flipboxfactory/craft-salesforce
 
 3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Salesforce.
 

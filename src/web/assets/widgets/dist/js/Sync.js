@@ -35,13 +35,13 @@ Craft.ForceObjectSyncWidget = Garnish.Base.extend(
 
                             if (this.settings.messageSuccess) {
                                 Craft.cp.displayNotice(
-                                    Craft.t('force', this.settings.messageSuccess)
+                                    Craft.t('salesforce', this.settings.messageSuccess)
                                 );
                             }
                         } else {
                             if (this.settings.messageError) {
                                 Craft.cp.displayError(
-                                    Craft.t('force', this.settings.messageError)
+                                    Craft.t('salesforce', this.settings.messageError)
                                 );
                             }
                         }
@@ -63,7 +63,7 @@ Craft.ForceObjectSyncWidget = Garnish.Base.extend(
     },
     {
         defaults: {
-            action: 'force/cp/widgets/sync-from',
+            action: 'salesforce/cp/widgets/sync-from',
             data: {},
             messageError: "Failed to sync Salesforce Object.",
             messageSuccess: "Success synced Salesforce Object.",

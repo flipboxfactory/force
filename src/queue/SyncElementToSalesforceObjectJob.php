@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\queue;
+namespace flipbox\craft\salesforce\queue;
 
 use Craft;
 use craft\base\Element;
@@ -14,11 +14,11 @@ use craft\base\ElementInterface;
 use craft\helpers\Json;
 use flipbox\craft\ember\helpers\SiteHelper;
 use flipbox\craft\integration\queries\IntegrationAssociationQuery;
-use flipbox\force\fields\Objects;
-use flipbox\force\Force;
-use flipbox\force\records\ObjectAssociation;
-use flipbox\force\transformers\CreateUpsertPayloadFromElement;
-use flipbox\force\transformers\PopulateElementErrorsFromUpsertResponse;
+use flipbox\craft\salesforce\fields\Objects;
+use flipbox\craft\salesforce\Force;
+use flipbox\craft\salesforce\records\ObjectAssociation;
+use flipbox\craft\salesforce\transformers\CreateUpsertPayloadFromElement;
+use flipbox\craft\salesforce\transformers\PopulateElementErrorsFromUpsertResponse;
 use Flipbox\Salesforce\Resources\SObject;
 use Psr\Http\Message\ResponseInterface;
 
@@ -68,7 +68,7 @@ class SyncElementToSalesforceObjectJob extends AbstractSyncElementJob
         if (null === ($transformer = $this->resolveTransformer($this->transformer))) {
             $element->addError(
                 $field->handle,
-                Craft::t('force', 'Invalid payload transformer.')
+                Craft::t('salesforce', 'Invalid payload transformer.')
             );
 
             return false;

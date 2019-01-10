@@ -6,12 +6,12 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\controllers;
+namespace flipbox\craft\salesforce\cp\controllers;
 
 use Craft;
 use craft\base\ElementInterface;
 use craft\helpers\ArrayHelper;
-use flipbox\force\actions\widgets\SyncFrom;
+use flipbox\craft\salesforce\actions\widgets\SyncFrom;
 use yii\web\HttpException;
 
 /**
@@ -40,8 +40,8 @@ class WidgetsController extends AbstractController
                 'flash' => [
                     'actions' => [
                         'sync-from' => [
-                            200 => Craft::t('force', "Salesforce Object synced successfully"),
-                            400 => Craft::t('force', "Failed to sync Salesforce Object")
+                            200 => Craft::t('salesforce', "Salesforce Object synced successfully"),
+                            400 => Craft::t('salesforce', "Failed to sync Salesforce Object")
                         ]
                     ]
                 ]

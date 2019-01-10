@@ -6,13 +6,13 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\migrations;
+namespace flipbox\craft\salesforce\migrations;
 
 use craft\db\Migration;
 use craft\records\Element as ElementRecord;
 use craft\records\Field as FieldRecord;
 use craft\records\Site as SiteRecord;
-use flipbox\force\records\ObjectAssociation as ObjectAssociationRecord;
+use flipbox\craft\salesforce\records\ObjectAssociation as ObjectAssociationRecord;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

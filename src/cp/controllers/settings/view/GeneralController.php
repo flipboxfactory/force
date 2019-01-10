@@ -6,9 +6,9 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\cp\controllers\settings\view;
+namespace flipbox\craft\salesforce\cp\controllers\settings\view;
 
-use flipbox\force\web\assets\base\Base;
+use flipbox\craft\salesforce\web\assets\base\Base;
 use yii\web\Response;
 
 /**

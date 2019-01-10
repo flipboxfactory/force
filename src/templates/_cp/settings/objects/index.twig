@@ -1,4 +1,4 @@
-{% extends "force/_cp/settings/_layout" %}
+{% extends "salesforce/_cp/settings/_layout" %}
 {% import "_includes/forms" as forms %}
 
 {% block content %}
@@ -21,7 +21,7 @@
             <form method="get">
                 <div class="meta read-only">
                     {{ forms.selectField({
-                        label: "Salesforce Object"|t('force'),
+                        label: "Salesforce Object"|t('salesforce'),
                         id: 'object',
                         name: 'object',
                         options: objectOptions,

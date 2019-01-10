@@ -6,7 +6,7 @@
  * @link       https://www.flipboxfactory.com/software/force/
  */
 
-namespace flipbox\force\criteria;
+namespace flipbox\craft\salesforce\criteria;
 
 use Flipbox\Salesforce\Resources\Search;
 use Flipbox\Salesforce\Search\SearchBuilderAttributeTrait;

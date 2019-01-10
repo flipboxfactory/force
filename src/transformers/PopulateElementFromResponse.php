@@ -10,13 +10,9 @@ namespace flipbox\force\transformers;
 
 use craft\base\Element;
 use craft\base\ElementInterface;
-use craft\helpers\Json;
-use flipbox\craft\ember\helpers\SiteHelper;
-use flipbox\craft\integration\queries\IntegrationConnectionQuery;
 use flipbox\force\events\PopulateElementFromResponseEvent;
 use flipbox\force\fields\Objects;
 use flipbox\force\Force;
-use flipbox\force\records\ObjectAssociation;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -51,7 +47,7 @@ class PopulateElementFromResponse
 
     /**
      * @param ResponseInterface $response
-     * @param ElementInterface $element
+     * @param ElementInterface|Element $element
      * @param Objects $field
      * @param string $objectId
      * @return ElementInterface

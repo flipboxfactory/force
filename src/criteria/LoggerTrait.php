@@ -9,7 +9,6 @@
 namespace flipbox\force\criteria;
 
 use Psr\Log\LoggerInterface;
-use Psr\SimpleCache\CacheInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -18,7 +17,7 @@ use Psr\SimpleCache\CacheInterface;
 trait LoggerTrait
 {
     /**
-     * @var CacheInterface|string|null
+     * @var LoggerInterface|string|null
      */
     protected $logger;
 

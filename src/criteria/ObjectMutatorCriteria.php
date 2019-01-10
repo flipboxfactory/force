@@ -64,6 +64,7 @@ class ObjectMutatorCriteria extends AbstractCriteria implements ObjectMutatorCri
      * @param array $criteria
      * @param array $config
      * @return ResponseInterface
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
      */
     public function create(array $criteria = [], array $config = []): ResponseInterface
     {
@@ -82,6 +83,8 @@ class ObjectMutatorCriteria extends AbstractCriteria implements ObjectMutatorCri
      * @param array $criteria
      * @param array $config
      * @return ResponseInterface
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
+     * @throws \yii\base\InvalidConfigException
      */
     public function update(array $criteria = [], array $config = []): ResponseInterface
     {
@@ -89,6 +92,7 @@ class ObjectMutatorCriteria extends AbstractCriteria implements ObjectMutatorCri
 
         return SObject::update(
             $this->getConnection(),
+            $this->getCache(),
             $this->getObject(),
             $this->getPayload(),
             $this->getId(),
@@ -101,6 +105,8 @@ class ObjectMutatorCriteria extends AbstractCriteria implements ObjectMutatorCri
      * @param array $criteria
      * @param array $config
      * @return ResponseInterface
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
+     * @throws \yii\base\InvalidConfigException
      */
     public function upsert(array $criteria = [], array $config = []): ResponseInterface
     {
@@ -108,6 +114,7 @@ class ObjectMutatorCriteria extends AbstractCriteria implements ObjectMutatorCri
 
         return SObject::upsert(
             $this->getConnection(),
+            $this->getCache(),
             $this->getObject(),
             $this->getPayload(),
             $this->getId(),
@@ -120,6 +127,8 @@ class ObjectMutatorCriteria extends AbstractCriteria implements ObjectMutatorCri
      * @param array $criteria
      * @param array $config
      * @return ResponseInterface
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
+     * @throws \yii\base\InvalidConfigException
      */
     public function delete(array $criteria = [], array $config = []): ResponseInterface
     {

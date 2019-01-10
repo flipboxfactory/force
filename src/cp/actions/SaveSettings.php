@@ -24,6 +24,7 @@ class SaveSettings extends CreateModel
      * @return array
      */
     public $validBodyParams = [
+        'defaultConnection',
         'defaultCache'
     ];
 

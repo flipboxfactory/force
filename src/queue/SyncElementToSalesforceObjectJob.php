@@ -176,5 +176,4 @@ class SyncElementToSalesforceObjectJob extends AbstractSyncElementJob
 
         return $id ? (string)$id : null;
     }
-
 }

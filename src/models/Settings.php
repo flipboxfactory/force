@@ -18,7 +18,7 @@ use flipbox\force\services\Cache;
  */
 class Settings extends Model
 {
-    const DEFAULT_CONNECTION = 'salesforce';
+    const DEFAULT_CONNECTION = 'salesforcez';
 
     /**
      * @var string

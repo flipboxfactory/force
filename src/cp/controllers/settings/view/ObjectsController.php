@@ -34,6 +34,8 @@ class ObjectsController extends AbstractController
 
     /**
      * @return Response
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionIndex(): Response
     {
@@ -63,6 +65,8 @@ class ObjectsController extends AbstractController
 
     /**
      * @return array
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
+     * @throws \yii\base\InvalidConfigException
      */
     private function getObjectOptions()
     {

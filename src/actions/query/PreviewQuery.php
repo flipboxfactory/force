@@ -26,6 +26,9 @@ class PreviewQuery extends CreateQuery
     /**
      * @inheritdoc
      * @param SOQL $record
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\UnauthorizedHttpException
      */
     public function runInternal(ActiveRecord $record)
     {
@@ -59,6 +62,8 @@ class PreviewQuery extends CreateQuery
     /**
      * @param SOQL $record
      * @return DynamicModel
+     * @throws \flipbox\craft\ember\exceptions\RecordNotFoundException
+     * @throws \yii\base\InvalidConfigException
      */
     protected function preview(SOQL $record): DynamicModel
     {

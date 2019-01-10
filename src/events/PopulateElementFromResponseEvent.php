@@ -8,6 +8,7 @@
 
 namespace flipbox\force\events;
 
+use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\helpers\StringHelper;
 use flipbox\force\fields\Objects;
@@ -15,7 +16,7 @@ use Psr\Http\Message\ResponseInterface;
 use yii\base\Event;
 
 /**
- * @param ElementInterface $sender
+ * @property ElementInterface|Element $sender
  */
 class PopulateElementFromResponseEvent extends Event
 {
